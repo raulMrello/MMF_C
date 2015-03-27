@@ -15,7 +15,10 @@ It has been specially designed for microcontrollers with extremely constrained m
 
 ## Changelog
 
-> 27.03.2015-002 (MMF_C) ------------------------------------------------------------------
+> 27.03.2015-003 (MMF_C) branch: topic_pools_as_queues -------------------------------------
+ - Branch start to change the way Tasks handles its internal topic pool (see knwown issues on previous logs).
+
+ > 27.03.2015-002 (MMF_C) ------------------------------------------------------------------
  - Cleared some content in "platforms.h" for being fully platform independent.
  
 > 27.03.2015-001 (MMF_C) ------------------------------------------------------------------
