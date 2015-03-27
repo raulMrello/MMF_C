@@ -1,0 +1,87 @@
+\hypertarget{class_topic}{\section{Topic Class Reference}
+\label{class_topic}\index{Topic@{Topic}}
+}
+
+
+\hyperlink{class_topic}{Topic} class represents the dynamic piece of software in which Observers can subscribe to get track of its evolution (updates)  
+
+
+
+
+{\ttfamily \#include $<$Topic.\-h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_topic_a2a7135a4cd0cda246d23807968a47417}{static void \hyperlink{class_topic_a2a7135a4cd0cda246d23807968a47417}{initialize} ()}\label{class_topic_a2a7135a4cd0cda246d23807968a47417}
+
+\begin{DoxyCompactList}\small\item\em Static function to initialize Topics internals, like observer list. \end{DoxyCompactList}\item 
+static void \hyperlink{class_topic_aca1f8ce134afe3fcd73249926737aea9}{notify} (void $\ast$data, int datasize)
+\begin{DoxyCompactList}\small\item\em Static function to notify the subscribed observers about the update/change of the topic. \end{DoxyCompactList}\item 
+static void \hyperlink{class_topic_a0c0433f4a0a763d561591d86154306bb}{attach} (\hyperlink{class_observer}{Observer} $\ast$const o)
+\begin{DoxyCompactList}\small\item\em Static function to attach (subscribe) an observer class to a topic. \end{DoxyCompactList}\item 
+static void \hyperlink{class_topic_aad2e588c40b235ece6912d163d55e42a}{dettach} (\hyperlink{class_observer}{Observer} $\ast$const o)
+\begin{DoxyCompactList}\small\item\em Static function to dettach (unsubscribe) an observer class from a topic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_topic}{Topic} class represents the dynamic piece of software in which Observers can subscribe to get track of its evolution (updates) 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_topic_a0c0433f4a0a763d561591d86154306bb}{\index{Topic@{Topic}!attach@{attach}}
+\index{attach@{attach}!Topic@{Topic}}
+\subsubsection[{attach}]{\setlength{\rightskip}{0pt plus 5cm}Topic\-::attach (
+\begin{DoxyParamCaption}
+\item[{{\bf Observer} $\ast$const}]{o}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_topic_a0c0433f4a0a763d561591d86154306bb}
+
+
+Static function to attach (subscribe) an observer class to a topic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em o} & \hyperlink{class_observer}{Observer} \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_topic_aad2e588c40b235ece6912d163d55e42a}{\index{Topic@{Topic}!dettach@{dettach}}
+\index{dettach@{dettach}!Topic@{Topic}}
+\subsubsection[{dettach}]{\setlength{\rightskip}{0pt plus 5cm}Topic\-::dettach (
+\begin{DoxyParamCaption}
+\item[{{\bf Observer} $\ast$const}]{o}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_topic_aad2e588c40b235ece6912d163d55e42a}
+
+
+Static function to dettach (unsubscribe) an observer class from a topic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em o} & \hyperlink{class_observer}{Observer} \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_topic_aca1f8ce134afe3fcd73249926737aea9}{\index{Topic@{Topic}!notify@{notify}}
+\index{notify@{notify}!Topic@{Topic}}
+\subsubsection[{notify}]{\setlength{\rightskip}{0pt plus 5cm}Topic\-::notify (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{data, }
+\item[{int}]{datasize}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{class_topic_aca1f8ce134afe3fcd73249926737aea9}
+
+
+Static function to notify the subscribed observers about the update/change of the topic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & \hyperlink{class_topic}{Topic}'s data \\
+\hline
+{\em datasize} & \hyperlink{class_topic}{Topic}'s data size in bytes \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/Topic.\-h\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/Topic.\-cpp\end{DoxyCompactItemize}

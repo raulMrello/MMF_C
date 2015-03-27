@@ -1,0 +1,13 @@
+.\out\rtc.o: ..\..\..\src\drivers\rtc\rtc.c
+.\out\rtc.o: ..\..\..\src\common\common.h
+.\out\rtc.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\rtc.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\rtc.o: ..\..\..\src\platforms\freedom.h
+.\out\rtc.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\rtc.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\rtc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\rtc.o: ..\..\..\src\common\assert.h
+.\out\rtc.o: ..\..\..\src\common\io.h
+.\out\rtc.o: ..\..\..\src\common\startup.h
+.\out\rtc.o: ..\..\..\src\common\stdlib.h
+.\out\rtc.o: ..\..\..\src\drivers\rtc\rtc.h

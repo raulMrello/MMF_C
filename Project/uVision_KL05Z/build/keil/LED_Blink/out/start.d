@@ -1,0 +1,15 @@
+.\out\start.o: ..\..\..\src\cpu\start.c
+.\out\start.o: ..\..\..\src\cpu\start.h
+.\out\start.o: ..\..\..\src\common\common.h
+.\out\start.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\start.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\start.o: ..\..\..\src\platforms\freedom.h
+.\out\start.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\start.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\start.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\start.o: ..\..\..\src\common\assert.h
+.\out\start.o: ..\..\..\src\common\io.h
+.\out\start.o: ..\..\..\src\common\startup.h
+.\out\start.o: ..\..\..\src\common\stdlib.h
+.\out\start.o: ..\..\..\src\cpu\sysinit.h
+.\out\start.o: ..\..\..\src\drivers\rcm\rcm.h

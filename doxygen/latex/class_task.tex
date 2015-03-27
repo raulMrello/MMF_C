@@ -1,0 +1,192 @@
+\hypertarget{class_task}{\section{Task Class Reference}
+\label{class_task}\index{Task@{Task}}
+}
+
+
+Tasks are pieces of software capable to be executed in a run-\/to-\/completion manner, this implies that they must return to allow other tasks to be executed (they never must block). Tasks can be S\-T\-O\-P\-P\-E\-D during initialization, W\-A\-I\-T\-I\-N\-G for an event, R\-E\-A\-D\-Y for execution, R\-U\-N\-N\-I\-N\-G during execution and Y\-I\-E\-L\-D if allow other tasks to take control of the cpu.  
+
+
+
+
+{\ttfamily \#include $<$Task.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_task_a73d48a91578f634b3b191e4d63684e72}{Stat} \{ \\*
+{\bfseries S\-T\-O\-P\-P\-E\-D}, 
+{\bfseries R\-E\-A\-D\-Y}, 
+{\bfseries W\-A\-I\-T\-I\-N\-G}, 
+{\bfseries R\-U\-N\-N\-I\-N\-G}, 
+\\*
+{\bfseries Y\-I\-E\-L\-D}
+ \}
+\begin{DoxyCompactList}\small\item\em (task status) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Task name}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_task_a00e8e39305d63fc2e6b65dba7b18e9fe}{int \hyperlink{class_task_a00e8e39305d63fc2e6b65dba7b18e9fe}{prio}}\label{class_task_a00e8e39305d63fc2e6b65dba7b18e9fe}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_task}{Task} priority in the range P\-R\-I\-O\-\_\-\-C\-R\-I\-T\-I\-C\-A\-L .. P\-R\-I\-O\-\_\-\-L\-O\-W + S\-U\-B\-P\-R\-I\-O\-\_\-\-M\-I\-N. \end{DoxyCompactList}\item 
+\hypertarget{class_task_a28ec34b5b8eb76b4a76172f11b93af53}{std\-::string \hyperlink{class_task_a28ec34b5b8eb76b4a76172f11b93af53}{\-\_\-name}}\label{class_task_a28ec34b5b8eb76b4a76172f11b93af53}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_task}{Task} name. \end{DoxyCompactList}\item 
+\hypertarget{class_task_a27a2c8bccb379a632c2a2369cbfa2224}{\hyperlink{class_task_a27a2c8bccb379a632c2a2369cbfa2224}{Task} (std\-::string name=\char`\"{}\char`\"{})}\label{class_task_a27a2c8bccb379a632c2a2369cbfa2224}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \hyperlink{class_task}{Task} name can be assigned during object creation. \end{DoxyCompactList}\item 
+\hypertarget{class_task_a3ecf499ea35fb4a96853969a1e1cbbce}{virtual \hyperlink{class_task_a3ecf499ea35fb4a96853969a1e1cbbce}{$\sim$\-Task} ()}\label{class_task_a3ecf499ea35fb4a96853969a1e1cbbce}
+
+\begin{DoxyCompactList}\small\item\em Default destructor. It will deallocate all resources. \end{DoxyCompactList}\item 
+\hypertarget{class_task_aa7aeb450a822c8e4b53d2d6654073fcc}{virtual int \hyperlink{class_task_aa7aeb450a822c8e4b53d2d6654073fcc}{init} ()=0}\label{class_task_aa7aeb450a822c8e4b53d2d6654073fcc}
+
+\begin{DoxyCompactList}\small\item\em Interface to initialize inherited classes during task creation. \end{DoxyCompactList}\item 
+virtual int \hyperlink{class_task_ab17886ef8196862de81aef338fd27424}{exec} (int evt)=0
+\begin{DoxyCompactList}\small\item\em Interface to execute task implementation of the inherited classes. \end{DoxyCompactList}\item 
+\hypertarget{class_task_ad1591a816cf4ab538ad158a487446c3f}{virtual int \hyperlink{class_task_ad1591a816cf4ab538ad158a487446c3f}{kill} ()=0}\label{class_task_ad1591a816cf4ab538ad158a487446c3f}
+
+\begin{DoxyCompactList}\small\item\em Interface to kill inherited classes. \end{DoxyCompactList}\item 
+void \hyperlink{class_task_a1d4e4a8a23ecc05e36b7bf7ff078459f}{start} (int vprio)
+\begin{DoxyCompactList}\small\item\em Starts task assigning a fixed priority. \end{DoxyCompactList}\item 
+void \hyperlink{class_task_aba51f0ee66f2f42e361be6cc8639e5fc}{suspend} (int delay\-\_\-us)
+\begin{DoxyCompactList}\small\item\em Suspends a task during several microseconds. \end{DoxyCompactList}\item 
+\hypertarget{class_task_a6fbcbc8e4d264bd9230fc794ea898d53}{void \hyperlink{class_task_a6fbcbc8e4d264bd9230fc794ea898d53}{resume} ()}\label{class_task_a6fbcbc8e4d264bd9230fc794ea898d53}
+
+\begin{DoxyCompactList}\small\item\em Sets a task ready after a period of suspension. \end{DoxyCompactList}\item 
+\hypertarget{class_task_ac9858ec2b4431b9fe06cecda3b901f0f}{void \hyperlink{class_task_ac9858ec2b4431b9fe06cecda3b901f0f}{yield} ()}\label{class_task_ac9858ec2b4431b9fe06cecda3b901f0f}
+
+\begin{DoxyCompactList}\small\item\em Sets a task yielded to allow other tasks to take control of the cpu. \end{DoxyCompactList}\item 
+bool \hyperlink{class_task_abf94fbac9e645727e9e4b8cc59119baf}{is\-Yield} ()
+\begin{DoxyCompactList}\small\item\em Checks if it is yielded. \end{DoxyCompactList}\item 
+bool \hyperlink{class_task_a52b1948265838893a03c3dc3aec48848}{is\-Ready} ()
+\begin{DoxyCompactList}\small\item\em Checks if it is ready for execution. \end{DoxyCompactList}\item 
+void \hyperlink{class_task_ad29f9fd753d6d805f651c1da2189ed9b}{set\-Ready} (int evt=0)
+\begin{DoxyCompactList}\small\item\em Sets a task ready, indicating which event has caused it. \end{DoxyCompactList}\item 
+\hypertarget{class_task_a47d3d52ab68ae011176985dea5503d31}{void \hyperlink{class_task_a47d3d52ab68ae011176985dea5503d31}{set\-Waiting} ()}\label{class_task_a47d3d52ab68ae011176985dea5503d31}
+
+\begin{DoxyCompactList}\small\item\em Sets a task waiting for some situation. \end{DoxyCompactList}\item 
+\hypertarget{class_task_a81ed7148858ae6af41d3b3e8dc88112e}{void \hyperlink{class_task_a81ed7148858ae6af41d3b3e8dc88112e}{set\-Running} ()}\label{class_task_a81ed7148858ae6af41d3b3e8dc88112e}
+
+\begin{DoxyCompactList}\small\item\em Sets a task running. \end{DoxyCompactList}\item 
+\hypertarget{class_task_ac9ac1f22bc2ca7552103d066db28ac4b}{void \hyperlink{class_task_ac9ac1f22bc2ca7552103d066db28ac4b}{set\-Stop} ()}\label{class_task_ac9ac1f22bc2ca7552103d066db28ac4b}
+
+\begin{DoxyCompactList}\small\item\em Sets a task stopped. \end{DoxyCompactList}\item 
+int \hyperlink{class_task_a1deaaa0d4e56202e5122f9acb4a49b90}{get\-Next\-Evt} ()
+\begin{DoxyCompactList}\small\item\em Get the next event which causes the task to be executed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Tasks are pieces of software capable to be executed in a run-\/to-\/completion manner, this implies that they must return to allow other tasks to be executed (they never must block). Tasks can be S\-T\-O\-P\-P\-E\-D during initialization, W\-A\-I\-T\-I\-N\-G for an event, R\-E\-A\-D\-Y for execution, R\-U\-N\-N\-I\-N\-G during execution and Y\-I\-E\-L\-D if allow other tasks to take control of the cpu. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_task_ab17886ef8196862de81aef338fd27424}{\index{Task@{Task}!exec@{exec}}
+\index{exec@{exec}!Task@{Task}}
+\subsubsection[{exec}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::exec (
+\begin{DoxyParamCaption}
+\item[{int}]{evt}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_task_ab17886ef8196862de81aef338fd27424}
+
+
+Interface to execute task implementation of the inherited classes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em evt} & Event code which causes the tast to execute (see above E\-V\-T\-\_\-...) \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_task_a1deaaa0d4e56202e5122f9acb4a49b90}{\index{Task@{Task}!get\-Next\-Evt@{get\-Next\-Evt}}
+\index{get\-Next\-Evt@{get\-Next\-Evt}!Task@{Task}}
+\subsubsection[{get\-Next\-Evt}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::get\-Next\-Evt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_task_a1deaaa0d4e56202e5122f9acb4a49b90}
+
+
+Get the next event which causes the task to be executed. 
+
+\begin{DoxyReturn}{Returns}
+Event code 
+\end{DoxyReturn}
+\hypertarget{class_task_a52b1948265838893a03c3dc3aec48848}{\index{Task@{Task}!is\-Ready@{is\-Ready}}
+\index{is\-Ready@{is\-Ready}!Task@{Task}}
+\subsubsection[{is\-Ready}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::is\-Ready (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_task_a52b1948265838893a03c3dc3aec48848}
+
+
+Checks if it is ready for execution. 
+
+\begin{DoxyReturn}{Returns}
+true or false 
+\end{DoxyReturn}
+\hypertarget{class_task_abf94fbac9e645727e9e4b8cc59119baf}{\index{Task@{Task}!is\-Yield@{is\-Yield}}
+\index{is\-Yield@{is\-Yield}!Task@{Task}}
+\subsubsection[{is\-Yield}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::is\-Yield (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_task_abf94fbac9e645727e9e4b8cc59119baf}
+
+
+Checks if it is yielded. 
+
+\begin{DoxyReturn}{Returns}
+true or false 
+\end{DoxyReturn}
+\hypertarget{class_task_ad29f9fd753d6d805f651c1da2189ed9b}{\index{Task@{Task}!set\-Ready@{set\-Ready}}
+\index{set\-Ready@{set\-Ready}!Task@{Task}}
+\subsubsection[{set\-Ready}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::set\-Ready (
+\begin{DoxyParamCaption}
+\item[{int}]{evt = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_task_ad29f9fd753d6d805f651c1da2189ed9b}
+
+
+Sets a task ready, indicating which event has caused it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em evt} & Event code which causes the state change \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_task_a1d4e4a8a23ecc05e36b7bf7ff078459f}{\index{Task@{Task}!start@{start}}
+\index{start@{start}!Task@{Task}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::start (
+\begin{DoxyParamCaption}
+\item[{int}]{vprio}
+\end{DoxyParamCaption}
+)}}\label{class_task_a1d4e4a8a23ecc05e36b7bf7ff078459f}
+
+
+Starts task assigning a fixed priority. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vprio} & \hyperlink{class_task}{Task} priority \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_task_aba51f0ee66f2f42e361be6cc8639e5fc}{\index{Task@{Task}!suspend@{suspend}}
+\index{suspend@{suspend}!Task@{Task}}
+\subsubsection[{suspend}]{\setlength{\rightskip}{0pt plus 5cm}Task\-::suspend (
+\begin{DoxyParamCaption}
+\item[{int}]{delay\-\_\-us}
+\end{DoxyParamCaption}
+)}}\label{class_task_aba51f0ee66f2f42e361be6cc8639e5fc}
+
+
+Suspends a task during several microseconds. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em delay\-\_\-us} & Microsendos to suspend \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/Task.\-h\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/Task.\-cpp\end{DoxyCompactItemize}

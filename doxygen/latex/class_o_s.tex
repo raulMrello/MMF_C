@@ -1,0 +1,129 @@
+\hypertarget{class_o_s}{\section{O\-S Class Reference}
+\label{class_o_s}\index{O\-S@{O\-S}}
+}
+
+
+\hyperlink{class_o_s}{O\-S} class defines the cooperative run-\/to-\/completion kernel. Tasks have fixed priorities and always is executed the highest priority one. Tasks can be suspended, yielded or waiting for a flag or a subscribed topic update. They can get activated due to these event sources\-:  
+
+
+
+
+{\ttfamily \#include $<$O\-S.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_o_s_aee121bb510546f335b13791c7c7b4330}{\hyperlink{class_o_s_aee121bb510546f335b13791c7c7b4330}{O\-S} ()}\label{class_o_s_aee121bb510546f335b13791c7c7b4330}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_o_s_a380d2d319447c4dde46ea30a004922d4}{void \hyperlink{class_o_s_a380d2d319447c4dde46ea30a004922d4}{init} ()}\label{class_o_s_a380d2d319447c4dde46ea30a004922d4}
+
+\begin{DoxyCompactList}\small\item\em Initializes kernel internals. \end{DoxyCompactList}\item 
+void \hyperlink{class_o_s_a3e5fd93afacefb94a498f0fe60fed274}{run} (\hyperlink{class_task}{Task} $\ast$const t, int prio)  throw (int)
+\begin{DoxyCompactList}\small\item\em Allocates a new task inside the kernel and sets it up for execution. On error it throws exception code E\-R\-R\-\_\-\-T\-A\-S\-K\-\_\-\-A\-L\-L\-O\-C. \end{DoxyCompactList}\item 
+void \hyperlink{class_o_s_a8d2cd347371d384a8b465400ffa1e1c1}{kill} (\hyperlink{class_task}{Task} $\ast$const t)  throw (int)
+\begin{DoxyCompactList}\small\item\em Deallocates a task out of the kernel. On error it throws exception code E\-R\-R\-\_\-\-T\-A\-S\-K\-\_\-\-D\-E\-A\-L\-L\-O\-C. \end{DoxyCompactList}\item 
+void \hyperlink{class_o_s_aecee957d7479271e941d7238a29daa82}{schedule} ()  throw (int)
+\begin{DoxyCompactList}\small\item\em kernel scheduling mechanism. Evaluates next highest priority task and executes it. \end{DoxyCompactList}\item 
+void \hyperlink{class_o_s_a4906875abf479d824a41e1a8fb26a227}{log} (std\-::string status, bool to\-Cout=true)
+\begin{DoxyCompactList}\small\item\em Logs kernel's status to an external string or by default to cout console. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_o_s}{O\-S} class defines the cooperative run-\/to-\/completion kernel. Tasks have fixed priorities and always is executed the highest priority one. Tasks can be suspended, yielded or waiting for a flag or a subscribed topic update. They can get activated due to these event sources\-: 
+
+
+\begin{DoxyEnumerate}
+\item After the suspension timeout (if suspended status)
+\item After a complete scheduling cycle, all pending tasks are executed (if yielded status)
+\item After a topic update (if susbscribed to any kind of topic)
+\item \mbox{[}future work\mbox{]} After a flag update (if flagwait status) 
+\end{DoxyEnumerate}
+
+\subsection{Member Function Documentation}
+\hypertarget{class_o_s_a8d2cd347371d384a8b465400ffa1e1c1}{\index{O\-S@{O\-S}!kill@{kill}}
+\index{kill@{kill}!OS@{O\-S}}
+\subsubsection[{kill}]{\setlength{\rightskip}{0pt plus 5cm}O\-S\-::kill (
+\begin{DoxyParamCaption}
+\item[{{\bf Task} $\ast$const}]{t}
+\end{DoxyParamCaption}
+)  throw (int)}}\label{class_o_s_a8d2cd347371d384a8b465400ffa1e1c1}
+
+
+Deallocates a task out of the kernel. On error it throws exception code E\-R\-R\-\_\-\-T\-A\-S\-K\-\_\-\-D\-E\-A\-L\-L\-O\-C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & \hyperlink{class_task}{Task} reference to be deallocated from the kernel \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em exception} & code E\-R\-R\-\_\-\-T\-A\-S\-K\-\_\-\-D\-E\-A\-L\-L\-O\-C \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_o_s_a4906875abf479d824a41e1a8fb26a227}{\index{O\-S@{O\-S}!log@{log}}
+\index{log@{log}!OS@{O\-S}}
+\subsubsection[{log}]{\setlength{\rightskip}{0pt plus 5cm}O\-S\-::log (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{status, }
+\item[{bool}]{to\-Cout = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_o_s_a4906875abf479d824a41e1a8fb26a227}
+
+
+Logs kernel's status to an external string or by default to cout console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em status} & String to store kernel's status \\
+\hline
+{\em to\-Cout} & Flag to indicate where to put the result \\
+\hline
+\end{DoxyParams}
+Example of information 
+
+ $|$ {\bfseries \hyperlink{class_o_s}{O\-S}} N\-U\-M\-\_\-\-T\-A\-S\-K\-S\-: 4 $|$ $|$===================================================$|$ $|$ T\-A\-S\-K\-\_\-\-I\-D $|$ L\-A\-S\-T\-\_\-\-E\-X\-E\-C $|$ S\-T\-A\-T $|$ $|$============$|$================$|$=====================$|$ $|$ 0 $|$ -\/ $|$ R\-E\-A\-D\-Y $|$ $|$ 1 $|$ resumed $|$ W\-A\-I\-T\-I\-N\-G\mbox{[}T\-O\-P\-I\-C\mbox{]} $|$ $|$ 11 $|$ T\-O\-P\-I\-C $|$ Y\-I\-E\-L\-D $|$ \subsection*{$|$ 21 $|$ -\/ $|$ W\-A\-I\-T\-I\-N\-G\mbox{[}S\-U\-S\-P\-E\-N\-D\mbox{]} $|$}\hypertarget{class_o_s_a3e5fd93afacefb94a498f0fe60fed274}{\index{O\-S@{O\-S}!run@{run}}
+\index{run@{run}!OS@{O\-S}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}O\-S\-::run (
+\begin{DoxyParamCaption}
+\item[{{\bf Task} $\ast$const}]{t, }
+\item[{int}]{prio}
+\end{DoxyParamCaption}
+)  throw (int)}}\label{class_o_s_a3e5fd93afacefb94a498f0fe60fed274}
+
+
+Allocates a new task inside the kernel and sets it up for execution. On error it throws exception code E\-R\-R\-\_\-\-T\-A\-S\-K\-\_\-\-A\-L\-L\-O\-C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t} & \hyperlink{class_task}{Task} reference to be allocated in the kernel \\
+\hline
+{\em prio} & \hyperlink{class_task}{Task} priority \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em exception} & code E\-R\-R\-\_\-\-T\-A\-S\-K\-\_\-\-A\-L\-L\-O\-C \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_o_s_aecee957d7479271e941d7238a29daa82}{\index{O\-S@{O\-S}!schedule@{schedule}}
+\index{schedule@{schedule}!OS@{O\-S}}
+\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}O\-S\-::schedule (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)  throw (int)}}\label{class_o_s_aecee957d7479271e941d7238a29daa82}
+
+
+kernel scheduling mechanism. Evaluates next highest priority task and executes it. 
+
+\begin{DoxyReturn}{Returns}
+Task\-Id of the executed task kernel scheduling mechanism. Evaluates next highest priority task and executes it. On error it throws exception code E\-R\-R\-\_\-\-N\-O\-\_\-\-S\-C\-H\-E\-D 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/O\-S.\-h\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/O\-S.\-cpp\end{DoxyCompactItemize}

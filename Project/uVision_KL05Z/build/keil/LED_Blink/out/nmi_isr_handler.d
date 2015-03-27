@@ -1,0 +1,13 @@
+.\out\nmi_isr_handler.o: ..\..\..\src\cpu\nmi_isr_handler.c
+.\out\nmi_isr_handler.o: ..\..\..\src\common\common.h
+.\out\nmi_isr_handler.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\nmi_isr_handler.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\nmi_isr_handler.o: ..\..\..\src\platforms\freedom.h
+.\out\nmi_isr_handler.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\nmi_isr_handler.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\nmi_isr_handler.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\nmi_isr_handler.o: ..\..\..\src\common\assert.h
+.\out\nmi_isr_handler.o: ..\..\..\src\common\io.h
+.\out\nmi_isr_handler.o: ..\..\..\src\common\startup.h
+.\out\nmi_isr_handler.o: ..\..\..\src\common\stdlib.h
+.\out\nmi_isr_handler.o: ..\..\..\src\cpu\nmi_isr_handler.h

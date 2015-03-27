@@ -1,0 +1,384 @@
+Dependencies for Project 'LED_Blink', Target 'KL05Z32-Flash': (DO NOT MODIFY !)
+F (..\..\..\src\projects\LED_Blink\LED_Blink.c)(0x5512B7D6)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\led_blink.o --omf_browse .\out\led_blink.crf --depend .\out\led_blink.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\projects\kl05_frdm_demo\freedom_gpio\freedom_gpio.h)(0x55069CB3)
+I (..\..\..\src\drivers\spi\spi.h)(0x55069CB3)
+I (..\..\..\src\cpu\start.h)(0x55069CB3)
+I (..\..\..\..\..\src\mmf\c\os\mmf.h)(0x5512A50A)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\..\..\src\mmf\c\os\OS.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Task.h)(0x5512A6FE)
+I (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\Observer.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Topic.h)(0x5512AC52)
+F (..\..\..\src\projects\kl05_frdm_demo\freedom_gpio\freedom_gpio.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\freedom_gpio.o --omf_browse .\out\freedom_gpio.crf --depend .\out\freedom_gpio.d)
+I (..\..\..\src\projects\kl05_frdm_demo\freedom_gpio\freedom_gpio.h)(0x55069CB3)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+F (..\..\..\src\common\uif.c)(0x55128A51)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\uif.o --omf_browse .\out\uif.crf --depend .\out\uif.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\common\uif.h)(0x55069CB3)
+F (..\..\..\src\common\alloc.c)(0x5512A20D)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\alloc.o --omf_browse .\out\alloc.crf --depend .\out\alloc.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+F (..\..\..\src\common\assert.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\assert.o --omf_browse .\out\assert.crf --depend .\out\assert.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+F (..\..\..\src\common\io.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\io.o --omf_browse .\out\io.crf --depend .\out\io.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\uart\uart.h)(0x55069CB3)
+F (..\..\..\src\common\memtest.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\memtest.o --omf_browse .\out\memtest.crf --depend .\out\memtest.d)
+I (..\..\..\src\common\memtest.h)(0x55069CB3)
+F (..\..\..\src\common\queue.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\queue.o --omf_browse .\out\queue.crf --depend .\out\queue.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\common\queue.h)(0x55069CB3)
+F (..\..\..\src\common\stdlib.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\stdlib.o --omf_browse .\out\stdlib.crf --depend .\out\stdlib.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+F (..\..\..\src\cpu\nmi_isr_handler.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\nmi_isr_handler.o --omf_browse .\out\nmi_isr_handler.crf --depend .\out\nmi_isr_handler.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\cpu\nmi_isr_handler.h)(0x55069CB3)
+F (..\..\..\src\cpu\start.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\start.o --omf_browse .\out\start.crf --depend .\out\start.d)
+I (..\..\..\src\cpu\start.h)(0x55069CB3)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\cpu\sysinit.h)(0x55069CB3)
+I (..\..\..\src\drivers\rcm\rcm.h)(0x55069CB3)
+F (..\..\..\src\cpu\sysinit.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\sysinit.o --omf_browse .\out\sysinit.crf --depend .\out\sysinit.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\cpu\sysinit.h)(0x55069CB3)
+I (..\..\..\src\drivers\uart\uart.h)(0x55069CB3)
+I (..\..\..\src\drivers\rtc\rtc.h)(0x55069CB3)
+F (..\..\..\src\cpu\arm_cm0.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\arm_cm0.o --omf_browse .\out\arm_cm0.crf --depend .\out\arm_cm0.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+F (..\..\..\src\cpu\startup_MKL05Z4.s)(0x5512A228)(--cpu Cortex-M0+ -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis--pd "__UVISION_VERSION SETA 514"--list .\out\startup_mkl05z4.lst --xref -o .\out\startup_mkl05z4.o --depend .\out\startup_mkl05z4.d)
+F (..\..\..\src\drivers\llwu\llwu.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\llwu.o --omf_browse .\out\llwu.crf --depend .\out\llwu.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\llwu\llwu.h)(0x55069CB3)
+F (..\..\..\src\drivers\lptmr\lptmr.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\lptmr.o --omf_browse .\out\lptmr.crf --depend .\out\lptmr.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\lptmr\lptmr.h)(0x55069CB3)
+F (..\..\..\src\drivers\mcg\mcg.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\mcg.o --omf_browse .\out\mcg.crf --depend .\out\mcg.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+F (..\..\..\src\drivers\rtc\rtc.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\rtc.o --omf_browse .\out\rtc.crf --depend .\out\rtc.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\rtc\rtc.h)(0x55069CB3)
+F (..\..\..\src\drivers\uart\uart.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\uart.o --omf_browse .\out\uart.crf --depend .\out\uart.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\uart\uart.h)(0x55069CB3)
+F (..\..\..\src\drivers\rcm\rcm.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\rcm.o --omf_browse .\out\rcm.crf --depend .\out\rcm.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\rcm\rcm.h)(0x55069CB3)
+F (..\..\..\src\drivers\rcm\rcm.h)(0x55069CB3)()
+F (..\..\..\src\drivers\uart\Serial.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\serial.o --omf_browse .\out\serial.crf --depend .\out\serial.d)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\src\drivers\uart\Serial.h)(0x55069CB3)
+I (..\..\..\src\drivers\uart\uart.h)(0x55069CB3)
+F (..\..\..\src\drivers\uart\Retarget.c)(0x55069CB3)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\retarget.o --omf_browse .\out\retarget.crf --depend .\out\retarget.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\rt_misc.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\drivers\uart\serial.h)(0x55069CB3)
+F (..\..\..\src\platforms\freedom.h)(0x55069CB3)()
+F (..\..\..\..\..\src\mmf\c\os\List.c)(0x5512AECC)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\list.o --omf_browse .\out\list.crf --depend .\out\list.d)
+I (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54765570)
+F (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)()
+F (..\..\..\..\..\src\mmf\c\os\Observer.c)(0x5512AECC)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\observer.o --omf_browse .\out\observer.crf --depend .\out\observer.d)
+I (..\..\..\..\..\src\mmf\c\os\Observer.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54765570)
+F (..\..\..\..\..\src\mmf\c\os\Observer.h)(0x5512AF34)()
+F (..\..\..\..\..\src\mmf\c\os\OS.c)(0x5512AF34)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\os.o --omf_browse .\out\os.crf --depend .\out\os.d)
+I (..\..\..\..\..\src\mmf\c\os\OS.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Task.h)(0x5512A6FE)
+I (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\..\..\src\mmf\c\os\Observer.h)(0x5512AF34)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54765570)
+F (..\..\..\..\..\src\mmf\c\os\OS.h)(0x5512AF34)()
+F (..\..\..\..\..\src\mmf\c\os\Task.c)(0x5512AECC)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\task.o --omf_browse .\out\task.crf --depend .\out\task.d)
+I (..\..\..\..\..\src\mmf\c\os\Task.h)(0x5512A6FE)
+I (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\..\..\src\mmf\c\os\Observer.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\OS.h)(0x5512AF34)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54765570)
+F (..\..\..\..\..\src\mmf\c\os\Task.h)(0x5512A6FE)()
+F (..\..\..\..\..\src\mmf\c\os\Topic.c)(0x5512AEED)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\topic.o --omf_browse .\out\topic.crf --depend .\out\topic.d)
+I (..\..\..\..\..\src\mmf\c\os\Topic.h)(0x5512AC52)
+I (..\..\..\..\..\src\mmf\c\os\List.h)(0x5512AF34)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)
+I (..\..\..\..\..\src\mmf\c\os\Observer.h)(0x5512AF34)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54765570)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x54765570)
+F (..\..\..\..\..\src\mmf\c\os\Topic.h)(0x5512AC52)()
+F (..\..\..\..\..\src\mmf\c\port\platforms.h)(0x5512A12D)()
+F (..\..\..\..\..\src\mmf\c\os\mmf.h)(0x5512A50A)()
+F (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)()
+F (..\..\..\..\..\src\mmf\c\os\Exception.c)(0x5512B4FE)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork -I..\..\..\src\projects\LED_Blink -I..\..\..\src\common -I..\..\..\src\cpu -I..\..\..\src\cpu\headers -I..\..\..\src\drivers\llwu -I..\..\..\src\drivers\lptmr -I..\..\..\src\drivers\mcg -I..\..\..\src\drivers\pmc -I..\..\..\src\drivers\rcm -I..\..\..\src\drivers\rtc -I..\..\..\src\drivers\smc -I..\..\..\src\drivers\uart -I..\..\..\src\drivers\cmp -I..\..\..\src\platforms -I..\.. -I..\..\..\src\drivers\spi -I..\..\..\src\projects\kl05_frdm_demo\freedom_gpio -I..\..\..\..\..\src\mmf\c\os -I..\..\..\..\..\src\mmf\c\port-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Freescale\Kinetis-D__UVISION_VERSION="514" -DKEIL -DFRDM -DCMSIS-o .\out\exception.o --omf_browse .\out\exception.crf --depend .\out\exception.d)
+I (..\..\..\..\..\src\mmf\c\os\Exception.h)(0x5512B4F8)
+I (..\..\..\..\..\src\mmf\c\os\../port/platforms.h)(0x5512A12D)
+I (..\..\..\src\common\common.h)(0x5512A169)
+I (..\..\..\src\projects\LED_Blink\isr.h)(0x55069CB3)
+I (..\..\..\src\cpu\arm_cm0.h)(0x55069CB3)
+I (..\..\..\src\platforms\freedom.h)(0x55069CB3)
+I (..\..\..\src\drivers\mcg\mcg.h)(0x55069CB3)
+I (..\..\..\src\cpu\headers\MKL05Z4.h)(0x55069CB3)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54765570)
+I (..\..\..\src\common\assert.h)(0x55069CB3)
+I (..\..\..\src\common\io.h)(0x55069CB3)
+I (..\..\..\src\common\startup.h)(0x55069CB3)
+I (..\..\..\src\common\stdlib.h)(0x55069CB3)

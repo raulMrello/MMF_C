@@ -1,0 +1,14 @@
+.\out\exception.o: ..\..\..\..\..\src\mmf\c\os\Exception.c
+.\out\exception.o: ..\..\..\..\..\src\mmf\c\os\Exception.h
+.\out\exception.o: ..\..\..\..\..\src\mmf\c\os\../port/platforms.h
+.\out\exception.o: ..\..\..\src\common\common.h
+.\out\exception.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\exception.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\exception.o: ..\..\..\src\platforms\freedom.h
+.\out\exception.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\exception.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\exception.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\exception.o: ..\..\..\src\common\assert.h
+.\out\exception.o: ..\..\..\src\common\io.h
+.\out\exception.o: ..\..\..\src\common\startup.h
+.\out\exception.o: ..\..\..\src\common\stdlib.h

@@ -1,0 +1,13 @@
+.\out\uif.o: ..\..\..\src\common\uif.c
+.\out\uif.o: ..\..\..\src\common\common.h
+.\out\uif.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\uif.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\uif.o: ..\..\..\src\platforms\freedom.h
+.\out\uif.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\uif.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\uif.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\uif.o: ..\..\..\src\common\assert.h
+.\out\uif.o: ..\..\..\src\common\io.h
+.\out\uif.o: ..\..\..\src\common\startup.h
+.\out\uif.o: ..\..\..\src\common\stdlib.h
+.\out\uif.o: ..\..\..\src\common\uif.h

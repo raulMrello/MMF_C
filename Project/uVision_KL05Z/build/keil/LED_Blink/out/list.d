@@ -1,0 +1,16 @@
+.\out\list.o: ..\..\..\..\..\src\mmf\c\os\List.c
+.\out\list.o: ..\..\..\..\..\src\mmf\c\os\List.h
+.\out\list.o: ..\..\..\..\..\src\mmf\c\os\Exception.h
+.\out\list.o: ..\..\..\..\..\src\mmf\c\os\../port/platforms.h
+.\out\list.o: ..\..\..\src\common\common.h
+.\out\list.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\list.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\list.o: ..\..\..\src\platforms\freedom.h
+.\out\list.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\list.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\list.o: ..\..\..\src\common\assert.h
+.\out\list.o: ..\..\..\src\common\io.h
+.\out\list.o: ..\..\..\src\common\startup.h
+.\out\list.o: ..\..\..\src\common\stdlib.h
+.\out\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

@@ -1,0 +1,13 @@
+digraph "OS::schedule"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="OS::schedule",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Task::setRunning",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_task.html#a81ed7148858ae6af41d3b3e8dc88112e",tooltip="Sets a task running."];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Task::exec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_task.html#ab17886ef8196862de81aef338fd27424",tooltip="Interface to execute task implementation of the inherited classes."];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Task::setReady",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_task.html#ad29f9fd753d6d805f651c1da2189ed9b",tooltip="Sets a task ready, indicating which event has caused it."];
+}

@@ -1,0 +1,12 @@
+.\out\alloc.o: ..\..\..\src\common\alloc.c
+.\out\alloc.o: ..\..\..\src\common\common.h
+.\out\alloc.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\alloc.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\alloc.o: ..\..\..\src\platforms\freedom.h
+.\out\alloc.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\alloc.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\alloc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\alloc.o: ..\..\..\src\common\assert.h
+.\out\alloc.o: ..\..\..\src\common\io.h
+.\out\alloc.o: ..\..\..\src\common\startup.h
+.\out\alloc.o: ..\..\..\src\common\stdlib.h

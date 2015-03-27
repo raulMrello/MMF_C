@@ -1,0 +1,13 @@
+.\out\lptmr.o: ..\..\..\src\drivers\lptmr\lptmr.c
+.\out\lptmr.o: ..\..\..\src\common\common.h
+.\out\lptmr.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\lptmr.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\lptmr.o: ..\..\..\src\platforms\freedom.h
+.\out\lptmr.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\lptmr.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\lptmr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\lptmr.o: ..\..\..\src\common\assert.h
+.\out\lptmr.o: ..\..\..\src\common\io.h
+.\out\lptmr.o: ..\..\..\src\common\startup.h
+.\out\lptmr.o: ..\..\..\src\common\stdlib.h
+.\out\lptmr.o: ..\..\..\src\drivers\lptmr\lptmr.h

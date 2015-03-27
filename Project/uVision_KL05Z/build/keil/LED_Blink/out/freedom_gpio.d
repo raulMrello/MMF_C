@@ -1,0 +1,13 @@
+.\out\freedom_gpio.o: ..\..\..\src\projects\kl05_frdm_demo\freedom_gpio\freedom_gpio.c
+.\out\freedom_gpio.o: ..\..\..\src\projects\kl05_frdm_demo\freedom_gpio\freedom_gpio.h
+.\out\freedom_gpio.o: ..\..\..\src\common\common.h
+.\out\freedom_gpio.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\freedom_gpio.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\freedom_gpio.o: ..\..\..\src\platforms\freedom.h
+.\out\freedom_gpio.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\freedom_gpio.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\freedom_gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\freedom_gpio.o: ..\..\..\src\common\assert.h
+.\out\freedom_gpio.o: ..\..\..\src\common\io.h
+.\out\freedom_gpio.o: ..\..\..\src\common\startup.h
+.\out\freedom_gpio.o: ..\..\..\src\common\stdlib.h

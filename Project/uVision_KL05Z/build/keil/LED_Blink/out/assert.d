@@ -1,0 +1,12 @@
+.\out\assert.o: ..\..\..\src\common\assert.c
+.\out\assert.o: ..\..\..\src\common\common.h
+.\out\assert.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\assert.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\assert.o: ..\..\..\src\platforms\freedom.h
+.\out\assert.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\assert.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\assert.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\assert.o: ..\..\..\src\common\assert.h
+.\out\assert.o: ..\..\..\src\common\io.h
+.\out\assert.o: ..\..\..\src\common\startup.h
+.\out\assert.o: ..\..\..\src\common\stdlib.h

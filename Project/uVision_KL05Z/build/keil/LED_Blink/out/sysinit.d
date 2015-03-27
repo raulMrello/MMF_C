@@ -1,0 +1,15 @@
+.\out\sysinit.o: ..\..\..\src\cpu\sysinit.c
+.\out\sysinit.o: ..\..\..\src\common\common.h
+.\out\sysinit.o: ..\..\..\src\projects\LED_Blink\isr.h
+.\out\sysinit.o: ..\..\..\src\cpu\arm_cm0.h
+.\out\sysinit.o: ..\..\..\src\platforms\freedom.h
+.\out\sysinit.o: ..\..\..\src\drivers\mcg\mcg.h
+.\out\sysinit.o: ..\..\..\src\cpu\headers\MKL05Z4.h
+.\out\sysinit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\sysinit.o: ..\..\..\src\common\assert.h
+.\out\sysinit.o: ..\..\..\src\common\io.h
+.\out\sysinit.o: ..\..\..\src\common\startup.h
+.\out\sysinit.o: ..\..\..\src\common\stdlib.h
+.\out\sysinit.o: ..\..\..\src\cpu\sysinit.h
+.\out\sysinit.o: ..\..\..\src\drivers\uart\uart.h
+.\out\sysinit.o: ..\..\..\src\drivers\rtc\rtc.h

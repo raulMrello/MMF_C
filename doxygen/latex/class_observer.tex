@@ -1,0 +1,80 @@
+\hypertarget{class_observer}{\section{Observer Class Reference}
+\label{class_observer}\index{Observer@{Observer}}
+}
+
+
+\hyperlink{class_observer}{Observer} class represents the subscriber actor in a publish/subscribe environment defined by the \hyperlink{class_observer}{Observer} design pattern.  
+
+
+
+
+{\ttfamily \#include $<$Observer.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_observer_a19c43f80a38a332a6f694783df3c9835}{Observer} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hypertarget{class_observer_a450645e61c136826f09940a1334c7f34}{virtual \hyperlink{class_observer_a450645e61c136826f09940a1334c7f34}{$\sim$\-Observer} ()}\label{class_observer_a450645e61c136826f09940a1334c7f34}
+
+\begin{DoxyCompactList}\small\item\em Default destructor. It will deallocate all resources. \end{DoxyCompactList}\item 
+\hypertarget{class_observer_aa5ff2af13922e7f78fbd131bfabfa404}{void {\bfseries update} (void $\ast$data, int datasize)}\label{class_observer_aa5ff2af13922e7f78fbd131bfabfa404}
+
+\item 
+\hypertarget{class_observer_aaeb6a9949f7a983fa2fd21ae4e2bd7ed}{void \hyperlink{class_observer_aaeb6a9949f7a983fa2fd21ae4e2bd7ed}{done} ()}\label{class_observer_aaeb6a9949f7a983fa2fd21ae4e2bd7ed}
+
+\begin{DoxyCompactList}\small\item\em Releases last processed topic, deallocating automatically all resources. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_observer_a3b5b1b520877abff3491995cc35658e0}{update} ()=0
+\begin{DoxyCompactList}\small\item\em Updates the oberserver object due a topic update. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_observer_a7a9c617c806869917699117e930decd5}{\hyperlink{structtopicdata__t}{topicdata\-\_\-t} $\ast$ \hyperlink{class_observer_a7a9c617c806869917699117e930decd5}{\-\_\-topicdata}}\label{class_observer_a7a9c617c806869917699117e930decd5}
+
+\begin{DoxyCompactList}\small\item\em Pointer to the lastest updated topic data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_observer}{Observer} class represents the subscriber actor in a publish/subscribe environment defined by the \hyperlink{class_observer}{Observer} design pattern. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_observer_a19c43f80a38a332a6f694783df3c9835}{\index{Observer@{Observer}!Observer@{Observer}}
+\index{Observer@{Observer}!Observer@{Observer}}
+\subsubsection[{Observer}]{\setlength{\rightskip}{0pt plus 5cm}Observer\-::\-Observer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_observer_a19c43f80a38a332a6f694783df3c9835}
+
+
+Default constructor. 
+
+$<$ required for malloc required for memcpy 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_observer_a3b5b1b520877abff3491995cc35658e0}{\index{Observer@{Observer}!update@{update}}
+\index{update@{update}!Observer@{Observer}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Observer\-::update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_observer_a3b5b1b520877abff3491995cc35658e0}
+
+
+Updates the oberserver object due a topic update. 
+
+Interface to be implemented by the inherited class. This class can use member \char`\"{}\-\_\-topicdata\char`\"{} to access the topic update.
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & \hyperlink{class_topic}{Topic} data \\
+\hline
+{\em datasize} & \hyperlink{class_topic}{Topic} data size \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/Observer.\-h\item 
+C\-:/\-\_\-workspace/minimal\-\_\-multithreaded\-\_\-framework/src/mmf/os/Observer.\-cpp\end{DoxyCompactItemize}
