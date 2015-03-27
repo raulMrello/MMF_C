@@ -32,10 +32,7 @@
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1527167791" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="PLATFORM_GENERIC"/>
 								</option>
-								<option id="gnu.c.compiler.option.include.paths.2115179641" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;C:\_workspace\minimal_multithreaded_framework\src\mmf\c\os&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\_workspace\minimal_multithreaded_framework\src\mmf\c\port&quot;"/>
-								</option>
+								<option id="gnu.c.compiler.option.include.paths.2115179641" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.83900245" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.569499775" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug">

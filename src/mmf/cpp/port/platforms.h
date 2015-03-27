@@ -28,6 +28,6 @@
 #define PLATFORM_TIMER_STOP(callback_handler)
 //extern void PLATFORM_TIMER_STOP(void* handler);
 
-#include "common.h"
+
 
 #endif /* SRC_PORT_TIMER_H_ */

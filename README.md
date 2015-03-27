@@ -15,6 +15,9 @@ It has been specially designed for microcontrollers with extremely constrained m
 
 ## Changelog
 
+> 27.03.2015-002 (MMF_C) ------------------------------------------------------------------
+ - Cleared some content in "platforms.h" for being fully platform independent.
+ 
 > 27.03.2015-001 (MMF_C) ------------------------------------------------------------------
  - Improvements from eclipse_windows_mmf_c project.
  - Fully compatible with event flags (OS_send_event, Task_wait_or, Task_wait_and)
