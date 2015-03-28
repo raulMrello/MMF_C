@@ -88,7 +88,6 @@ int Task_prio(Task* t, Exception *e);
  */
 void Task_execCb(Task* t, Exception *e);
 
-
 /** \fn Task_addTopic
  *  \brief Adds a new topic update to the topic pool
  *  \param t Task
@@ -99,6 +98,14 @@ void Task_execCb(Task* t, Exception *e);
  *  \param e Exception code (0: success)
  */
 void Task_addTopic(Task*t, int id, const char * name, void *data, int datasize, Exception *e);
+
+/** \fn Task_addTopic
+ *  \brief Adds a new topic update to the topic pool
+ *  \param t Task
+ *  \param td Topic data extracted from topic fifo pool
+ *  \param e Exception code (0: success)
+ */
+void Task_popTopic(Task*t, TopicData *td, Exception *e);
 
 //------------------------------------------------------------------------------------
 //-- PRIVATE MEMBERS -----------------------------------------------------------------
@@ -139,6 +146,9 @@ void Task_initialize(	Task* task,
 	task->prio = prio;
 	task->topicpool.topicdata = topic_pool;
 	task->topicpool.poolsize = topic_pool_size;
+	task->topicpool.pread = 0;
+	task->topicpool.pwrite = 0;
+	task->topicpool.status = POOL_EMPTY;
 	if(task->topicpool.topicdata){
 		for(i=0; i < task->topicpool.poolsize; i++){
 			task->topicpool.topicdata[i].id = 0;
@@ -261,15 +271,16 @@ void Task_execCb(Task* task, Exception *e){
 	}
 	if((task->event & EVT_TOPIC)==EVT_TOPIC && task->onTopicUpdate){
 		int i = 0;
-		// processes all pending topics
 		task->event &= ~EVT_TOPIC;
-		for(i=0;i<task->topicpool.poolsize;i++){
-			if(task->topicpool.topicdata[i].id != 0){
-				task->onTopicUpdate(task->cbhandler, &task->topicpool.topicdata[i]);
-				task->topicpool.topicdata[i].id = 0;
-				task->topicpool.topicdata[i].data = 0;
-				task->topicpool.topicdata[i].datasize = 0;
+		// processes all pending topics until topic fifo pool is empty
+		for(;;){
+			TopicData td;
+			Task_popTopic(task, &td, e);
+			catch(e){
+				Exception_clear(e);
+				break;
 			}
+			task->onTopicUpdate(task->cbhandler, &td);
 		}
 	}
 	if((task->event & EVT_FLAGS)==EVT_FLAGS && task->onEventFlag){
@@ -307,18 +318,39 @@ void Task_addTopic(Task* task, int id, const char * name, void *data, int datasi
 		Exception_throw(e, BAD_ARGUMENT, "Task_addTopic task or id null");
 		return;
 	}
-	int i;
-	for(i=0;i<task->topicpool.poolsize;i++){
-		if(task->topicpool.topicdata[i].id == 0){
-			task->topicpool.topicdata[i].id = id;
-			task->topicpool.topicdata[i].name = name;
-			task->topicpool.topicdata[i].data = data;
-			task->topicpool.topicdata[i].datasize = datasize;
-			Task_setReady(task, EVT_TOPIC, e);
-			return;
-		}
+	if(task->topicpool.status == POOL_FULL){
+		Exception_throw(e, MEMORY_ALLOC, "Task_addTopic topic_pool is full");
+		return;
 	}
-	Exception_throw(e, MEMORY_ALLOC, "Task_addTopic topic_pool is full");
+	int i = task->topicpool.pwrite;
+	task->topicpool.status = POOL_DATA;
+	task->topicpool.topicdata[i].id = id;
+	task->topicpool.topicdata[i].name = name;
+	task->topicpool.topicdata[i].data = data;
+	task->topicpool.topicdata[i].datasize = datasize;
+	task->topicpool.pwrite = (task->topicpool.pwrite < (task->topicpool.poolsize-1))? (task->topicpool.pwrite+1) : 0;
+	if(task->topicpool.pwrite == task->topicpool.pread){
+		task->topicpool.status = POOL_FULL;
+	}
+	Task_setReady(task, EVT_TOPIC, e);
+}
+
+//------------------------------------------------------------------------------------
+void Task_popTopic(Task* task, TopicData* td, Exception *e){
+	if(!task || !td){
+		Exception_throw(e, BAD_ARGUMENT, "Task_addTopic task or topic null");
+		return;
+	}
+	if(task->topicpool.status == POOL_EMPTY){
+		Exception_throw(e, MEMORY_ALLOC, "Task_addTopic topic_pool is empty");
+		return;
+	}
+	int i = task->topicpool.pread;
+	*td = task->topicpool.topicdata[i];
+	task->topicpool.pread = (task->topicpool.pread < (task->topicpool.poolsize-1))? (task->topicpool.pread+1) : 0;
+	if(task->topicpool.pread == task->topicpool.pwrite){
+		task->topicpool.status = POOL_EMPTY;
+	}
 }
 
 //------------------------------------------------------------------------------------

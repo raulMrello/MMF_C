@@ -15,7 +15,14 @@ It has been specially designed for microcontrollers with extremely constrained m
 
 ## Changelog
 
-> 27.03.2015-003 (MMF_C) branch: topic_pools_as_queues -------------------------------------
+> 28.03.2015-001 (MMF_C) branch: topic_pools_as_queues ------------------------------------------------------------------
+ - Topic pools now act as fifo memory pools. Tested OK!
+ - Added macros PLATFORM_ENTER_CRITICAL and PLATFORM_EXIT_CRITICAL to platforms.h
+ - KNOWN ISSUES: 
+ 	- It is necessary to define critical sections to avoid memory leaks whith interrupts.
+ 	- Combination of task waiting by: suspension timer, event flags and topic updates hasn't been tested yet.
+
+> 27.03.2015-003 (MMF_C) branch: topic_pools_as_queues ------------------------------------------------------------------
  - Branch start to change the way Tasks handles its internal topic pool (see knwown issues on previous logs).
 
  > 27.03.2015-002 (MMF_C) ------------------------------------------------------------------

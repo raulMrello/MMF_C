@@ -25,72 +25,137 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>c</name>
+			<name>Project</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>common_c_sources</name>
-			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources</locationURI>
+			<name>README.md</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/README.md</locationURI>
 		</link>
 		<link>
-			<name>c/os</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>c/port</name>
+			<name>src</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
-			<name>c/os/Exception.c</name>
+			<name>Project/common_c_sources</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/mmf</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/main.c</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/tasks</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/topics</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/mmf/c</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/tasks/Publisher.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/tasks/Publisher.c</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/tasks/Publisher.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/tasks/Publisher.h</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/tasks/Subscriber.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/tasks/Subscriber.c</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/tasks/Subscriber.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/tasks/Subscriber.h</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/topics/MyTopic.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/topics/MyTopic.c</locationURI>
+		</link>
+		<link>
+			<name>Project/common_c_sources/topics/MyTopic.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/common_c_sources/topics/MyTopic.h</locationURI>
+		</link>
+		<link>
+			<name>src/mmf/c/os</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/mmf/c/port</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/mmf/c/os/Exception.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Exception.c</locationURI>
 		</link>
 		<link>
-			<name>c/os/Exception.h</name>
+			<name>src/mmf/c/os/Exception.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Exception.h</locationURI>
 		</link>
 		<link>
-			<name>c/os/OS.c</name>
+			<name>src/mmf/c/os/OS.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/OS.c</locationURI>
 		</link>
 		<link>
-			<name>c/os/OS.h</name>
+			<name>src/mmf/c/os/OS.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/OS.h</locationURI>
 		</link>
 		<link>
-			<name>c/os/Task.c</name>
+			<name>src/mmf/c/os/Task.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Task.c</locationURI>
 		</link>
 		<link>
-			<name>c/os/Task.h</name>
+			<name>src/mmf/c/os/Task.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Task.h</locationURI>
 		</link>
 		<link>
-			<name>c/os/Topic.c</name>
+			<name>src/mmf/c/os/Topic.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Topic.c</locationURI>
 		</link>
 		<link>
-			<name>c/os/Topic.h</name>
+			<name>src/mmf/c/os/Topic.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Topic.h</locationURI>
 		</link>
 		<link>
-			<name>c/os/mmf.h</name>
+			<name>src/mmf/c/os/mmf.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/mmf.h</locationURI>
 		</link>
 		<link>
-			<name>c/port/platforms.h</name>
+			<name>src/mmf/c/port/platforms.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/port/platforms.h</locationURI>
 		</link>
