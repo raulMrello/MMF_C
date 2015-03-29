@@ -9,7 +9,7 @@
 #include "../topics/MyTopic.h"
 #include <string.h>	///< required for strcmp
 
-static Exception e = Exception_ALLOC();
+static Exception e = Exception_INIT();
 
 //------------------------------------------------------------------------------------
 void Subscriber_init(SubscriberTaskPtr t){

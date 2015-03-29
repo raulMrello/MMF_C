@@ -266,7 +266,6 @@ void Task_execCb(Task* task, Exception *e){
 		task->onResume(task->cbhandler);
 	}
 	if((task->event & EVT_TOPIC)==EVT_TOPIC && task->onTopicUpdate){
-		int i = 0;
 		task->event &= ~EVT_TOPIC;
 		// processes all pending topics until topic fifo pool is empty
 		for(;;){

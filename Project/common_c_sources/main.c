@@ -6,8 +6,8 @@
 #include "topics/MyTopic.h"
 
 int main(void) {
-	// Creates an exception to handle errors
-	Exception e = Exception_ALLOC();
+	// Creates an exception to handle errors and initializes to default data
+	Exception e = Exception_INIT();
 
 
 	// 1 - Kernel allocation and initialization.
@@ -53,8 +53,8 @@ int main(void) {
 	Task_initialize(&publisher,
 					"publisher",
 					PRIO_MAX+1,
-					(TopicData*)0,
-					0,
+					(TopicData*)0,				//Publisher doesn't needs a topic pool
+					0,							//no topic pool size
 					Publisher_init,
 					Publisher_OnYieldTurn,
 					Publisher_OnResume,
