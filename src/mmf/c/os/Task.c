@@ -131,6 +131,7 @@ void Task_initialize(	Task* task,
 		return; 
 	}
 	task->status = STOPPED;
+	task->isSuspended = true;
 	task->event = EVT_NONE;
 	task->name = name;
 	if(!name)
@@ -182,7 +183,7 @@ void Task_suspend(Task* task, int delay_us, Exception *e){
 		return; 
 	}
 	PLATFORM_ENTER_CRITICAL();
-	task->status = SUSPENDED;
+	task->isSuspended = true;
 	PLATFORM_TIMER_START(delay_us, timertask_callback, task);
 	PLATFORM_EXIT_CRITICAL();
 }
@@ -197,6 +198,7 @@ void Task_resume(Task* task, char forced, Exception *e){
 	if(forced){
 		PLATFORM_TIMER_STOP(task);
 	}
+	task->isSuspended = false;
 	task->status = READY;
 	task->event |= EVT_RESUMED;
 	PLATFORM_EXIT_CRITICAL();
@@ -240,6 +242,9 @@ void Task_setReady(Task* task, int evt, Exception *e){
 	PLATFORM_ENTER_CRITICAL();
 	task->event |= evt;
 	task->status = READY;
+	if(task->isSuspended){
+		Task_resume(task, true, e);
+	}
 	PLATFORM_EXIT_CRITICAL();
 }
 
@@ -361,7 +366,7 @@ void Task_popTopic(Task* task, TopicData* td, Exception *e){
 }
 
 //------------------------------------------------------------------------------------
-void Task_wait_or(Task* task, uint16_t evt, Exception *e){
+void Task_wait_or(Task* task, uint16_t evt, uint32_t delay_us, Exception *e){
 	if(!task){
 		Exception_throw(e, BAD_ARGUMENT, "Task_wait_or task null");
 		return;
@@ -369,11 +374,14 @@ void Task_wait_or(Task* task, uint16_t evt, Exception *e){
 	PLATFORM_ENTER_CRITICAL();
 	task->evhandler.mode = WAIT_OR;
 	task->evhandler.events = evt;
+	if(delay_us > 0){
+		Task_suspend(task, delay_us, e);
+	}
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Task_wait_and(Task* task, uint16_t evt, Exception *e){
+void Task_wait_and(Task* task, uint16_t evt, uint32_t delay_us, Exception *e){
 	if(!task){
 		Exception_throw(e, BAD_ARGUMENT, "Task_wait_and task null");
 		return;
@@ -381,5 +389,8 @@ void Task_wait_and(Task* task, uint16_t evt, Exception *e){
 	PLATFORM_ENTER_CRITICAL();
 	task->evhandler.mode = WAIT_AND;
 	task->evhandler.events = evt;
+	if(delay_us > 0){
+		Task_suspend(task, delay_us, e);
+	}
 	PLATFORM_EXIT_CRITICAL();
 }
