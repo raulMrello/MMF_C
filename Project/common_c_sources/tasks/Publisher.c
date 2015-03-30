@@ -12,6 +12,12 @@ static int counter;
 static Exception e = Exception_INIT();
 
 //------------------------------------------------------------------------------------
+static void topicDone(PublisherTaskPtr t){
+	printf("topic done\r\n");
+}
+
+
+//------------------------------------------------------------------------------------
 void Publisher_init(PublisherTaskPtr t){
 	printf("Publisher_init\r\n");
 	counter = 0;
@@ -25,7 +31,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 	switch(counter){
 		// in this case sends a topic update
 		case 1:{
-			Topic_notify(MyTopic_getRef(), &counter, sizeof(int), &e);
+			Topic_notify(MyTopic_getRef(), &counter, sizeof(int), topicDone, t, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
 				Exception_clear(&e);
@@ -75,7 +81,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
 				Exception_clear(&e);
 			}
-			Topic_notify(MyTopic_getRef(), &counter, sizeof(int), &e);
+			Topic_notify(MyTopic_getRef(), &counter, sizeof(int), topicDone, t, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
 				Exception_clear(&e);
@@ -95,7 +101,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 		case 8:{
 			int j;
 			for(j=0;j<10;j++){
-				Topic_notify(MyTopic_getRef(), &counter, sizeof(int), &e);
+				Topic_notify(MyTopic_getRef(), &counter, sizeof(int), topicDone, t, &e);
 				catch(&e){
 					printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
 					Exception_clear(&e);

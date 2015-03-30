@@ -15,6 +15,12 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 31.03.2015-001 (MMF_C) branch: topic_pools_as_queues -----------
+ - PENDING: critical sections testing.
+ - Added 'done' callback to topic publishing in order to warn the publisher when all subscribers had processed the topic update.
+ - KNOWN ISSUES: 
+  	- NONE
+
 > 30.03.2015-001 (MMF_C) branch: topic_pools_as_queues -----------
  - PENDING: critical sections testing.
  - Changed status=SUSPENDED by a new property, named isSuspended to allow combination of suspension and event/topic waits.
