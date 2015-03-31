@@ -15,6 +15,12 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 31.03.2015-002 (MMF_C) branch: topic_pools_as_queues -----------
+ - PENDING: critical sections testing.
+ - Modified Task_resume. Now when invoked with forced flag = true, no event nor READY status will be fired. Just running timer will be stopped and that's all.
+ - KNOWN ISSUES: 
+  	- Task suspension and resuming (forced and not forced)should be tested.
+
 > 31.03.2015-001 (MMF_C) branch: topic_pools_as_queues -----------
  - PENDING: critical sections testing.
  - Added 'done' callback to topic publishing in order to warn the publisher when all subscribers had processed the topic update.
