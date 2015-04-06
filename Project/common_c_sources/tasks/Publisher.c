@@ -29,8 +29,17 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 	counter++;
 
 	switch(counter){
-		// in this case sends a topic update
+		// in this case checks task suspension
 		case 1:{
+			Task_suspend(t, 20000, &e);
+			catch(&e){
+				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
+				Exception_clear(&e);
+			}
+			return;
+		}
+		// in this case sends a topic update
+		case 2:{
 			Topic_notify(MyTopic_getRef(), &counter, sizeof(int), topicDone, t, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -39,7 +48,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case sends event 1
-		case 2:{
+		case 3:{
 			OS_send_event(0, "subscriber", 1, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -48,7 +57,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case sends event 2
-		case 3:{
+		case 4:{
 			OS_send_event(0, "subscriber", 2, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -57,7 +66,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case sends event 8
-		case 4:{
+		case 5:{
 			OS_send_event(0, "subscriber", 8, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -66,7 +75,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case sends event 16
-		case 5:{
+		case 6:{
 			OS_send_event(0, "subscriber", 16, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -75,7 +84,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case sends event 1 and post topic update
-		case 6:{
+		case 7:{
 			OS_send_event(0, "subscriber", 1, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -89,7 +98,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case sends an event to an unknown task
-		case 7:{
+		case 8:{
 			OS_send_event(0, "subscriBER", 1, &e);
 			catch(&e){
 				printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
@@ -98,7 +107,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 			break;
 		}
 		// in this case colapses susbscriber topic pool
-		case 8:{
+		case 9:{
 			int j;
 			for(j=0;j<10;j++){
 				Topic_notify(MyTopic_getRef(), &counter, sizeof(int), topicDone, t, &e);
@@ -124,7 +133,12 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 //------------------------------------------------------------------------------------
 void Publisher_OnResume(PublisherTaskPtr t){
 	printf("Publisher_OnResume\r\n");
-
+	// keeps task running
+	Task_yield((Task*)t, &e);	///< IMPORTANT!!! in order to get control later, else it won't be executed
+	catch(&e){
+		printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
+		Exception_clear(&e);
+	}
 }
 
 //------------------------------------------------------------------------------------

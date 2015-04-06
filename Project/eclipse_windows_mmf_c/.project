@@ -80,6 +80,16 @@
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Task.h</locationURI>
 		</link>
 		<link>
+			<name>c/os/Timer.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Timer.c</locationURI>
+		</link>
+		<link>
+			<name>c/os/Timer.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Timer.h</locationURI>
+		</link>
+		<link>
 			<name>c/os/Topic.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Topic.c</locationURI>

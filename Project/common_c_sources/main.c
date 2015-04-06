@@ -3,6 +3,7 @@
 
 #include "tasks/Subscriber.h"
 #include "tasks/Publisher.h"
+#include "tasks/SysTask.h"
 #include "topics/MyTopic.h"
 
 int main(void) {
@@ -12,10 +13,10 @@ int main(void) {
 
 	// 1 - Kernel allocation and initialization.
 	//     This creates a static task list in the form: 	static Task* mmf_os_tasklist[2];
-	//     And invokes to init member in the form:			OS_init(mmf_os_tasklist, 2, &e);
+	//     And invokes to init member in the form:			OS_init(mmf_os_tasklist, 2, 10000, &e);
 	//     Exception handling should be checked afterwards.
 
-	OS_ALLOC(os_tasklist, 2, &e);
+	OS_ALLOC(os_tasklist, 3, 10000, &e);
 	catch(&e){
 		Exception_clear(&e);
 		return -1;
@@ -61,6 +62,24 @@ int main(void) {
 					Publisher_OnEventFlag,
 					(OnTopicUpdateCallback)0,	//Publisher_OnTopicUpdate not required
 					&publisher,
+					&e);
+	catch(&e){
+		Exception_clear(&e);
+		return -1;
+	}
+
+	Task systask;
+	Task_initialize(&systask,
+					"systask",
+					PRIO_MAX+2,
+					(TopicData*)0,				//SysTask doesn't needs a topic pool
+					0,							//no topic pool size
+					SysTask_init,
+					SysTask_OnYieldTurn,
+					SysTask_OnResume,
+					SysTask_OnEventFlag,
+					SysTask_OnTopicUpdate,
+					&systask,
 					&e);
 	catch(&e){
 		Exception_clear(&e);

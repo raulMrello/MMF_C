@@ -15,6 +15,13 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 06.04.2015-001 (MMF_C) branch: master -----------
+ - Added Timer management. OS_init requires the systick in microseconds. Platform systick hook must invoke OS_tick primitive.
+ - Released version "0.8.06042015001" in folder /dist
+ - PENDING: 
+ 	- Critical sections must be tested.
+ - KNOWN ISSUES: 
+
 > 05.04.2015-001 (MMF_C) branch: master -----------
  - PENDING: 
  	- Critical sections must be tested.
