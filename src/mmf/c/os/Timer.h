@@ -11,61 +11,57 @@
 #ifndef MMF_OS_C_TIMER_H_
 #define MMF_OS_C_TIMER_H_
 
-#include "Exception.h"
-#include <stdint.h>
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
-/**
- *  \enum TimerStat
- *  \brief Timer status codes
- */
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+#include <stdint.h>
+#include "Exception.h"
+
+//------------------------------------------------------------------------------------
+//-- TYPEDEFS ------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** Pointer to Timer object */
+typedef void * 		TimerPtr;
+
+/** Timer status codes */
 typedef enum {
 	TMR_STOPPED = 	      0 ,		///< timer stopped
 	TMR_TIMMING = 	(1 << 0),		///< timer running
 	TMR_REPEAT  = 	(1 << 1)		///< timer repeat enabled
-}TimerStat;
+}TimerStatEnum;
 
-/**
- *  \def Type definitions for callback declaration
- */
+/** Type definitions for callback declaration  */
 typedef void (*TimeoutCallback)(void* cbhandler);
 
-/** \struct Timer
- *  \brief Timer data structure
+/** Type definitions for callback handler  */
+typedef void *	TimerHandlerObj;
+
+
+//------------------------------------------------------------------------------------
+//-- PROTOTYPES ----------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** \fn Timer_create
+ *  \brief Timer creation and initialization
+ *  \param e Exception code
+ *  \return Pointer to the allocated Timer object
  */
-typedef struct {
-	TimerStat status;			///< status
-	int count;					///< count (in ticks)
-	int repeat_count;			///< repeating count on repeat mode
-	TimeoutCallback timeout;	///< timeout callback to invoke on timer countdown
-	void * cbhandler;			///< timeout callback handler
-}Timer;
+TimerPtr Timer_create(ExceptionPtr e);
 
-
-/** \fn Timer_initialize
- *  \brief Timer initialization
- *  \param tmr Timer reference
- *  \param microseconds Timming count in microseconds
- *  \param repeat Flag to enable repeated mode (autoreload)
- *  \param timeout On time out callback
- *  \param cbhandler Callback handler object
+/** \fn Timer_kill
+ *  \brief Timer deallocation
+ *  \param tmr Timer
  *  \param e Exception code
  */
-void Timer_initialize(	Timer* tmr,
-						int microseconds,
-						char repeat,
-						TimeoutCallback timeout,
-						void * cbhandler,
-						Exception *e);
+void Timer_kill(TimerPtr* ptmr, ExceptionPtr e);
 
 /** \fn Timer_start
- *  \brief Starts a timer
- *  \param tmr Timer
- *  \param microseconds Timer in microseconds
- *  \param e Exception code (0: success)
- */
-void Timer_start(Timer* tmr, int microseconds, Exception *e);
-
-/** \fn Timer_startEx
  *  \brief Timer start with parameter settings
  *  \param tmr Timer reference
  *  \param microseconds Timming count in microseconds
@@ -74,25 +70,24 @@ void Timer_start(Timer* tmr, int microseconds, Exception *e);
  *  \param cbhandler Callback handler object
  *  \param e Exception code
  */
-void Timer_startEx(	Timer* tmr,
-						int microseconds,
-						char repeat,
-						TimeoutCallback timeout,
-						void * cbhandler,
-						Exception *e);
+void Timer_start(TimerPtr tmr, uint32_t microseconds, uint8_t repeat, TimeoutCallback timeout, TimerHandlerObj cbhandler,	ExceptionPtr e);
 
 /** \fn Timer_stop
  *  \brief Stops a timer
  *  \param tmr Timer
  *  \param e Exception code (0: success)
  */
-void Timer_stop(Timer* tmr, Exception *e);
+void Timer_stop(TimerPtr tmr, ExceptionPtr e);
 
 /** \fn Timer_tick
  *  \brief Executes a timer tick step. If timer reaches 0 then invokes its installed callback
  *  \param tmr Timer
  *  \param e Exception code (0: success)
  */
-void Timer_tick(Timer* tmr, Exception *e);
+void Timer_tick(TimerPtr tmr, ExceptionPtr e);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MMF_OS_C_TIMER_H_ */

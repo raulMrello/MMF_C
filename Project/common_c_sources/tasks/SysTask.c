@@ -31,7 +31,7 @@ void SysTask_init(SysTaskPtr t){
 void SysTask_OnYieldTurn(SysTaskPtr t){
 	printf("SysTask_OnYieldTurn\r\n");
 	simulateSysTick();
-	Task_yield((Task*)t, &e);		///< IMPORTANT!!! in order to get control later, else it won't be executed
+	Task_yield(t, &e);		///< IMPORTANT!!! in order to get control later, else it won't be executed
 	catch(&e){
 		printf("Exception on SysTask_OnYieldTurn: %s\r\n", e.msg);
 		Exception_clear(&e);
@@ -45,7 +45,7 @@ void SysTask_OnResume(SysTaskPtr t){
 }
 
 //------------------------------------------------------------------------------------
-void SysTask_OnEventFlag(SysTaskPtr t, int event){
+void SysTask_OnEventFlag(SysTaskPtr t, uint16_t event){
 	printf("SysTask_OnEventFlag\r\n");
 }
 

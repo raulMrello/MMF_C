@@ -36,29 +36,39 @@
 #ifndef MMF_OS_TASK_TASK_H_
 #define MMF_OS_TASK_TASK_H_
 
-#include "Exception.h"
-#include "Topic.h"
-#include "Timer.h"
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
 #include <stdint.h>
-
-/**
- *  \brief Macros to convert time units
- */
-#define SECONDS(v)		(v*1000000)		///< time conversion us -> sec
-#define MILLIS(v)		(v*1000)		///< time conversion us -> us
-#define MICROS(v)		(v)				///< time macro in usec
-
-/**
- * \def PRIO_MAX
- * \brief Max priority level.
- */
-#define PRIO_MAX		(int)0
+#include "Exception.h"
+#include "Timer.h"
+#include "Topic.h"
 
 
-/**
- *  \enum Event
- *  \brief Event codes supported by Tasks
- */
+//------------------------------------------------------------------------------------
+//-- TYPEDEFS ------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** Pointer to Task object */
+typedef void *  TaskPtr;
+
+/** Type definitions for callback handler  */
+typedef void *	TaskHandlerObj;
+
+/** Type definitions for callback declaration */
+typedef void (*InitCallback)(TaskHandlerObj cbhandler);
+typedef void (*OnYieldTurnCallback)(TaskHandlerObj cbhandler);
+typedef void (*OnResumeCallback)(TaskHandlerObj cbhandler);
+typedef void (*OnEventFlagCallback)(TaskHandlerObj cbhandler, uint16_t event);
+typedef void (*OnTopicUpdateCallback)(TaskHandlerObj cbhandler, TopicData * topicdata);
+
+
+/** Event codes supported by Tasks */
 typedef enum {
 	EVT_NONE = 			  0 ,	///< No pending events
 	EVT_YIELD = 	(1 << 0),	///< event which sets a yield->ready transition
@@ -66,87 +76,45 @@ typedef enum {
 	EVT_TOPIC = 	(1 << 2),	///< event due to a topic update
 	EVT_FLAGS = 	(1 << 3),	///< event which sets a flagwait->ready transition
 	EVT_FLAGMASK =  (0xffffffff & ~(EVT_TOPIC|EVT_RESUMED|EVT_YIELD))
-}Event;
+}EventEnum;
 
-
-/**
- *  \enum Stat
- *  \brief Task status codes
- */
+/** Task status codes */
 typedef enum {
 	RUNNING = 	      0 ,		///< task is executing
 	STOPPED = 	(1 << 0),		///< task stopped
 	READY = 	(1 << 1),		///< task ready for execution due to some event
 	YIELD = 	(1 << 2)		///< task is yielded temporarily
-}Stat;
+}StatEnum;
 
-/**
- *  \enum EvtWaitMode
- *  \brief Types of task event flag waiting mode (or, and)
- */
+/** Types of task event flag waiting mode (or, and) */
 typedef enum {
 	WAIT_OR,		///< Wait for any event combination
 	WAIT_AND		///< Wait for all event combination
-}EvtWaitMode;
-
-/** \struct EvtFlag
- *  \brief Event flag structure that manages the way of event flag waiting.
- */
-typedef struct {
-	/** task properties */
-	EvtWaitMode mode;			///< Waiting mode
-	int events;					///< Event flag combination
-}EvtFlag;
-
-/**
- *  \def Type definitions for callback declaration
- */
-typedef void (*InitCallback)(void* cbhandler);
-typedef void (*OnYieldTurnCallback)(void* cbhandler);
-typedef void (*OnResumeCallback)(void* cbhandler);
-typedef void (*OnEventFlagCallback)(void* cbhandler, int event);
-typedef void (*OnTopicUpdateCallback)(void* cbhandler, TopicData * topicdata);
-
-/** \struct Task
- *  \brief Tasks are pieces of software capable to be executed in a run-to-completion manner, this
- *  implies that they must return to allow other tasks to be executed (they never must block).
- *  Tasks can be STOPPED during initialization, WAITING for an event, READY for execution,
- *  RUNNING during execution and YIELD if allow other tasks to take control of the cpu.
- */
-typedef struct {
-	/** task properties */
-	char * name;				///< Task name
-	int prio;					///< Task priority in the range PRIO_CRITICAL .. PRIO_LOW + SUBPRIO_MIN
-	Stat status;				///< Task status flag
-	char isSuspended;			///< Suspension flag
-	int event;					///< Pending event flags
-	EvtFlag evhandler;			///< Event flag handler structure
-	TopicDataPool topicpool;	///< Topic pool buffer
-	Timer tmr;					///< Timer for suspension operations
-	/** task interface */
-	void * cbhandler;						///< inherit object
-	InitCallback init;						///< initialization callback
-	OnYieldTurnCallback onYieldTurn;		///< execution callback on yield turn (NO_EVENTS)
-	OnResumeCallback onResume;				///< execution callback on yield turn (NO_EVENTS)
-	OnEventFlagCallback onEventFlag;		///< execution callback on event flag
-	OnTopicUpdateCallback onTopicUpdate;	///< execution callback on topic update
-}Task;
+}EvtWaitModeEnum;
 
 
-/** \def Task_ALLOC_TOPIC_POOL
- *  \brief Allocates memory for the topic pool of the task. A topic pool is necessary if the task is subscribed to
- *  several topics and it can receive multiple updates before its execution turn. 'max_topics_on_pool' limits the number of
- *  unattended topics before an exception raising.
- *  \param max_topics_on_pool Max number of unattended topics on pool
- */
-#define Task_ALLOC_TOPIC_POOL(taskname, max_topics_on_pool) 		static TopicData mmf_topicpool_##taskname[max_topics_on_pool]
+//------------------------------------------------------------------------------------
+//-- DEFINES -------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
-/** \fn Task_initialize
- *  \brief Default constructor. Task name can be assigned during object creation.
+/** Max priority level. */
+#define PRIO_MAX		(int)0
+
+/** Macros to convert time units */
+#define SECONDS(v)		(v*1000000)		///< time conversion us -> sec
+#define MILLIS(v)		(v*1000)		///< time conversion us -> us
+#define MICROS(v)		(v)				///< time macro in usec
+
+
+//------------------------------------------------------------------------------------
+//-- PROTOTYPES ----------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** \fn Task_create
+ *  \brief Creates a task, assigns name, priority and creates a topic pool fifo.
  *  \param t Task
  *  \param Task name
  *  \param prio Priority
- *  \param topic_pool Topic pool pointer
  *  \param topic_pool_size Number of entries of the topic pool
  *  \param init Initialization callback
  *  \param onYieldTurn On yield turn callback
@@ -156,10 +124,8 @@ typedef struct {
  *  \param cbhandler Callbacks handler object
  *  \param e Exception code
  */
-void Task_initialize(	Task* t,
-						char* name,
-						int prio,
-						TopicData * topic_pool,
+TaskPtr Task_create(	const char* name,
+						uint8_t prio,
 						int topic_pool_size,
 						InitCallback init,
 						OnYieldTurnCallback onYieldTurn,
@@ -167,7 +133,7 @@ void Task_initialize(	Task* t,
 						OnEventFlagCallback onEventFlag,
 						OnTopicUpdateCallback onTopicUpdate,
 						void * cbhandler,
-						Exception *e);
+						ExceptionPtr e);
 
 /** \fn Task_suspend
  *  \brief Suspends a task during several microseconds
@@ -175,7 +141,7 @@ void Task_initialize(	Task* t,
  *  \param delay_us Microsendos to suspend
  *  \param e Exception code (0: success)
  */
-void Task_suspend(Task* t, int delay_us, Exception *e);
+void Task_suspend(TaskPtr t, uint32_t delay_us, ExceptionPtr e);
 
 /** \fn Task_resume
  *  \brief Sets a task ready after a period of suspension
@@ -184,14 +150,14 @@ void Task_suspend(Task* t, int delay_us, Exception *e);
  *  its timer has not yet finished.
  *  \param e Exception code (0: success)
  */
-void Task_resume(Task* t, char forced, Exception *e);
+void Task_resume(TaskPtr t, uint8_t forced, ExceptionPtr e);
 
 /** \fn Task_yield
  *  \brief Sets a task yielded to allow other tasks to take control of the cpu
  *  \param t Task
  *  \param e Exception code (0: success)
  */
-void Task_yield(Task* t, Exception *e);
+void Task_yield(TaskPtr t, ExceptionPtr e);
 
 /** \fn Task_wait_or
  *  \brief Task keeps waiting for any of the events declared
@@ -200,7 +166,7 @@ void Task_yield(Task* t, Exception *e);
  *  \param delay_us Timeout limit in microseconds for wait operation. If 0 waits forever.
  *  \param e Exception code (0: success)
  */
-void Task_wait_or(Task* t, uint16_t evt, uint32_t delay_us, Exception *e);
+void Task_wait_or(TaskPtr t, uint16_t evt, uint32_t delay_us, ExceptionPtr e);
 
 /** \fn Task_wait_and
  *  \brief Task keeps waiting for all of the events declared
@@ -209,7 +175,10 @@ void Task_wait_or(Task* t, uint16_t evt, uint32_t delay_us, Exception *e);
  *  \param delay_us Timeout limit in microseconds for wait operation. If 0 waits forever.
  *  \param e Exception code (0: success)
  */
-void Task_wait_and(Task* t, uint16_t evt, uint32_t delay_us, Exception *e);
+void Task_wait_and(TaskPtr t, uint16_t evt, uint32_t delay_us, ExceptionPtr e);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MMF_OS_TASK_TASK_H_ */

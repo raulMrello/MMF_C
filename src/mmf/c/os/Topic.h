@@ -33,22 +33,23 @@
 #ifndef SRC_OS_TOPIC_H_
 #define SRC_OS_TOPIC_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+#include "List.h"
 #include "Exception.h"
 
+//------------------------------------------------------------------------------------
+//-- TYPEDEFS ------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
-/** \struct Topic
- *  \brief Topic struct represents the dynamic piece of software in which Observers can subscribe to get
- *  track of its evolution (updates)
- */
-typedef struct {
-	int id;						///< topic id
-	const char * name;			///< topic name id
-	void * data;				///< topic data
-	int datasize;				///< topic data size
-	int count;					///< topic producer/consumer count
-	void ** observerlist;		///< declaration of observer list
-	int listsize;				///< max number of observer in list
-}Topic;
+/** Pointer to Topic object */
+typedef void *	TopicPtr;
 
 /** \struct TopicData
  *  \brief Topic data struct is the data part of a Topic
@@ -63,38 +64,30 @@ typedef struct {
 	void * publisher;				///< publisher object
 }TopicData;
 
-/** \enum PoolStatus
- *  \brief Topic fifo pool status
- */
-typedef enum {
-	POOL_EMPTY,
-	POOL_DATA,
-	POOL_FULL
-}PoolStatus;
 
-/** \struct TopicDataPool
- *  \brief Topic data  pool struct is the pool for storing pending topics
- */
-typedef struct {
-	PoolStatus status;			///< fifo pool status
-	int poolsize;				///< fifo pool size (num entries)
-	int pread;					///< pointer to get fifo pool elements
-	int pwrite;					///< pointer to insert fifo pool elements
-	TopicData * topicdata;		///< topic data
-}TopicDataPool;
+//------------------------------------------------------------------------------------
+//-- PROTOTYPES ----------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
-/** \fn Topic_initialize
- *  \brief Function to initialize Topic's internals, like observer list.
- *  \param t Topic
+/** \fn Topic_create
+ *  \brief Function to create and initialize a Topic.
  *  \param name Topic name
- *  \param oblist Observer list pointer
- *  \param listsize List size
  *  \param Exception code
+ *  \return Topic reference
  */
-void Topic_initialize(Topic* t, const char* name, void ** oblist, int listsize, Exception *e);
+TopicPtr Topic_create(const char* name, ExceptionPtr e);
+
+/**
+ * \fn Topic_kill
+ * \brief Deallocates a Topic. The variable that points to the Topic objects then is set to 0, to
+ * indicate that topic is deallocated and now it points to NULL.
+ * @param ptopic Variable that points to a topic object
+ * @param e Exception handler
+ */
+void Topic_kill(TopicPtr *ptopic, ExceptionPtr e);
 
 /** \fn Topic_notify
- *  \brief Static function to notify the subscribed observers about the update/change of the topic
+ *  \brief Function to notify the subscribed observers about the update/change of the topic
  *  \param t Topic
  *  \param name Topic name
  *  \param data Topic's data
@@ -103,7 +96,7 @@ void Topic_initialize(Topic* t, const char* name, void ** oblist, int listsize, 
  *  \param publisher Publisher object who manages done callback
  *  \param Exception code
  */
-void Topic_notify(Topic* t, void * data, int datasize, void (*done)(void*), void* publisher, Exception *e);
+void Topic_notify(TopicPtr t, void * data, int datasize, void (*done)(void*), void* publisher, ExceptionPtr e);
 
 /** \fn Topic_attach
  *  \brief Static function to attach (subscribe) an observer class to a topic
@@ -111,15 +104,26 @@ void Topic_notify(Topic* t, void * data, int datasize, void (*done)(void*), void
  *  \param observer Observer
  *  \param Exception code
  */
-void Topic_attach(Topic* t, void * observer, Exception *e);
+void Topic_attach(TopicPtr t, void * observer, ExceptionPtr e);
 
 /** \fn Topic_dettach
- *  \brief Static function to dettach (unsubscribe) an observer class from a topic
+ *  \brief Function to dettach (unsubscribe) an observer class from a topic
  *  \param t Topic
  *  \param observer Observer
  *  \param Exception code
  */
-void Topic_dettach(Topic* t, void * observer, Exception *e);
+void Topic_dettach(TopicPtr t, void * observer, ExceptionPtr e);
 
+/** \fn Topic_getName
+ *  \brief Get topic name
+ *  \param t Topic
+ *  \param Exception code
+ *  \return Topic name
+ */
+const char * Topic_getName(TopicPtr t, ExceptionPtr e);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SRC_OS_TOPIC_H_ */

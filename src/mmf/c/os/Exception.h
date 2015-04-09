@@ -1,8 +1,8 @@
 /*
  * Exception.h
  *
- *  Created on: 12/3/2015
- *      Author: raulMrello
+ *  Created on:	12/3/2015
+ *  Author: 	raulMrello
  *
  *  Exceptions are objects which allow certain kind of error handling. There are several exception
  *  codes that MMF kernel can throw during execution. Nevertheless, users can expand these codes
@@ -26,33 +26,49 @@
 #ifndef SRC_OS_EXCEPTION_H_
 #define SRC_OS_EXCEPTION_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
 #include "../port/platforms.h" ///< platform dependent
 
-/** \enum Exception
- *  \brief Exception types gives information about errors during execution
- */
-typedef enum {
-	NO_EXCEPTIONS=0,	///< No exceptions
-	BAD_ARGUMENT,		///< A function argument out of range
-	MEMORY_ALLOC,		///< Memory allocation error
-	MEMORY_DEALLOC,		///< Memory deallocation error
-	UNKNOWN_EXCEPTION	///< Other exceptions	
-}ExceptionCode;
+//------------------------------------------------------------------------------------
+//-- TYPEDEFS ------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+ /** Exception types gives information about errors during execution */
+ typedef enum {
+ 	NO_EXCEPTIONS=0,	///< No exceptions
+ 	BAD_ARGUMENT,		///< A function argument out of range
+ 	MEMORY_ALLOC,		///< Memory allocation error
+ 	MEMORY_DEALLOC,		///< Memory deallocation error
+ 	UNKNOWN_EXCEPTION	///< Other exceptions
+ }ExceptionCode;
+
+ /** Exception data structure */
+ typedef struct {
+ 	const char * msg;				///< Exception message
+  	ExceptionCode code;				///< Exception code
+ }Exception;
+typedef Exception*	ExceptionPtr;	///< Pointer to Exception object
 
 
-/** \struct Exception
- *  \brief Exception objects serves as error notifications, containing a  code and a message
- */
-typedef struct task{
-	const char * msg;		///< Exception message
-	ExceptionCode code;		///< Exception code
-}Exception;
-
+//------------------------------------------------------------------------------------
+//-- DEFINES -------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 /** \def EXCEPTION_INIT
  *  \brief Set default values for code and msg exception properties
  */
 #define Exception_INIT()		{"", NO_EXCEPTIONS}
+
+//------------------------------------------------------------------------------------
+//-- PROTOTYPES ----------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 /**
  *  \fn Exception_throw
@@ -60,7 +76,7 @@ typedef struct task{
  *	\param e Exception code
  *	\return Exception message
  */
-void Exception_throw(Exception * e, ExceptionCode code, const char * message);
+void Exception_throw(ExceptionPtr e, ExceptionCode code, const char * message);
 
 /**
  *  \fn Exception_raised
@@ -68,14 +84,14 @@ void Exception_throw(Exception * e, ExceptionCode code, const char * message);
  *	\param e Exception
  *	\return true is code is != NO_EXCEPTIONS
  */
-char Exception_raised(Exception * e);
+char Exception_raised(ExceptionPtr e);
 
 /**
  *  \fn Exception_clear
  *  \brief Clears exception code
  *	\param e Exception
  */
-void Exception_clear(Exception * e);
+void Exception_clear(ExceptionPtr e);
 
 
 /**
@@ -84,5 +100,9 @@ void Exception_clear(Exception * e);
  *	\param e Exception
  */
 #define catch(e)	if(Exception_raised(e))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SRC_OS_EXCEPTION_H_ */

@@ -6,6 +6,7 @@
  */
 
 #include "Timer.h"
+#include "Memory.h"
 #include "../port/platforms.h" 
 
 
@@ -17,92 +18,114 @@
 extern int OS_getTimeTicks(int microseconds);
 
 //------------------------------------------------------------------------------------
-//-- PRIVATE MEMBERS -----------------------------------------------------------------
+//-- PRIVATE TYPEDEFS ----------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------------
-void Timer_initialize(Timer* tmr, int microseconds, char repeat, TimeoutCallback timeout, void * cbhandler, Exception *e){
-	int ticks = OS_getTimeTicks(microseconds);
-	if(!tmr || !timeout){
-		Exception_throw(e, BAD_ARGUMENT, "Timer_initialize param is null");
-		return; 
-	}
-	tmr->status = TMR_STOPPED;
-	tmr->count = ticks;
-	tmr->repeat_count = ticks;
-	if(repeat){
-		tmr->status |= TMR_REPEAT;
-	}
-	tmr->timeout = timeout;
-	tmr->cbhandler = cbhandler;
-}
-
+/** \struct Timer
+ *  \brief Timer data structure
+ */
+typedef struct {
+	TimerStatEnum status;		///< status
+	uint32_t count;				///< count (in ticks)
+	uint32_t repeat_count;		///< repeating count on repeat mode
+	TimeoutCallback timeout;	///< timeout callback to invoke on timer countdown
+	TimerHandlerObj cbhandler;	///< timeout callback handler
+}Timer;
 
 //------------------------------------------------------------------------------------
-void Timer_start(Timer* tmr, int microseconds, Exception *e){
-	int ticks = OS_getTimeTicks(microseconds);
-	if(!tmr || !ticks){
-		Exception_throw(e, BAD_ARGUMENT, "Timer_start tmr is null");
-		return; 
+//-- PUBLIC FUNCTIONS ----------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+
+TimerPtr Timer_create(ExceptionPtr e){
+	Timer *tmr = (Timer*)Memory_alloc(sizeof(Timer), e);
+	catch(e){
+		return 0;
 	}
 	PLATFORM_ENTER_CRITICAL();
-	tmr->count = ticks;
-	tmr->repeat_count = ticks;
-	tmr->status |= TMR_TIMMING;
+	tmr->status = TMR_STOPPED;
+	tmr->count = 0;
+	tmr->repeat_count = 0;
+	tmr->timeout = 0;
+	tmr->cbhandler = 0;
+	PLATFORM_EXIT_CRITICAL();
+	return tmr;
+}
+
+//------------------------------------------------------------------------------------
+void Timer_kill(TimerPtr* ptimer, ExceptionPtr e){
+	Timer** pthis = (Timer**)ptimer;
+	if(!ptimer || !pthis){
+		Exception_throw(e, BAD_ARGUMENT, "Timer_kill ptimer is null");
+		return;
+	}
+	PLATFORM_ENTER_CRITICAL();
+	Timer* this;
+	this = *pthis;
+	if(!this){
+		PLATFORM_EXIT_CRITICAL();
+		Exception_throw(e, BAD_ARGUMENT, "Timer_kill *ptimer is null");
+		return;
+	}
+	Memory_free(this, e);
+	*pthis = 0;
 	PLATFORM_EXIT_CRITICAL();
 }
 
 
 //------------------------------------------------------------------------------------
-void Timer_startEx(Timer* tmr, int microseconds, char repeat, TimeoutCallback timeout, void * cbhandler, Exception *e){
+void Timer_start(TimerPtr tmr, uint32_t microseconds, uint8_t repeat, TimeoutCallback timeout, TimerHandlerObj cbhandler,	ExceptionPtr e){
 	int ticks = OS_getTimeTicks(microseconds);
 		if(!tmr || !ticks || !timeout){
 		Exception_throw(e, BAD_ARGUMENT, "Timer_startEx param is null");
 		return;
 	}
+	Timer *this = (Timer*)tmr;
 	PLATFORM_ENTER_CRITICAL();
-	tmr->count = ticks;
-	tmr->repeat_count = ticks;
+	this->count = ticks;
+	this->repeat_count = ticks;
 	if(repeat){
-		tmr->status |= TMR_REPEAT;
+		this->status |= TMR_REPEAT;
 	}
-	tmr->timeout = timeout;
-	tmr->cbhandler = cbhandler;
-	tmr->status |= TMR_TIMMING;
+	this->timeout = timeout;
+	this->cbhandler = cbhandler;
+	this->status |= TMR_TIMMING;
 	PLATFORM_EXIT_CRITICAL();
 }
 
 
 //------------------------------------------------------------------------------------
-void Timer_stop(Timer* tmr, Exception *e){
+void Timer_stop(TimerPtr tmr, ExceptionPtr e){
 	if(!tmr){
 		Exception_throw(e, BAD_ARGUMENT, "Timer_stop tmr is null");
 		return; 
 	}
+	Timer *this = (Timer*)tmr;
 	PLATFORM_ENTER_CRITICAL();
-	tmr->status &= ~TMR_TIMMING;
+	this->status &= ~TMR_TIMMING;
 	PLATFORM_EXIT_CRITICAL();
 }
 
 
 //------------------------------------------------------------------------------------
-void Timer_tick(Timer* tmr, Exception *e){
+void Timer_tick(TimerPtr tmr, ExceptionPtr e){
 	if(!tmr){
 		Exception_throw(e, BAD_ARGUMENT, "Timer_tick tmr is null");
 		return; 
 	}
+	Timer *this = (Timer*)tmr;
 	PLATFORM_ENTER_CRITICAL();
-	if((tmr->status & TMR_TIMMING) == 0){
+	if((this->status & TMR_TIMMING) == 0){
 		PLATFORM_EXIT_CRITICAL();
 		return;
 	}
-	if(--tmr->count <= 0){
-		tmr->status &= ~TMR_TIMMING;
-		if((tmr->status & TMR_REPEAT) != 0){
-			tmr->count = tmr->repeat_count;
-			tmr->status |= TMR_TIMMING;
+	if(--this->count <= 0){
+		this->status &= ~TMR_TIMMING;
+		if((this->status & TMR_REPEAT) != 0){
+			this->count = this->repeat_count;
+			this->status |= TMR_TIMMING;
 		}
-		tmr->timeout(tmr->cbhandler);
+		this->timeout(this->cbhandler);
 	}
 	PLATFORM_EXIT_CRITICAL();
 }

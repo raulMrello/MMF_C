@@ -29,26 +29,35 @@
 #ifndef MMF_OS_MMF_H_
 #define MMF_OS_MMF_H_
 
-//------------------------------------------------------------------------------------
-#define __MMF_C_VERSION "0.8.06042015001"
-
-
-//------------------------------------------------------------------------------------
-/**
- * platforms.h header includes definitions according with the platform to port MMF. In
- * this file must be declared a pair of macros for task suspension and resuming:
- * PLATFORM_TIMER_START, PLATFORM_TIMER_STOP
- *
- * Users must adapt it according with their needs.
- */
-#include "../port/platforms.h"
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
 //------------------------------------------------------------------------------------
-#include "OS.h"			///< required for OS primitives like: OS_ALLOC, OS_schedule ...
-#include "Task.h"		///< required for Task primitives like: Task_initialize ...
-#include "Topic.h"		///< required for Topic primitives like: Topic_notify ...
-#include "Exception.h"	///< required for Exception primitives like: catch ...
-#include "Timer.h"		///< required for Timming primitives like: Timer_start ...
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
+#include "../port/platforms.h"	///< required for porting
+#include "OS.h"					///< required for OS primitives like: OS_ALLOC, OS_schedule ...
+#include "Task.h"				///< required for Task primitives like: Task_initialize ...
+#include "Topic.h"				///< required for Topic primitives like: Topic_notify ...
+#include "Exception.h"			///< required for Exception primitives like: catch ...
+#include "Timer.h"				///< required for Timming primitives like: Timer_start ...
+#include "Fifo.h"				///< required for Fifo management
+#include "Memory.h"				///< required for Memory management
+#include "List.h"				///< required for List management
+
+//------------------------------------------------------------------------------------
+//-- DEFINES -------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+#define __MMF_C_VERSION "0.9.09042015001"
+
+
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* MMF_OS_MMF_H_ */

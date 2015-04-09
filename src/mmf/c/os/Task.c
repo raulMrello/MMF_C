@@ -6,6 +6,8 @@
  */
 
 #include "Task.h"
+#include "Timer.h"
+#include "Fifo.h"
 #include "../port/platforms.h" 
 
 #ifndef true
@@ -21,10 +23,45 @@
 //------------------------------------------------------------------------------------
 
 /** Required local members from other mmf modules */
-extern void OS_start(Task* t, Exception *e);
+extern void OS_start(TaskPtr t, ExceptionPtr e);
 
 //------------------------------------------------------------------------------------
-//-- PRIVATE MEMBERS -----------------------------------------------------------------
+//-- PRIVATE TYPEDEFS ----------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** Event flag structure that manages the way of event flag waiting. */
+typedef struct {
+	/** task properties */
+	EvtWaitModeEnum mode;		///< Waiting mode
+	uint16_t events;			///< Event flag combination
+}EvtFlag;
+
+/** Tasks are pieces of software capable to be executed in a run-to-completion manner, this
+ *  implies that they must return to allow other tasks to be executed (they never must block).
+ *  Tasks can be STOPPED during initialization, WAITING for an event, READY for execution,
+ *  RUNNING during execution and YIELD if allow other tasks to take control of the cpu. */
+typedef struct {
+	/** task properties */
+	const char * name;			///< Task name
+	uint8_t prio;				///< Task priority in the range PRIO_CRITICAL .. PRIO_LOW + SUBPRIO_MIN
+	StatEnum status;			///< Task status flag
+	uint8_t isSuspended;		///< Suspension flag
+	uint32_t event;				///< Pending event flags (include topics, suspensions and eventflags)
+	EvtFlag evhandler;			///< Event flag handler structure
+	FifoPtr topicpool;			///< Topic pool buffer
+	TimerPtr tmr;				///< Timer for suspension operations
+
+	/** task interface */
+	TaskHandlerObj cbhandler;				///< inherit object
+	InitCallback init;						///< initialization callback
+	OnYieldTurnCallback onYieldTurn;		///< execution callback on yield turn (NO_EVENTS)
+	OnResumeCallback onResume;				///< execution callback on yield turn (NO_EVENTS)
+	OnEventFlagCallback onEventFlag;		///< execution callback on event flag
+	OnTopicUpdateCallback onTopicUpdate;	///< execution callback on topic update
+}Task;
+
+//------------------------------------------------------------------------------------
+//-- PRIVATE PROTOTYPES --------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
 /** \fn Task_start
@@ -32,7 +69,7 @@ extern void OS_start(Task* t, Exception *e);
  *  \param t Task
  *  \param e Exception code (0: success)
  */
-void Task_start(Task* t, Exception *e);
+void Task_start(TaskPtr t, ExceptionPtr e);
 
 /** \fn Task_isYield
  *  \brief Checks if it is yielded
@@ -40,7 +77,7 @@ void Task_start(Task* t, Exception *e);
  *  \param e Exception code (0: success)
  *  \return true or false
  */
-char Task_isYield(Task* t, Exception *e);
+char Task_isYield(TaskPtr t, ExceptionPtr e);
 
 /** \fn Task_isReady
  *  \brief Checks if it is ready for execution
@@ -48,30 +85,46 @@ char Task_isYield(Task* t, Exception *e);
  *  \param e Exception code (0: success)
  *  \return true or false
  */
-char Task_isReady(Task* t, Exception *e);
+char Task_isReady(TaskPtr t, ExceptionPtr e);
 
 /** \fn Task_setReady
  *  \brief Sets a task ready, indicating which event has caused it.
- *  \param t Task
+ *  \param task Task
  *  \param evt Event code which causes the state change
  *  \param e Exception code (0: success)
  */
-void Task_setReady(Task* t, int evt, Exception *e);
+void Task_setReady(TaskPtr task, uint32_t evt, ExceptionPtr e);
 
 /** \fn Task_setStop
  *  \brief Sets a task stopped
  *  \param t Task
  *  \param e Exception code (0: success)
  */
-void Task_setStop(Task* t, Exception *e);
+void Task_setStop(TaskPtr t, ExceptionPtr e);
 
-/** \fn Task_prio
+/** \fn Task_getPrio
  *  \brief Get task priority
  *  \param t Task
  *  \param e Exception code (0: success)
  *  \return Priority
  */
-int Task_prio(Task* t, Exception *e);
+uint8_t Task_getPrio(TaskPtr t, ExceptionPtr e);
+
+/** \fn Task_getName
+ *  \brief Get task name
+ *  \param t Task
+ *  \param e Exception code (0: success)
+ *  \return Task name
+ */
+const char * Task_getName(TaskPtr t, ExceptionPtr e);
+
+/** \fn Task_getTimer
+ *  \brief Get task timer
+ *  \param t Task
+ *  \param e Exception code (0: success)
+ *  \return Task timer
+ */
+TimerPtr Task_getTimer(TaskPtr t, ExceptionPtr e);
 
 /** \fn Task_exec
  *  \brief Executes task exec callback
@@ -79,18 +132,15 @@ int Task_prio(Task* t, Exception *e);
  *  \param evt Event
  *  \param e Exception code (0: success)
  */
-void Task_execCb(Task* t, Exception *e);
+void Task_execCb(TaskPtr t, ExceptionPtr e);
 
 /** \fn Task_addTopic
  *  \brief Adds a new topic update to the topic pool
  *  \param t Task
- *  \param id Topic id
- *  \param name Topic name id
- *  \param data Topic data
- *  \param datasize Topic data size
+ *  \param topic Topic data
  *  \param e Exception code (0: success)
  */
-void Task_addTopic(Task*t, int id, const char * name, void *data, int datasize, int* pcount, void (*done)(void*), void* publisher, Exception *e);
+void Task_addTopic(TaskPtr t, TopicData *topic, ExceptionPtr e);
 
 /** \fn Task_addTopic
  *  \brief Adds a new topic update to the topic pool
@@ -98,14 +148,14 @@ void Task_addTopic(Task*t, int id, const char * name, void *data, int datasize, 
  *  \param td Topic data extracted from topic fifo pool
  *  \param e Exception code (0: success)
  */
-void Task_popTopic(Task*t, TopicData *td, Exception *e);
+void Task_popTopic(TaskPtr t, TopicData *td, ExceptionPtr e);
+
 
 //------------------------------------------------------------------------------------
-//-- PRIVATE MEMBERS -----------------------------------------------------------------
+//-- PRIVATE FUNCTIONS ---------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------------
-static void timertask_callback(void* handler){
+static void timertask_callback(TaskHandlerObj handler){
 	if(!handler) 
 		return;
 	Task* t = (Task*)handler;
@@ -113,183 +163,93 @@ static void timertask_callback(void* handler){
 }
 
 //------------------------------------------------------------------------------------
-void Task_initialize(	Task* task,
-						char* name,
-						int prio,
-						TopicData * topic_pool,
-						int topic_pool_size,
-						InitCallback init,
-						OnYieldTurnCallback onYieldTurn,
-						OnResumeCallback onResume,
-						OnEventFlagCallback onEventFlag,
-						OnTopicUpdateCallback onTopicUpdate,
-						void * cbhandler,
-						Exception *e){
-	int i;
-	if(!task){ 
-		Exception_throw(e, BAD_ARGUMENT, "Task_initialize task is null");
-		return; 
-	}
-	task->status = STOPPED;
-	task->isSuspended = false;
-	Timer_initialize(&(task->tmr), 0, 0, timertask_callback, task, e);
-	catch(e){
-		return;
-	}
-	task->event = EVT_NONE;
-	task->name = name;
-	if(!name)
-		task->name = "";
-	task->evhandler = (EvtFlag){WAIT_AND, 0};
-	task->prio = prio;
-	task->topicpool.topicdata = topic_pool;
-	task->topicpool.poolsize = topic_pool_size;
-	task->topicpool.pread = 0;
-	task->topicpool.pwrite = 0;
-	task->topicpool.status = POOL_EMPTY;
-	if(task->topicpool.topicdata){
-		for(i=0; i < task->topicpool.poolsize; i++){
-			task->topicpool.topicdata[i].id = 0;
-			task->topicpool.topicdata[i].data = 0;
-			task->topicpool.topicdata[i].datasize = 0;
-		}
-	}
-	task->init = init;
-	task->onYieldTurn = onYieldTurn;
-	task->onResume = onResume;
-	task->onEventFlag = onEventFlag;
-	task->onTopicUpdate = onTopicUpdate;
-	task->cbhandler = cbhandler;
-	OS_start(task, e);
-}
-
-
-//------------------------------------------------------------------------------------
-void Task_start(Task* task, Exception *e){
+void Task_start(TaskPtr task, ExceptionPtr e){
 	if(!task){ 
 		Exception_throw(e, BAD_ARGUMENT, "Task_start task is null");
 		return; 
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	task->status = READY;
-	task->init(task->cbhandler);
+	this->status = READY;
+	this->init(this->cbhandler);
 	// if task keeps READY (not suspended nor waiting), then allows execution
-	if(task->status == READY){
-		task->event |= EVT_YIELD;
+	if(this->status == READY){
+		this->event |= EVT_YIELD;
 	}
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Task_suspend(Task* task, int delay_us, Exception *e){
-	if(!task){ 
-		Exception_throw(e, BAD_ARGUMENT, "Task_suspend task is null");
-		return; 
-	}
-	PLATFORM_ENTER_CRITICAL();
-	task->isSuspended = true;
-	Timer_start(&(task->tmr), delay_us, e);
-	PLATFORM_EXIT_CRITICAL();
-}
-
-//------------------------------------------------------------------------------------
-void Task_resume(Task* task, char forced, Exception *e){
-	if(!task){ 
-		Exception_throw(e, BAD_ARGUMENT, "Task_resume task is null");
-		return; 
-	}
-	PLATFORM_ENTER_CRITICAL();
-	// if resume forced, stops running timer, and do not apply READY state.
-	if(forced){
-		task->isSuspended = false;
-		Timer_stop(&(task->tmr), e);
-		PLATFORM_EXIT_CRITICAL();
-		return;
-	}
-	task->isSuspended = false;
-	task->status = READY;
-	task->event &= ~EVT_YIELD;
-	task->event |= EVT_RESUMED;
-	PLATFORM_EXIT_CRITICAL();
-}
-
-//------------------------------------------------------------------------------------
-void Task_yield(Task* task, Exception *e){
-	if(!task){ 
-		Exception_throw(e, BAD_ARGUMENT, "Task_yield task is null");
-		return; 
-	}
-	PLATFORM_ENTER_CRITICAL();
-	task->status = YIELD;
-	PLATFORM_EXIT_CRITICAL();
-}
-
-//------------------------------------------------------------------------------------
-char Task_isYield(Task* task, Exception *e){
+char Task_isYield(TaskPtr task, ExceptionPtr e){
 	if(!task){ 
 		Exception_throw(e, BAD_ARGUMENT, "Task_isYield task is null");
 		return false; 
 	}
-	return ((task->status == YIELD)? true : false);
+	Task *this = (Task*)task;
+	return ((this->status == YIELD)? true : false);
 }
 
 //------------------------------------------------------------------------------------
-char Task_isReady(Task* task, Exception *e){
+char Task_isReady(TaskPtr task, ExceptionPtr e){
 	if(!task){ 
 		Exception_throw(e, BAD_ARGUMENT, "Task_isReady task is null");
 		return false; 
 	}
-	return ((task->status == READY)? true : false);
+	Task *this = (Task*)task;
+	return ((this->status == READY)? true : false);
 }
 
 //------------------------------------------------------------------------------------
-void Task_setReady(Task* task, int evt, Exception *e){
+void Task_setReady(TaskPtr task, uint32_t evt, ExceptionPtr e){
 	if(!task){ 
 		Exception_throw(e, BAD_ARGUMENT, "Task_setReady task is null");
 		return; 
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	task->event |= evt;
-	task->status = READY;
-	if(task->isSuspended){
-		Task_resume(task, true, e);
+	this->event |= evt;
+	this->status = READY;
+	if(this->isSuspended){
+		Task_resume(this, true, e);
 	}
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Task_setStop(Task* task, Exception *e){
+void Task_setStop(TaskPtr task, ExceptionPtr e){
 	if(!task){ 
 		Exception_throw(e, BAD_ARGUMENT, "Task_setStop task is null");
 		return; 
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	task->status = STOPPED;
+	this->status = STOPPED;
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Task_execCb(Task* task, Exception *e){
+void Task_execCb(TaskPtr task, ExceptionPtr e){
 	if(!task){ 
 		Exception_throw(e, BAD_ARGUMENT, "Task_execCb task is null");
 		return; 
 	}
-	task->status &= ~READY;
-	if((task->event & EVT_RESUMED)==EVT_RESUMED && task->onResume){
-		task->event &= ~EVT_RESUMED;
-		task->onResume(task->cbhandler);
+	Task *this = (Task*)task;
+	this->status &= ~READY;
+	if((this->event & EVT_RESUMED)==EVT_RESUMED && this->onResume){
+		this->event &= ~EVT_RESUMED;
+		this->onResume(this->cbhandler);
 	}
-	if((task->event & EVT_TOPIC)==EVT_TOPIC && task->onTopicUpdate){
-		task->event &= ~EVT_TOPIC;
+	if((this->event & EVT_TOPIC)==EVT_TOPIC && this->onTopicUpdate){
+		this->event &= ~EVT_TOPIC;
 		// processes all pending topics until topic fifo pool is empty
 		for(;;){
 			TopicData td;
-			Task_popTopic(task, &td, e);
+			Task_popTopic(this, &td, e);
 			catch(e){
 				Exception_clear(e);
 				break;
 			}
-			task->onTopicUpdate(task->cbhandler, &td);
+			this->onTopicUpdate(this->cbhandler, &td);
 			// decrease topic count and if reaches 0, then notifies to publisher, that
 			// topic has been completely processed by all the subscribers.
 			*(td.pcount) -= 1;
@@ -298,117 +258,218 @@ void Task_execCb(Task* task, Exception *e){
 			}
 		}
 	}
-	if((task->event & EVT_FLAGS)==EVT_FLAGS && task->onEventFlag){
+	if((this->event & EVT_FLAGS)==EVT_FLAGS && this->onEventFlag){
 		PLATFORM_ENTER_CRITICAL();
-		int event = (task->event >> 4);
+		int event = (this->event >> 4);
 		// checks if waiting_or or waiting_and
-		if(task->evhandler.mode == WAIT_OR && (task->evhandler.events & event)!=0){
-			task->evhandler.events &= ~event;
-			task->event &= ~EVT_FLAGMASK;
+		if(this->evhandler.mode == WAIT_OR && (this->evhandler.events & event)!=0){
+			this->evhandler.events &= ~event;
+			this->event &= ~EVT_FLAGMASK;
 			PLATFORM_EXIT_CRITICAL();
-			task->onEventFlag(task->cbhandler, event);
+			this->onEventFlag(this->cbhandler, event);
 		}
-		else if(task->evhandler.mode == WAIT_AND && (task->evhandler.events & event)==task->evhandler.events){
-			task->evhandler.events &= ~event;
-			task->event &= ~EVT_FLAGMASK;
+		else if(this->evhandler.mode == WAIT_AND && (this->evhandler.events & event)==this->evhandler.events){
+			this->evhandler.events &= ~event;
+			this->event &= ~EVT_FLAGMASK;
 			PLATFORM_EXIT_CRITICAL();
-			task->onEventFlag(task->cbhandler, event);
+			this->onEventFlag(this->cbhandler, event);
 		}
 		else{
 			PLATFORM_EXIT_CRITICAL();
 		}
 	}
-	if(task->event == EVT_YIELD && task->onYieldTurn){
-		task->event &= ~EVT_YIELD;
-		task->onYieldTurn(task->cbhandler);
+	if(this->event == EVT_YIELD && this->onYieldTurn){
+		this->event &= ~EVT_YIELD;
+		this->onYieldTurn(this->cbhandler);
 	}
 }
 
 //------------------------------------------------------------------------------------
-int Task_prio(Task* task, Exception *e){
+uint8_t Task_getPrio(TaskPtr task, ExceptionPtr e){
 	if(!task){ 
-		Exception_throw(e, BAD_ARGUMENT, "Task_prio task is null");
-		return -1; 
+		Exception_throw(e, BAD_ARGUMENT, "Task_getPrio task is null");
+		return UINT8_MAX;
 	}
-	return task->prio;
+	Task *this = (Task*)task;
+	return this->prio;
 }
 
 //------------------------------------------------------------------------------------
-void Task_addTopic(Task* task, int id, const char * name, void *data, int datasize, int *count, void (*done)(void*), void* publisher, Exception *e){
-	if(!task || !id){
-		Exception_throw(e, BAD_ARGUMENT, "Task_addTopic task or id null");
+const char * Task_getName(TaskPtr task, ExceptionPtr e){
+	if(!task){
+		Exception_throw(e, BAD_ARGUMENT, "Task_getName task is null");
+		return "";
+	}
+	Task *this = (Task*)task;
+	return this->name;
+}
+
+//------------------------------------------------------------------------------------
+TimerPtr Task_getTimer(TaskPtr task, ExceptionPtr e){
+	if(!task){
+		Exception_throw(e, BAD_ARGUMENT, "Task_getTimer task is null");
+		return 0;
+	}
+	Task *this = (Task*)task;
+	return this->tmr;
+}
+
+//------------------------------------------------------------------------------------
+void Task_addTopic(TaskPtr task, TopicData * topic, ExceptionPtr e){
+	if(!task || !topic){
+		Exception_throw(e, BAD_ARGUMENT, "Task_addTopic task or topic null");
 		return;
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	if(task->topicpool.status == POOL_FULL){
-		Exception_throw(e, MEMORY_ALLOC, "Task_addTopic topic_pool is full");
+	uint16_t topicsize = sizeof(TopicData);
+	Fifo_push(this->topicpool, topic, &topicsize, e);
+	catch(e){
 		PLATFORM_EXIT_CRITICAL();
 		return;
 	}
-	int i = task->topicpool.pwrite;
-	task->topicpool.status = POOL_DATA;
-	task->topicpool.topicdata[i].id = id;
-	task->topicpool.topicdata[i].name = name;
-	task->topicpool.topicdata[i].data = data;
-	task->topicpool.topicdata[i].datasize = datasize;
-	task->topicpool.topicdata[i].pcount = count;
-	task->topicpool.topicdata[i].done = done;
-	task->topicpool.topicdata[i].publisher = publisher;
-	task->topicpool.pwrite = (task->topicpool.pwrite < (task->topicpool.poolsize-1))? (task->topicpool.pwrite+1) : 0;
-	if(task->topicpool.pwrite == task->topicpool.pread){
-		task->topicpool.status = POOL_FULL;
-	}
 	PLATFORM_EXIT_CRITICAL();
-	Task_setReady(task, EVT_TOPIC, e);
+	Task_setReady(this, EVT_TOPIC, e);
 }
 
 //------------------------------------------------------------------------------------
-void Task_popTopic(Task* task, TopicData* td, Exception *e){
+void Task_popTopic(TaskPtr task, TopicData* td, ExceptionPtr e){
 	if(!task || !td){
 		Exception_throw(e, BAD_ARGUMENT, "Task_addTopic task or topic null");
 		return;
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	if(task->topicpool.status == POOL_EMPTY){
-		Exception_throw(e, MEMORY_ALLOC, "Task_addTopic topic_pool is empty");
-		PLATFORM_EXIT_CRITICAL();
+	uint16_t topicsize = sizeof(TopicData);
+	Fifo_pop(this->topicpool, td, &topicsize, e);
+	PLATFORM_EXIT_CRITICAL();
+}
+
+
+//------------------------------------------------------------------------------------
+//-- PUBLIC FUNCTIONS ----------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+TaskPtr Task_create(	const char* name, uint8_t prio, int topic_pool_size, InitCallback init,
+						OnYieldTurnCallback onYieldTurn, OnResumeCallback onResume,
+						OnEventFlagCallback onEventFlag, OnTopicUpdateCallback onTopicUpdate,
+						TaskHandlerObj cbhandler, ExceptionPtr e){
+	Task *this = (Task*)Memory_alloc(sizeof(Task), e);
+	catch(e){
+		return 0;
+	}
+	// create timer task
+	this->tmr = Timer_create(e);
+	catch(e){
+		Memory_free(this, e);
+		return 0;
+	}
+	// create topic pool if required
+	this->topicpool = 0;
+	if(topic_pool_size){
+		this->topicpool = Fifo_create(topic_pool_size, e);
+		catch(e){
+			Timer_kill(this->tmr, e);
+			Memory_free(this, e);
+			return 0;
+		}
+	}
+	// initializes internal data
+	this->status = STOPPED;
+	this->isSuspended = false;
+	this->event = EVT_NONE;
+	this->name = name;
+	if(!name)
+		this->name = "";
+	this->evhandler = (EvtFlag){WAIT_AND, 0};
+	this->prio = prio;
+	this->init = init;
+	this->onYieldTurn = onYieldTurn;
+	this->onResume = onResume;
+	this->onEventFlag = onEventFlag;
+	this->onTopicUpdate = onTopicUpdate;
+	this->cbhandler = (cbhandler)? cbhandler : this;
+	OS_start(this, e);
+	return this;
+}
+
+//------------------------------------------------------------------------------------
+void Task_suspend(TaskPtr task, uint32_t delay_us, ExceptionPtr e){
+	if(!task){
+		Exception_throw(e, BAD_ARGUMENT, "Task_suspend task is null");
 		return;
 	}
-	int i = task->topicpool.pread;
-	*td = task->topicpool.topicdata[i];
-	task->topicpool.pread = (task->topicpool.pread < (task->topicpool.poolsize-1))? (task->topicpool.pread+1) : 0;
-	if(task->topicpool.pread == task->topicpool.pwrite){
-		task->topicpool.status = POOL_EMPTY;
-	}
+	Task *this = (Task*)task;
+	PLATFORM_ENTER_CRITICAL();
+	this->isSuspended = true;
+	Timer_start(this->tmr, delay_us, 0, timertask_callback, this, e);
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Task_wait_or(Task* task, uint16_t evt, uint32_t delay_us, Exception *e){
+void Task_resume(TaskPtr task, uint8_t forced, ExceptionPtr e){
+	if(!task){
+		Exception_throw(e, BAD_ARGUMENT, "Task_resume task is null");
+		return;
+	}
+	Task *this = (Task*)task;
+	PLATFORM_ENTER_CRITICAL();
+	// if resume forced, stops running timer, and do not apply READY state.
+	if(forced){
+		this->isSuspended = false;
+		Timer_stop(this->tmr, e);
+		PLATFORM_EXIT_CRITICAL();
+		return;
+	}
+	this->isSuspended = false;
+	this->status = READY;
+	this->event &= ~EVT_YIELD;
+	this->event |= EVT_RESUMED;
+	PLATFORM_EXIT_CRITICAL();
+}
+
+//------------------------------------------------------------------------------------
+void Task_yield(TaskPtr task, ExceptionPtr e){
+	if(!task){
+		Exception_throw(e, BAD_ARGUMENT, "Task_yield task is null");
+		return;
+	}
+	Task *this = (Task*)task;
+	PLATFORM_ENTER_CRITICAL();
+	this->status = YIELD;
+	PLATFORM_EXIT_CRITICAL();
+}
+
+//------------------------------------------------------------------------------------
+void Task_wait_or(TaskPtr task, uint16_t evt, uint32_t delay_us, ExceptionPtr e){
 	if(!task){
 		Exception_throw(e, BAD_ARGUMENT, "Task_wait_or task null");
 		return;
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	task->evhandler.mode = WAIT_OR;
-	task->evhandler.events = evt;
+	this->evhandler.mode = WAIT_OR;
+	this->evhandler.events = evt;
 	if(delay_us > 0){
-		Task_suspend(task, delay_us, e);
+		Task_suspend(this, delay_us, e);
 	}
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Task_wait_and(Task* task, uint16_t evt, uint32_t delay_us, Exception *e){
+void Task_wait_and(TaskPtr task, uint16_t evt, uint32_t delay_us, ExceptionPtr e){
 	if(!task){
 		Exception_throw(e, BAD_ARGUMENT, "Task_wait_and task null");
 		return;
 	}
+	Task *this = (Task*)task;
 	PLATFORM_ENTER_CRITICAL();
-	task->evhandler.mode = WAIT_AND;
-	task->evhandler.events = evt;
+	this->evhandler.mode = WAIT_AND;
+	this->evhandler.events = evt;
 	if(delay_us > 0){
-		Task_suspend(task, delay_us, e);
+		Task_suspend(this, delay_us, e);
 	}
 	PLATFORM_EXIT_CRITICAL();
 }
+
+

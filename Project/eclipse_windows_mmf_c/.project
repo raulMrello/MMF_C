@@ -60,6 +60,36 @@
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Exception.h</locationURI>
 		</link>
 		<link>
+			<name>c/os/Fifo.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Fifo.c</locationURI>
+		</link>
+		<link>
+			<name>c/os/Fifo.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Fifo.h</locationURI>
+		</link>
+		<link>
+			<name>c/os/List.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/List.c</locationURI>
+		</link>
+		<link>
+			<name>c/os/List.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/List.h</locationURI>
+		</link>
+		<link>
+			<name>c/os/Memory.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Memory.c</locationURI>
+		</link>
+		<link>
+			<name>c/os/Memory.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/Memory.h</locationURI>
+		</link>
+		<link>
 			<name>c/os/OS.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/c/os/OS.c</locationURI>

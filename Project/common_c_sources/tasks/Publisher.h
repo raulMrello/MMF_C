@@ -47,7 +47,7 @@ void Publisher_OnResume(PublisherTaskPtr t);
  *  \param t Publisher task object
  *  \param event Event raised
  */
-void Publisher_OnEventFlag(PublisherTaskPtr t, int event);
+void Publisher_OnEventFlag(PublisherTaskPtr t, uint16_t event);
 
 ///** \fn SPublisher_OnTopicUpdate
 // *  \brief Publisher on topic update events callback

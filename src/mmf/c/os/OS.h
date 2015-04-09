@@ -57,51 +57,43 @@
 #ifndef OS_OS_H_
 #define OS_OS_H_
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+#include <stdint.h>
 #include "Task.h"
-/** private function required during OS allocation macro */
-extern void OS_init(Task ** tasklist, int numTasks, int tick_us, Exception *e);
+#include "Exception.h"
+
+//------------------------------------------------------------------------------------
+//-- PROTOTYPES ----------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 
-/** \def OS_ALLOC
- *  \brief Allocates memory for a specific number of tasks. It creates a static array
- *  to hold the allowable tasks, and then invokes to OS_init method to initialize internal
- *  properties.
- *  \param num_tasks Max number of tasks
+/** \fn OS_init
+ *  \brief Initializes the kernel with a number of allowed tasks
+ *  \param numTasks Max number of tasks handled by the kernel
  *  \param tick_us System tick in microseconds
- *  \param e Exception object for error handling
- */
-#define OS_ALLOC(tasklist, num_tasks, tick_us, e) \
-				static Task* mmf_##tasklist[num_tasks]; \
-				OS_init(mmf_##tasklist, num_tasks, tick_us, (e))
-
-
-/** \fn OS_start
- *  \brief Starts a new task. Insert the task into the task list according with its priority.
- *  It can throws exceptions on null pointers or tasklist allocation violations
- *  \param t Task reference to be allocated in the kernel
- *  \param prio Task priority
  *  \param e Exception object
  */
-void OS_start(Task* t, Exception *e);
+void OS_init(uint8_t numTasks, uint32_t tick_us, ExceptionPtr e);
 
-/** \fn OS_kill
- *  \brief Deallocates a task out of the kernel.
- *  \param t Task reference to be deallocated from the kernel
- *  \param e Exception object
- */
-void OS_kill(Task* t, Exception *e);
 
 /** \fn OS_schedule
  *  \brief kernel scheduling mechanism. Evaluates next highest priority task and executes it.
  *  \param e Exception object
  */
-void OS_schedule(Exception *e);
+void OS_schedule(ExceptionPtr e);
 
 /** \fn OS_schedule_once
  *  \brief kernel scheduling mechanism. Evaluates next highest priority task and executes it. Then returns
  *  \param e Exception object
  */
-void OS_schedule_once(Exception *e);
+void OS_schedule_once(ExceptionPtr e);
 
 /** \fn OS_log
  *  \brief Generates a debug log with kernel statistics into a buffer passed as argument.
@@ -117,14 +109,16 @@ void OS_log(char* logbuffer, int logbuffersize);
  *  \param event Combination of event flags
  *  \param e Exception object
  */
-void OS_send_event(Task * to, const char * taskname, uint16_t event, Exception * e);
+void OS_send_event(TaskPtr to, const char * taskname, uint16_t event, ExceptionPtr e);
 
 /** \fn OS_tick
  *  \brief Generates a kernel tick for suspended tasks
  *  \param e Exception object
  */
-void OS_tick(Exception * e);
+void OS_tick(ExceptionPtr e);
 
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* OS_OS_H_ */

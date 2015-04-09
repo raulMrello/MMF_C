@@ -10,8 +10,8 @@
 
 #include "../../../src/mmf/c/os/mmf.h"
 
-Topic * MyTopic_initialize(const char * name);
-Topic * MyTopic_getRef(void);
+TopicPtr MyTopic_initialize(const char * name);
+TopicPtr MyTopic_getRef(void);
 int MyTopic_getId(void);
 const char * MyTopic_getName(void);
 

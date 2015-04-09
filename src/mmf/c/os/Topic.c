@@ -7,16 +7,33 @@
 
 #include "Topic.h"
 #include "Task.h"
+#include "Memory.h"
 
 //------------------------------------------------------------------------------------
 //-- REQUIRED MMF DEPENDENCIES -------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-extern void Task_setReady(Task* t, int evt, Exception *e);
-extern void Task_addTopic(Task*t, int id, const char* name, void *data, int datasize, int *count, void (*done)(void*), void* publisher, Exception *e);
+extern void Task_addTopic(TaskPtr task, TopicData topic, ExceptionPtr e);
 
 //------------------------------------------------------------------------------------
-//-- PRIVATE MEMBERS -----------------------------------------------------------------
+//-- PRIVATE TYPEDEFS ----------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** \struct Topic
+ *  \brief Topic struct represents the dynamic piece of software in which Observers can subscribe to get
+ *  track of its evolution (updates)
+ */
+typedef struct {
+	int id;						///< topic id
+	const char * name;			///< topic name id
+	void * data;				///< topic data
+	int datasize;				///< topic data size
+	int count;					///< topic producer/consumer count
+	ListPtr observerlist;		///< declaration of observer list
+}Topic;
+
+//------------------------------------------------------------------------------------
+//-- PRIVATE DEFINES -----------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
 #ifndef true
@@ -28,94 +45,133 @@ extern void Task_addTopic(Task*t, int id, const char* name, void *data, int data
 #endif
 
 //------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------
+//-- PUBLIC FUNCTIONS ----------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-
-//------------------------------------------------------------------------------------
-void Topic_initialize(Topic* topic, const char * name, void ** oblist, int listsize, Exception *e){
-	int i;
-	if(!topic){
-		Exception_throw(e, BAD_ARGUMENT, "Topic_initialize topic is null");
-		return;
+TopicPtr Topic_create(const char* name, ExceptionPtr e){
+	Topic *topic = (Topic*)Memory_alloc(sizeof(Topic), e);
+	catch(e){
+		return 0;
+	}
+	topic->observerlist = List_create(e);
+	catch(e){
+		Memory_free(topic, e);
+		return 0;
 	}
 	topic->id = (int)topic;
 	if(!name)
 		topic->name = "";
 	else
 		topic->name = name;
-	topic->observerlist = oblist;
-	topic->listsize = listsize;
-	for(i = 0; i < listsize; i++){
-		topic->observerlist[i] = (void*)0;
-	}
 	topic->data = 0;
 	topic->datasize = 0;
+	return topic;
 }
 
 //------------------------------------------------------------------------------------
-void Topic_notify(Topic* topic, void * data, int datasize, void (*done)(void*), void* publisher, Exception *e){
-	int i;
+void Topic_kill(TopicPtr *ptopic, ExceptionPtr e){
+	Topic** pthis = (Topic**)ptopic;
+	if(!ptopic || !pthis){
+		Exception_throw(e, BAD_ARGUMENT, "Topic_kill ptopic is null");
+		return;
+	}
+	PLATFORM_ENTER_CRITICAL();
+	Topic* this;
+	this = *pthis;
+	if(!this){
+		PLATFORM_EXIT_CRITICAL();
+		Exception_throw(e, BAD_ARGUMENT, "Topic_kill *ptopic is null");
+		return;
+	}
+	List_kill(this->observerlist, e);
+	Memory_free(*pthis, e);
+	catch(e){
+		PLATFORM_EXIT_CRITICAL();
+		return;
+	}
+	*pthis = 0;
+	PLATFORM_EXIT_CRITICAL();
+}
+
+//------------------------------------------------------------------------------------
+void Topic_notify(TopicPtr topic, void * data, int datasize, void (*done)(void*), void* publisher, ExceptionPtr e){
 	if(!topic){
 		Exception_throw(e, BAD_ARGUMENT, "Topic_notify topic is null");
 		return;
 	}
+	Topic *this = (Topic*)topic;
 	PLATFORM_ENTER_CRITICAL();
-	topic->data = data;
-	topic->datasize = datasize;
-	topic->count = 0;
-	for(i = 0; i < topic->listsize; i++){
-		if(topic->observerlist[i]){
-			Task* t = (Task*)topic->observerlist[i];
-			topic->count++;
-			// inserts into the topic pool
-			Task_addTopic(t, topic->id, topic->name, topic->data, topic->datasize, &topic->count, done, publisher, e);
-			catch(e){
-				PLATFORM_EXIT_CRITICAL();
-				return;
-			}
+	this->data = data;
+	this->datasize = datasize;
+	this->count = 0;
+	TaskPtr t = (TaskPtr)List_getFirstItem(this->observerlist, e);
+	catch(e){
+		PLATFORM_EXIT_CRITICAL();
+		return;
+	}
+	for(;;){
+		this->count++;
+		// inserts into the topic pool
+		Task_addTopic(t, (TopicData){this->id, this->name, this->data, this->datasize, &this->count, done, publisher}, e);
+		catch(e){
+			break;
+		}
+		// select next subscriber
+		t = (TaskPtr)List_getNextItem(this->observerlist, e);
+		catch(e){
+			break;
 		}
 	}
 	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Topic_attach(Topic* topic, void * observer, Exception *e){
-	int i;
+void Topic_attach(TopicPtr topic, void * observer, ExceptionPtr e){
 	if(!topic){
 		Exception_throw(e, BAD_ARGUMENT, "Topic_attach topic is null");
 		return;
 	}
+	PLATFORM_ENTER_CRITICAL();
+	Topic *this = (Topic*)topic;
+	Item item = List_searchItem(this, observer, e);
 	// if already attached, exit
-	for(i = 0; i < topic->listsize; i++){
-		if(topic->observerlist[i] == observer){
-			return;
-		}
+	if(item){
+		PLATFORM_EXIT_CRITICAL();
+		Exception_throw(e, MEMORY_ALLOC, "Topic_attach observer exists");
+		return;
 	}
 	// else attach
-	for(i = 0; i < topic->listsize; i++){
-		if(topic->observerlist[i] == 0){
-			topic->observerlist[i] = observer;
-			return;
-		}
-	}
-	// if list full, throw exception
-	Exception_throw(e, MEMORY_ALLOC, "Topic_attach list is full");
+	List_addItem(this->observerlist, observer, e);
+	PLATFORM_EXIT_CRITICAL();
 }
 
 //------------------------------------------------------------------------------------
-void Topic_dettach(Topic* topic, void * observer, Exception *e){
-	int i;
+void Topic_dettach(TopicPtr topic, void * observer, ExceptionPtr e){
 	if(!topic){
 		Exception_throw(e, BAD_ARGUMENT, "Topic_dettach topic is null");
 		return;
 	}
-	for(i = 0; i < topic->listsize; i++){
-		if(topic->observerlist[i] == observer){
-			topic->observerlist[i] = 0;
-			return;
-		}
+	PLATFORM_ENTER_CRITICAL();
+	Topic *this = (Topic*)topic;
+	Item item = List_searchItem(this, observer, e);
+	// if not attached, exits
+	if(!item){
+		PLATFORM_EXIT_CRITICAL();
+		Exception_throw(e, MEMORY_DEALLOC, "Topic_detach observer doesn't exists");
+		return;
 	}
-	// if not in list, throw exception
-	Exception_throw(e, MEMORY_DEALLOC, "Topic_dettach topic not in list");
+	List_removeItem(this->observerlist, observer, e);
+	PLATFORM_EXIT_CRITICAL();
 }
+
+//------------------------------------------------------------------------------------
+const char * Topic_getName(TopicPtr topic, ExceptionPtr e){
+	if(!topic){
+		Exception_throw(e, BAD_ARGUMENT, "Topic_dettach topic is null");
+		return "";
+	}
+	Topic *this = (Topic*)topic;
+	return this->name;
+}
+
+

@@ -8,24 +8,36 @@
 #include "Exception.h"
 
 //------------------------------------------------------------------------------------
-void Exception_throw(Exception * e, ExceptionCode code, const char * message){
-	if(e){
-		e->code = code;
-		e->msg = message;
-	}
+//-- PRIVATE TYPEDEFS ----------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------
+//-- PUBLIC FUNCTIONS ----------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------
+void Exception_throw(ExceptionPtr e, ExceptionCode code, const char * message){
+	if(!e)
+		return;
+	e->code = code;
+	e->msg = message;
 }
 
 //------------------------------------------------------------------------------------
-char Exception_raised(Exception * e){
-	if(e){
-		if(e->code != NO_EXCEPTIONS)
-			return 1;
-	}
+char Exception_raised(ExceptionPtr e){
+	if(!e)
+		return 1;
+	if(e->code != NO_EXCEPTIONS)
+		return 1;
 	return 0;
 }
 
 //------------------------------------------------------------------------------------
-void Exception_clear(Exception * e){
+void Exception_clear(ExceptionPtr e){
+	if(!e)
+		return;
 	e->code = NO_EXCEPTIONS;
 	e->msg = "";
 }

@@ -11,12 +11,9 @@ int main(void) {
 	Exception e = Exception_INIT();
 
 
-	// 1 - Kernel allocation and initialization.
-	//     This creates a static task list in the form: 	static Task* mmf_os_tasklist[2];
-	//     And invokes to init member in the form:			OS_init(mmf_os_tasklist, 2, 10000, &e);
-	//     Exception handling should be checked afterwards.
+	// 1 - Kernel allocation and initialization. Exception handling should be checked afterwards.
 
-	OS_ALLOC(os_tasklist, 3, 10000, &e);
+	OS_init(3, 10000, &e);
 	catch(&e){
 		Exception_clear(&e);
 		return -1;
@@ -31,56 +28,43 @@ int main(void) {
 	//     Exception checking should be done afterwards with "catch" macro
 	//	   It allocates memory to get up to 5 topic updates pending. The aray is named: mmf_topicpool_TASKNAME
 
-	Task subscriber;
-	Task_ALLOC_TOPIC_POOL(subscriber, 5);
-	Task_initialize(&subscriber,
-					"subscriber",
-					PRIO_MAX,
-					mmf_topicpool_subscriber,
-					5,
-					Subscriber_init,
-					Subscriber_OnYieldTurn,
-					Subscriber_OnResume,
-					Subscriber_OnEventFlag,
-					Subscriber_OnTopicUpdate,
-					&subscriber,
-					&e);
+	Task_create("subscriber",
+				PRIO_MAX,
+				5*sizeof(TopicData),
+				Subscriber_init, Subscriber_OnYieldTurn, Subscriber_OnResume,
+				Subscriber_OnEventFlag, Subscriber_OnTopicUpdate,
+				0,	// null handler implies that returned "TaskPtr" object, will be the default callback handler
+				&e);
 	catch(&e){
 		Exception_clear(&e);
 		return -1;
 	}
 
-	Task publisher;
-	Task_initialize(&publisher,
-					"publisher",
-					PRIO_MAX+1,
-					(TopicData*)0,				//Publisher doesn't needs a topic pool
-					0,							//no topic pool size
-					Publisher_init,
-					Publisher_OnYieldTurn,
-					Publisher_OnResume,
-					Publisher_OnEventFlag,
-					(OnTopicUpdateCallback)0,	//Publisher_OnTopicUpdate not required
-					&publisher,
-					&e);
+	Task_create("publisher",
+				PRIO_MAX+1,
+				0,	//no topic pool fifo is required
+				Publisher_init,
+				Publisher_OnYieldTurn,
+				Publisher_OnResume,
+				Publisher_OnEventFlag,
+				(OnTopicUpdateCallback)0,	//Publisher_OnTopicUpdate not required
+				0,	// null handler implies that returned "TaskPtr" object, will be the default callback handler
+				&e);
 	catch(&e){
 		Exception_clear(&e);
 		return -1;
 	}
 
-	Task systask;
-	Task_initialize(&systask,
-					"systask",
-					PRIO_MAX+2,
-					(TopicData*)0,				//SysTask doesn't needs a topic pool
-					0,							//no topic pool size
-					SysTask_init,
-					SysTask_OnYieldTurn,
-					SysTask_OnResume,
-					SysTask_OnEventFlag,
-					SysTask_OnTopicUpdate,
-					&systask,
-					&e);
+	Task_create("systask",
+				PRIO_MAX+2,
+				0,	//no topic pool size
+				SysTask_init,
+				SysTask_OnYieldTurn,
+				SysTask_OnResume,
+				SysTask_OnEventFlag,
+				SysTask_OnTopicUpdate,
+				0,	// null handler implies that returned "TaskPtr" object, will be the default callback handler
+				&e);
 	catch(&e){
 		Exception_clear(&e);
 		return -1;

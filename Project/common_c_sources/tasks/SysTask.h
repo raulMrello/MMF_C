@@ -43,7 +43,7 @@ void SysTask_OnResume(SysTaskPtr t);
  *  \param t SysTask task object
  *  \param event Event raised
  */
-void SysTask_OnEventFlag(SysTaskPtr t, int event);
+void SysTask_OnEventFlag(SysTaskPtr t, uint16_t event);
 
 /** \fn SysTask_OnTopicUpdate
  *  \brief SysTask on topic update events callback

@@ -50,7 +50,7 @@ void Subscriber_OnResume(SubscriberTaskPtr t);
  *  \param t Subscriber task object
  *  \param event Event raised
  */
-void Subscriber_OnEventFlag(SubscriberTaskPtr t, int event);
+void Subscriber_OnEventFlag(SubscriberTaskPtr t, uint16_t event);
 
 /** \fn Subscriber_OnTopicUpdate
  *  \brief Subscriber on topic update events callback

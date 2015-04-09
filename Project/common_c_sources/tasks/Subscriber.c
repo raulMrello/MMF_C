@@ -15,7 +15,7 @@ static Exception e = Exception_INIT();
 void Subscriber_init(SubscriberTaskPtr t){
 	printf("Subscriber_init\r\n");
 	// attaches to mytopic updates...
-	Topic_attach(MyTopic_getRef(), (Task*)t, &e);
+	Topic_attach(MyTopic_getRef(), t, &e);
 	catch(&e){
 		printf("Exception on Subscriber_init: %s\r\n", e.msg);
 		Exception_clear(&e);
@@ -31,7 +31,7 @@ void Subscriber_init(SubscriberTaskPtr t){
 //------------------------------------------------------------------------------------
 void Subscriber_OnYieldTurn(SubscriberTaskPtr t){
 	printf("Subscriber_OnYieldTurn\r\n");
-	Task_yield((Task*)t, &e);		///< IMPORTANT!!! in order to get control later, else it won't be executed
+	Task_yield(t, &e);		///< IMPORTANT!!! in order to get control later, else it won't be executed
 	catch(&e){
 		printf("Exception on Subscriber_OnYieldTurn: %s\r\n", e.msg);
 		Exception_clear(&e);
@@ -45,7 +45,7 @@ void Subscriber_OnResume(SubscriberTaskPtr t){
 }
 
 //------------------------------------------------------------------------------------
-void Subscriber_OnEventFlag(SubscriberTaskPtr t, int event){
+void Subscriber_OnEventFlag(SubscriberTaskPtr t, uint16_t event){
 	printf("Subscriber_OnEventFlag\r\n");
 	// if event_code = 1 then waits for event 2 | 4
 	if(event==1){
@@ -81,7 +81,7 @@ void Subscriber_OnTopicUpdate(SubscriberTaskPtr t, TopicData * td){
 	printf("Subscriber_OnTopicUpdate\r\n");
 	// if subscribed to several topics, then must check with type of topic, by its id
 	// if topic type MyTopic...
-	if(td->id == MyTopic_getId()){
+	if(td->id == (int)MyTopic_getRef()){
 		if(td->data && td->datasize){
 			printf("Topic update processed, id=%d, data=%d, size=%d", td->id, *((int*)td->data), td->datasize);
 		}

@@ -4,16 +4,28 @@ Minimal Multithreaded framework (MMF) is a run-to-completion cooperative kernel 
 It has been specifically designed for microcontrollers with extremely constrained memory resources. Tasks shares the same memory space, and hence there is only one common stack for all of them, saving a huge quantity of RAM.
 
 ## Features
-1. Run-to-completion cooperative kernel (no tasks limit)
+1. Run-to-completion cooperative kernel (tasks limited to 256)
 2. Fixed priority tasks
 3. No task context switching. All tasks shares the same memory space.
 4. Tasks can be suspended and yielded.
 5. Tasks can be subscribed to published "topics" (Observer pattern) and/or waiting for event flags (or/and conditions with/without timeout limit).
 6. Can be ported to any platform by implementing macros PLATFORM_TIMER_START / PLATFORM_TIMER_STOP, and PLATFORM_ENTER_CRITICAL / PLATFORM_EXIT_CRITICAL.
 7. Framework coded in ANSI C (MMF_C) and C++ (MMF)
-8. MMF_C uses static allocation. No malloc, calloc, realloc primitives are used.
+8. MMF_C uses dynamic allocation.
 
 ## Changelog
+
+> 09.04.2015-001 (MMF_C) branch: addfeatures ------
+ - Branch created to:
+ 	- Adds support for C++.
+ 	- Adds memory management support (Memory module)
+ 	- Adds Fifo support (Fifo module)
+ 	- Adds List support (List module)
+ 	- Modifies general operation using memory allocation/deallocation for object creation
+ - NEXT STEPS: 
+ 	- Test new features.
+ 	- Critical sections must be tested
+ - KNOWN ISSUES: 
 
 > 06.04.2015-001 (MMF_C) branch: master -----------
  - Added Timer management. OS_init requires the systick in microseconds. Platform systick hook must invoke OS_tick primitive.

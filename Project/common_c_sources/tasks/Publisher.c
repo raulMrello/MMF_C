@@ -122,7 +122,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 	}
 
 	// keeps task running
-	Task_yield((Task*)t, &e);	///< IMPORTANT!!! in order to get control later, else it won't be executed
+	Task_yield(t, &e);	///< IMPORTANT!!! in order to get control later, else it won't be executed
 	catch(&e){
 		printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
 		Exception_clear(&e);
@@ -134,7 +134,7 @@ void Publisher_OnYieldTurn(PublisherTaskPtr t){
 void Publisher_OnResume(PublisherTaskPtr t){
 	printf("Publisher_OnResume\r\n");
 	// keeps task running
-	Task_yield((Task*)t, &e);	///< IMPORTANT!!! in order to get control later, else it won't be executed
+	Task_yield(t, &e);	///< IMPORTANT!!! in order to get control later, else it won't be executed
 	catch(&e){
 		printf("Exception on Publisher_OnYieldTurn: %s\r\n", e.msg);
 		Exception_clear(&e);
@@ -142,7 +142,7 @@ void Publisher_OnResume(PublisherTaskPtr t){
 }
 
 //------------------------------------------------------------------------------------
-void Publisher_OnEventFlag(PublisherTaskPtr t, int event){
+void Publisher_OnEventFlag(PublisherTaskPtr t, uint16_t event){
 	printf("Publisher_OnEventFlag\r\n");
 
 }
