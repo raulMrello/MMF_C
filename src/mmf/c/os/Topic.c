@@ -13,7 +13,7 @@
 //-- REQUIRED MMF DEPENDENCIES -------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-extern void Task_addTopic(TaskPtr task, TopicData topic, ExceptionPtr e);
+extern void Task_addTopic(TaskPtr task, TopicData *topic, ExceptionPtr e);
 
 //------------------------------------------------------------------------------------
 //-- PRIVATE TYPEDEFS ----------------------------------------------------------------
@@ -112,13 +112,14 @@ void Topic_notify(TopicPtr topic, void * data, int datasize, void (*done)(void*)
 	for(;;){
 		this->count++;
 		// inserts into the topic pool
-		Task_addTopic(t, (TopicData){this->id, this->name, this->data, this->datasize, &this->count, done, publisher}, e);
+		TopicData td = (TopicData){this->id, this->name, this->data, this->datasize, &this->count, done, publisher};
+		Task_addTopic(t, &td, e);
 		catch(e){
 			break;
 		}
 		// select next subscriber
-		t = (TaskPtr)List_getNextItem(this->observerlist, e);
-		catch(e){
+		t = (TaskPtr)List_getNextItem(this->observerlist, 0);
+		if(!t){
 			break;
 		}
 	}
@@ -133,7 +134,7 @@ void Topic_attach(TopicPtr topic, void * observer, ExceptionPtr e){
 	}
 	PLATFORM_ENTER_CRITICAL();
 	Topic *this = (Topic*)topic;
-	Item item = List_searchItem(this, observer, e);
+	Item item = List_searchItem(this->observerlist, observer, 0);
 	// if already attached, exit
 	if(item){
 		PLATFORM_EXIT_CRITICAL();
@@ -153,7 +154,7 @@ void Topic_dettach(TopicPtr topic, void * observer, ExceptionPtr e){
 	}
 	PLATFORM_ENTER_CRITICAL();
 	Topic *this = (Topic*)topic;
-	Item item = List_searchItem(this, observer, e);
+	Item item = List_searchItem(this->observerlist, observer, 0);
 	// if not attached, exits
 	if(!item){
 		PLATFORM_EXIT_CRITICAL();

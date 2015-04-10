@@ -20,8 +20,8 @@ void Subscriber_init(SubscriberTaskPtr t){
 		printf("Exception on Subscriber_init: %s\r\n", e.msg);
 		Exception_clear(&e);
 	}
-	// and also waits for event_code = 1 with a timeout of 100 microseconds
-	Task_wait_and(t, 1, 100, &e);
+	// and also waits for event_code = 1 with a timeout of 100 milliseconsd
+	Task_wait_and(t, 1, 100000, &e);
 	catch(&e){
 		printf("Exception on Subscriber_init: %s\r\n", e.msg);
 		Exception_clear(&e);
@@ -67,8 +67,8 @@ void Subscriber_OnEventFlag(SubscriberTaskPtr t, uint16_t event){
 	}
 	// if event_code = 8&16 then waits for event 1 again
 	else if(event==(8|16)){
-		// waits for event_code = 1 with timeout limit of 100 microseconds
-		Task_wait_and(t, 1, 100, &e);
+		// waits for event_code = 1 with timeout limit of 100 milliseconds
+		Task_wait_and(t, 1, 100000, &e);
 		catch(&e){
 			printf("Exception on Subscriber_OnEventFlag: %s\r\n", e.msg);
 			Exception_clear(&e);

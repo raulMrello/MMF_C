@@ -111,9 +111,11 @@ void* Fifo_push(FifoPtr fifo, void* data, uint16_t *size, ExceptionPtr e){
         if(this->pwrite >= this->size)
         	this->pwrite = 0;
         if(--this->free == 0){
+        	if(pushed < *size){
+        		Exception_throw(e, MEMORY_ALLOC, "Fifo_push fifo has filled at all");
+        	}
         	*size = pushed;
         	PLATFORM_EXIT_CRITICAL();
-        	Exception_throw(e, MEMORY_ALLOC, "Fifo_push fifo has filled at all");
         	return pMsg;
         }
     }
@@ -150,9 +152,11 @@ void* Fifo_pop(FifoPtr fifo, void* data, uint16_t *size, ExceptionPtr e){
        if(this->pread >= this->size)
        	this->pread = 0;
        if(++this->free == this->size){
+       	if(poped < *size){
+       		Exception_throw(e, MEMORY_DEALLOC, "Fifo_pop fifo has emptied at all");
+       	}
        	*size = poped;
        	PLATFORM_EXIT_CRITICAL();
-       	Exception_throw(e, MEMORY_DEALLOC, "Fifo_pop fifo has emptied at all");
        	return pMsg;
        }
    }

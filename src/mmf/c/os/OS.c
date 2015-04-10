@@ -120,7 +120,7 @@ void OS_init(uint8_t numTasks, uint32_t tick_us, ExceptionPtr e){
 	catch(e){
 		return;
 	}
-	for(i=0; i<_numTasks; i++){
+	for(i=0; i<numTasks; i++){
 		_tasklist[i] = 0;
 	}
 	_numTasks = numTasks;

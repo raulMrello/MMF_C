@@ -5,7 +5,7 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Features
 1. Run-to-completion cooperative kernel (tasks limited to 256)
-2. Fixed priority tasks
+2. Fixed priority tasks (0 to 255)
 3. No task context switching. All tasks shares the same memory space.
 4. Tasks can be suspended and yielded.
 5. Tasks can be subscribed to published "topics" (Observer pattern) and/or waiting for event flags (or/and conditions with/without timeout limit).
@@ -14,6 +14,12 @@ It has been specifically designed for microcontrollers with extremely constraine
 8. MMF_C uses dynamic allocation.
 
 ## Changelog
+
+> 10.04.2015-001 (MMF_C) branch: addfeatures ------
+ - Tested new features OK!!
+ - NEXT STEPS: 
+ 	- Cast typedef void* to typedef struct* in Object interfaces
+ - KNOWN ISSUES: 
 
 > 09.04.2015-001 (MMF_C) branch: addfeatures ------
  - Branch created to:

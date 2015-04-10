@@ -17,12 +17,12 @@ TopicPtr MyTopic_initialize(const char * name){
 		Exception_clear(&e);
 		return 0;
 	}
-	return &topic;
+	return topic;
 }
 
 //------------------------------------------------------------------------------------
 TopicPtr MyTopic_getRef(void){
-	return &topic;
+	return topic;
 }
 
 //------------------------------------------------------------------------------------
