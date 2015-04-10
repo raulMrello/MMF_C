@@ -22,7 +22,7 @@
 /** \def PublisherTaskPtr
  *  \brief Definition to abstract the callback handler into void* type
  */
-typedef void* PublisherTaskPtr;
+typedef TaskHandlerObj  PublisherTaskPtr;
 
 /** \fn Publisher_init
  *  \brief Publisher initialization callback

@@ -18,7 +18,7 @@
 /** \def SubscriberTask
  *  \brief Definition to abstract the callback handler into void* type
  */
-typedef void* SysTaskPtr;
+typedef TaskHandlerObj SysTaskPtr;
 
 /** \fn SysTask_init
  *  \brief SysTask initialization callback

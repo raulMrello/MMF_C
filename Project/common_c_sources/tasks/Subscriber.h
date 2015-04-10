@@ -25,7 +25,7 @@
 /** \def SubscriberTask
  *  \brief Definition to abstract the callback handler into void* type
  */
-typedef void* SubscriberTaskPtr;
+typedef TaskHandlerObj SubscriberTaskPtr;
 
 /** \fn Subscriber_init
  *  \brief Subscriber initialization callback

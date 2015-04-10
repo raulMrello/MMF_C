@@ -15,6 +15,14 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 10.04.2015-002 (MMF_C) branch: addfeatures ------
+ - Typedef void* cast done to different struct * in Object headers.
+ - Corrected some bugs in several _kill() primitives.
+ - Realeased version dist/0.9.10042015002
+ - NEXT STEPS: 
+ 	- Update release C++ and compare footprints on stm32 platform
+ - KNOWN ISSUES: 
+
 > 10.04.2015-001 (MMF_C) branch: addfeatures ------
  - Tested new features OK!!
  - NEXT STEPS: 
