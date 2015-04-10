@@ -8,41 +8,41 @@
 #ifndef MMF_OS_TASK_TASK_H_
 #define MMF_OS_TASK_TASK_H_
 
-#include "../port/platforms.h" ///< platform dependent
-#include <list>
-#include <string>
-#include <cstddef>		///< required for NULL macro
-#include "Exception.h"
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
-/**
- *  \brief Macros to convert time units
- */
+#include <stdint.h>
+#include "Exception.h"
+#include "Timer.h"
+#include "Topic.h"
+
+
+//------------------------------------------------------------------------------------
+//-- TYPEDEFS ------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** Pointer to Task object */
+typedef struct Task_t *  TaskPtr;
+
+/** Type definitions for callback handler  */
+typedef void *	TaskHandlerObj;
+
+//------------------------------------------------------------------------------------
+//-- DEFINES -------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** Max priority level. */
+#define PRIO_MAX		(int)0
+
+/** Macros to convert time units */
 #define SECONDS(v)		(v*1000000)		///< time conversion us -> sec
 #define MILLIS(v)		(v*1000)		///< time conversion us -> us
 #define MICROS(v)		(v)				///< time macro in usec
 
-/**
- *  \brief Macros to define priority levels. There are 4 priority levels, each divided in other
- *  8 sublevels, obtaining up to 32 fixed priority levels.
- */
-#define PRIO_CRITICAL	(int)0			///< highest priority level (critical)
-#define PRIO_HIGH 		(int)8			///< high priority level
-#define PRIO_MED  		(int)16			///< medium priority level
-#define PRIO_LOW  		(int)24			///< low priority level
-#define SUBPRIO_MAX 	(int)0			///< max priority sublevel
-#define SUBPRIO_MIN 	(int)7			///< min priority sublevel
-
-
-/**
- *  \brief Macros to define event codes handled by kernel tasks. Tasks can get ready state after a
- *  suspension timeout, a scheduling executin cycle if yielded, a topic update if subscribed to any
- *  kind of topic or an event flag notification
- */
-#define EVT_NONE		(int)0x00000000	///< event which sets a yield->ready transition
-#define EVT_RESUMED 	(int)0x00000001 ///< event which sets a suspended->ready transition
-#define EVT_TOPIC	 	(int)0x00000002 ///< event due to a topic update
-#define EVT_FLAGS		(int)0x00000004 ///< event which sets a flagwait->ready transition
-
+//------------------------------------------------------------------------------------
+//-- CLASS ---------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 /** \class Task
  *  \brief Tasks are pieces of software capable to be executed in a run-to-completion manner, this
@@ -53,64 +53,109 @@
 class Task {
 public:
 
-	enum Stat {STOPPED, READY, WAITING, RUNNING, YIELD};	///< \enum Stat (task status)
-
-
 	/** \fn Task
-	 *  \brief Default constructor. Task name can be assigned during object creation.
-	 *  \name Task name
+	 *  \brief Creates a task, assigns name, priority and creates a topic pool fifo.
+	 *  \param Task name
+	 *  \param prio Priority
+	 *  \param topic_pool_size Number of entries of the topic pool
+	 *  \throw Exception
 	 */
-	Task(const std::string& name = "") : _name(name){
-		_status = STOPPED;
-		_isSuspended = false;
-		_evtlist.clear();
-		prio = PRIO_LOW + SUBPRIO_MIN;
-	}
+	Task(const char* name, uint8_t prio, int topic_pool_size) throw (Exception);
 
 	/** \fn ~Task
-	 *  \brief Default destructor. It will deallocate all resources
+	 * 	\brief destructor
 	 */
 	virtual ~Task();
-
-	/** \fn init
-	 *  \brief Interface to initialize inherited classes during task creation
-	 */
-	virtual int init()=0;
-
-	/** \fn exec
-	 *  \brief Interface to execute task implementation of the inherited classes
-	 *  \param evt Event code which causes the tast to execute (see above EVT_...)
-	 */
-	virtual int exec(int evt) = 0;
-
-	/** \fn kill
-	 *  \brief Interface to kill inherited classes
-	 */
-	virtual int kill()=0;
-
-	/** \fn start
-	 *  \brief Starts task assigning a fixed priority
-	 *  \param vprio Task priority
-	 */
-	void start(int vprio) throw (Exception);
 
 	/** \fn suspend
 	 *  \brief Suspends a task during several microseconds
 	 *  \param delay_us Microsendos to suspend
+	 *  \throw Exception
 	 */
-	void suspend(unsigned int delay_us);
+	void suspend(uint32_t delay_us) throw (Exception);
 
 	/** \fn resume
 	 *  \brief Sets a task ready after a period of suspension
-	 *  \param forced Boolean flag to force a resume while the task is under suspension and
+	 *  \param forced  Boolean flag to force a resume while the task is under suspension and
 	 *  its timer has not yet finished.
 	 */
-	void resume(bool forced = true);
+	void resume(bool forced);
 
 	/** \fn yield
 	 *  \brief Sets a task yielded to allow other tasks to take control of the cpu
 	 */
 	void yield();
+
+	/** \fn wait_or
+	 *  \brief Task keeps waiting for any of the events declared
+	 *  \param evt Combination of events
+	 *  \param delay_us Timeout limit in microseconds for wait operation. If 0 waits forever.
+	 *  \throw Exception
+	 */
+	void wait_or(uint16_t evt, uint32_t delay_us) throw (Exception);
+
+	/** \fn wait_and
+	 *  \brief Task keeps waiting for all of the events declared
+	 *  \param t Task
+	 *  \param evt Combination of events
+	 *  \param delay_us Timeout limit in microseconds for wait operation. If 0 waits forever.
+	 *  \throw Exception
+	 */
+	void wait_and(uint16_t evt, uint32_t delay_us) throw (Exception);
+
+	/** Event codes supported by Tasks */
+	typedef enum {
+		EVT_NONE = 			  0 ,	///< No pending events
+		EVT_YIELD = 	(1 << 0),	///< event which sets a yield->ready transition
+		EVT_RESUMED = 	(1 << 1),	///< event which sets a suspended->ready transition
+		EVT_TOPIC = 	(1 << 2),	///< event due to a topic update
+		EVT_FLAGS = 	(1 << 3),	///< event which sets a flagwait->ready transition
+		EVT_FLAGMASK =  (0xffffffff & ~(EVT_TOPIC|EVT_RESUMED|EVT_YIELD))
+	}EventEnum;
+
+	/** Task status codes */
+	typedef enum {
+		RUNNING = 	      0 ,		///< task is executing
+		STOPPED = 	(1 << 0),		///< task stopped
+		READY = 	(1 << 1),		///< task ready for execution due to some event
+		YIELD = 	(1 << 2)		///< task is yielded temporarily
+	}StatEnum;
+
+	/** Types of task event flag waiting mode (or, and) */
+	typedef enum {
+		WAIT_OR,		///< Wait for any event combination
+		WAIT_AND		///< Wait for all event combination
+	}EvtWaitModeEnum;
+
+
+protected:
+	/** Task interface */
+	virtual void init() = 0;
+	virtual void onYieldTurn() = 0;
+	virtual void onResume() = 0;
+	virtual void onEventFlag(uint16_t event) = 0;
+	virtual void onTopicUpdate(TopicData * topicdata) = 0;
+
+	/** Event flag structure that manages the way of event flag waiting. */
+	typedef struct {
+		/** task properties */
+		EvtWaitModeEnum mode;		///< Waiting mode
+		uint16_t events;			///< Event flag combination
+	}EvtFlag;
+
+	const char * _name;			///< Task name
+	uint8_t _prio;				///< Task priority in the range PRIO_CRITICAL .. PRIO_LOW + SUBPRIO_MIN
+	StatEnum _status;			///< Task status flag
+	bool _isSuspended;			///< Suspension flag
+	uint32_t _event;			///< Pending event flags (include topics, suspensions and eventflags)
+	EvtFlag _evhandler;			///< Event flag handler structure
+	Fifo* _topicpool;			///< Topic pool buffer
+	Timer* _tmr;				///< Timer for suspension operations
+
+	/** \fn start
+	 *  \brief Starts task (invokes init callback internally)
+	 */
+	void start();
 
 	/** \fn isYield
 	 *  \brief Checks if it is yielded
@@ -128,36 +173,49 @@ public:
 	 *  \brief Sets a task ready, indicating which event has caused it.
 	 *  \param evt Event code which causes the state change
 	 */
-	void setReady(int evt=0);
-
-	/** \fn setWaiting
-	 *  \brief Sets a task waiting for some situation
-	 */
-	void setWaiting();
-
-	/** \fn setRunning
-	 *  \brief Sets a task running
-	 */
-	void setRunning();
+	void setReady(uint32_t evt);
 
 	/** \fn setStop
 	 *  \brief Sets a task stopped
 	 */
 	void setStop();
 
-	/** \fn getNextEvt
-	 *  \brief Get the next event which causes the task to be executed.
-	 *  \return Event code
+	/** \fn Task_getPrio
+	 *  \brief Get task priority
+	 *  \return Priority
 	 */
-	int getNextEvt();
+	uint8_t getPrio();
 
-	int prio;		///< Task priority in the range PRIO_CRITICAL .. PRIO_LOW + SUBPRIO_MIN
-private:
-	Stat _status;				///< Task status flag
-	bool _isSuspended;			///< Suspension flag
-	std::list<int> _evtlist;	///< List of pending events to be handled
-protected:
-	std::string _name;			///< Task name
+	/** \fn getName
+	 *  \brief Get task name
+	 *  \return Task name
+	 */
+	const char * getName();
+
+	/** \fn getTimer
+	 *  \brief Get task timer
+	 *  \return Task timer
+	 */
+	Timer* getTimer();
+
+	/** \fn Task_exec
+	 *  \brief Executes task exec callback
+	 */
+	void execCb();
+
+	/** \fn addTopic
+	 *  \brief Adds a new topic update to the topic pool
+	 *  \param topic Topic data
+	 *  \throw Exception
+	 */
+	void addTopic(TopicData *td) throw (Exception);
+
+	/** \fn popTopic
+	 *  \brief Removes a topic from to the topic pool
+	 *  \param td Pointer to receive topic data
+	 *  \throw Exception
+	 */
+	void popTopic(TopicData *td) throw (Exception);
 };
 
 #endif /* MMF_OS_TASK_TASK_H_ */

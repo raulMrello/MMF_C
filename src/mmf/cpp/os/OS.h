@@ -9,23 +9,9 @@
 #define OS_OS_H_
 
 #include "../port/platforms.h" ///< platform dependent
-#include <string>
 #include "Task.h"
 #include "Exception.h"
 
-/** \def NUM_TASKS
- *  \brief Max number of allowed tasks
- */
-#define NUM_TASKS 			(int)32
-
-/**
- *  \brief Error codes raised by this module
- */
-#define ERR_NONE 			(int)0		///< Error code for successful termination
-#define ERR_TASK_ALLOC 		(int)-1		///< Error code during task allocation
-#define ERR_TASK_DEALLOC 	(int)-2		///< Error code during task deallocation
-#define ERR_OS_BAD_ARG 		(int)-3		///< Error code due to wrong argument (value, range...)
-#define ERR_NO_SCHED 		(int)-4		///< Error code due scheduling with no task ready
 
 
 /** \class OS
@@ -39,53 +25,173 @@
  */
 class OS {
 public:
-
-	/** \fn OS
-	 *  \brief Default constructor
-	 *  \param enable_log Enables log_task as the lowest priority one.
-	 *  \param logCb Callback to invoke after logging execution, passing a string with the log
-	 */
-	OS(bool enable_log = false, void(*logCb)(std::string&) = (void(*)(std::string&))NULL);
-
+	//------------------------------------------------------------------------------------
 	/** \fn init
-	 *  \brief Initializes kernel internals
+	 *  \brief [static] Initializes kernel internals
+	 *  \param numTasks Number of allowed tasks
+	 *  \param tick_us System time tick in microseconds
+	 *  \throw Exception
 	 */
-	void init();
+	static void init(uint8_t numTasks, uint32_t tick_us) throw (Exception){
+		if(!_numTasks || !tick_us){
+			throw Exception(Exception::BAD_ARGUMENT, "OS::init no tasklist coherence");
+			return;
+		}
+		_tasklist = (Task**)Memory_alloc(numTasks * sizeof(TaskPtr));
+		for(uint8_t i=0; i<numTasks; i++){
+			_tasklist[i] = 0;
+		}
+		_numTasks = numTasks;
+		_tick_us = tick_us;
+		_taskcount = 0;
+	}
 
-	/** \fn run
-	 *  \brief Allocates a new task inside the kernel and sets it up for execution. On error it
-	 *  throws exception code ERR_TASK_ALLOC
-	 *  \param t Task reference to be allocated in the kernel
-	 *  \param prio Task priority
+	//------------------------------------------------------------------------------------
+	/** \fn addTask
+	 *  \brief [static] Adds a task to the kernel.
+	 *  \param t Task reference
+	 *  \throws exception
+	 */
+	static void addTask(Task* t)  throw (Exception){
+		if(!t){
+			throw Exception(Exception::BAD_ARGUMENT, "OS::addTask t is null");
+			return;
+		}
+		// if priority assigned, throws an exception
+		uint8_t prio = t->getPrio();
+		if(prio >= _numTasks){
+			throw Exception(Exception::MEMORY_ALLOC, "OS::addTask task prio out of bounds");
+			return;
+		}
+
+		if(_tasklist[prio] != 0){
+			throw Exception(Exception::MEMORY_ALLOC, "OS::addTask task prio already assigned");
+			return;
+		}
+		// inserts task in list, increase counter and starts it
+		_tasklist[prio] = t;
+		_taskcount++;
+		_tasklist[prio]->start();
+	}
+
+	//------------------------------------------------------------------------------------
+	/** \fn kill
+	 *  \brief [static] Deallocates a task out of the kernel. On error it throws exception code ERR_TASK_DEALLOC
+	 *  \param t Task reference to be deallocated from the kernel
+	 *  \throws exception
+	 */
+	static void killTask(Task* t)  throw (Exception){
+		if(!t){
+			throw Exception(Exception::BAD_ARGUMENT, "OS::killTask t is null");
+			return;
+		}
+		uint8_t prio = t->getPrio();
+		// if task doesn't match with requested one, throws exception
+		if(_tasklist[prio] != t){
+			throw Exception(Exception::MEMORY_ALLOC, "OS::killTask no matching task");
+			return;
+		}
+		// get prio level, remove task from list and decrease counter
+		_taskcount--;
+		_tasklist[prio] = 0;
+	}
+
+	//------------------------------------------------------------------------------------
+	/** \fn schedule
+	 *  \brief [static] kernel scheduling mechanism. Evaluates next highest priority task and executes it.
 	 *  \throws exception code ERR_TASK_ALLOC
 	 */
-	void run(Task& t, int prio)  throw (Exception);
+	static void schedule() throw (Exception){
+		sched(1);
+	}
 
-	/** \fn kill
-	 *  \brief Deallocates a task out of the kernel. On error it throws exception code ERR_TASK_DEALLOC
-	 *  \param t Task reference to be deallocated from the kernel
-	 *  \throws exception code ERR_TASK_DEALLOC
+	//------------------------------------------------------------------------------------
+	/** \fn scheduleOnce
+	 *  \brief [static] kernel scheduling mechanism. Evaluates next highest priority task and executes it. Then returns
+	 *  \throws exception code ERR_TASK_ALLOC
 	 */
-	void kill(Task& t)  throw (Exception);
+	static void scheduleOnce() throw (Exception){
+		sched(0);
+	}
 
-	/**
-	 * @brief kernel scheduling mechanism. Evaluates next highest priority task and
-	 * executes it.
-	 * @return TaskId of the executed task
+	//------------------------------------------------------------------------------------
+	/** \fn getTracelog
+	 *  \brief Generates a debug log with kernel statistics into a buffer passed as argument.
+	 *  \param buffer String to store kernel's status
+	 *  \param buffersize Max size allowed by the logbuffer
+	 *  \throw Exception
 	 */
+	static void getTracelog(char* buffer, int buffersize) throw (Exception);
 
-	/** \fn schedule
-	 *  \brief kernel scheduling mechanism. Evaluates next highest priority task and executes it. On
-	 *  error it throws exception code ERR_NO_SCHED
+	//------------------------------------------------------------------------------------
+	/** \fn OS_sendEvent
+	 *  \brief Sends an event to a task by its reference or by its name
+	 *  \param to Destination task reference
+	 *  \param taskname Destination task name (if parameter to=0)
+	 *  \param event Combination of event flags
+	 *  \throw Exception
 	 */
-	void schedule() throw (Exception);
+	static void sendEvent(TaskPtr to, const char * taskname, uint16_t event) throw (Exception);
+
+	//------------------------------------------------------------------------------------
+	/** \fn OS_tick
+	 *  \brief Generates a kernel tick for suspended tasks
+	 */
+	static void tick();
+
+	//------------------------------------------------------------------------------------
+	/** \fn getTimeTicks
+	 *  \brief Get systicks from a microsecond value
+	 *  \param microseconds Microseconds value
+	 *  \return Number of systicks
+	 */
+	int getTimeTicks(int microseconds){
+		 return (int)(microseconds/_tick_us);
+	 }
 
 private:
-	Task* _tasklist[NUM_TASKS];		///< List of max number of allocatable tasks
-	int _taskcount;					///< Count of current allocated tasks
-	bool _log_enabled;				///< Flag to enable/disable log operations
-	void(*_logCb)(std::string&);	///< Installed log callback
-	void getAnalytics();			///< Private function to get log report
+	static Task**  _tasklist;			///< List of max number of allocatable tasks
+	static uint8_t _taskcount;			///< Count of current allocated tasks
+	static uint8_t _numTasks;			///< Count of current allocated tasks
+	static uint32_t _tick_us;			///< System tick in microseconds
+
+
+	//------------------------------------------------------------------------------------
+	/** \fn scheduleOnce
+	 *  \brief [static] kernel scheduling mechanism. Evaluates next highest priority task and executes it. Then returns
+	 *  \throws exception code ERR_TASK_ALLOC
+	 */
+	static void sched(bool forever) throw (Exception){
+		do{
+			int i;
+			// search from highest priority to lowest one...
+			for(i = 0; i < _numTasks; i++){
+				// if task entry is not empty...
+				if(_tasklist[i] != 0){
+					// and allocated task is ready for execution...
+					if(_tasklist[i]->isReady()){
+						// get the event code which causes the task to be ready and passes to exec func.
+						_tasklist[i]->execCb();
+						break;
+					}
+				}
+			}
+			// after a complete cycle of scheduling (no more executable task pending)
+			// yielded tasks must be set to READY again
+			if(i >= _numTasks){
+				for(i = 0; i < _numTasks; i++){
+					// ensure check only allocated tasks
+					if(_tasklist[i] != 0){
+						// ensure set ready only those which are yielded
+						if(_tasklist[i]->isYield()){
+							_tasklist[i]->setReady(Task::EVT_YIELD);
+						}
+					}
+				}
+			}
+		}while(forever);
+	}
+
 };
 
 

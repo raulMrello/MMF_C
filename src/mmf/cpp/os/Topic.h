@@ -8,12 +8,37 @@
 #ifndef SRC_OS_TOPIC_H_
 #define SRC_OS_TOPIC_H_
 
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
 #include "../port/platforms.h" ///< platform dependent
-#include <list>
+#include "List.h"
 #include <cstddef>
-#include "Observer.h"
 #include "Exception.h"
 
+
+//------------------------------------------------------------------------------------
+//-- TYPEDEFS ------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+/** \struct TopicData
+ *  \brief Topic data struct is the data part of a Topic
+ */
+typedef struct {
+	int id;							///< topic id
+	const char * name;				///< topic name id
+	void * data;					///< topic data
+	int datasize;					///< topic data size
+	int * pcount;					///< pointer to topic producer/consumer count
+	void (*done)(void* publisher);	///< callback to notify when topic consumed by all subscribers (count=0)
+	void * publisher;				///< publisher object
+}TopicData;
+
+
+//------------------------------------------------------------------------------------
+//-- CLASS ---------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 /** \class Topic
  *  \brief Topic class represents the dynamic piece of software in which Observers can subscribe to get
@@ -21,50 +46,54 @@
  */
 class Topic {
 public:
+	/** Topic interface */
+	virtual static void publish(void * data, int datasize) = 0;
+	virtual static void attachListener(void * o) = 0;
 
-
-	/** \fn initialize
-	 *  \brief Static function to initialize Topics internals, like observer list.
+	/** \fn Topic
+	 *  \brief Constructor
 	 */
-	static void initialize(){
-		if(!Topic::_initalized){
-			Topic::_observerlist.clear();
-			Topic::_initalized = true;
-		}
-	}
+	Topic(const char * name = "");
+
+	/** \fn ~Topic
+	 *  \brief Destructor
+	 */
+	~Topic();
 
 	/** \fn notify
-	 *  \brief Static function to notify the subscribed observers about the update/change of the topic
+	 *  \brief function to notify the subscribed observers about the update/change of the topic
 	 *  \param data Topic's data
 	 *  \param datasize	Topic's data size in bytes
 	 */
-	static void notify(void * data, int datasize) throw (Exception){
-		if((data == NULL && datasize > 0) || (data != NULL && !datasize))
-			throw new Exception(Exception::BAD_ARGUMENT);
-		for (std::list<Observer*>::iterator it=Topic::_observerlist.begin(); it != Topic::_observerlist.end(); ++it){
-			(*it)->update(data, datasize);
-		}
-	}
+	void notify(void * data, int datasize, void (*done)(void*), void* publisher) throw (Exception);
 
 	/** \fn attach
-	 *  \brief Static function to attach (subscribe) an observer class to a topic
+	 *  \brief function to attach (subscribe) an observer class to a topic
 	 *  \param o Observer
 	 */
-	static void attach(Observer& o){
-		Topic::_observerlist.push_back(&o);
-	}
+	void attach(void * o) throw (Exception);
 
 	/** \fn dettach
-	 *  \brief Static function to dettach (unsubscribe) an observer class from a topic
+	 *  \brief function to dettach (unsubscribe) an observer class from a topic
 	 *  \param o Observer
 	 */
-	static void dettach(Observer& o){
-		Topic::_observerlist.remove(&o);
-	}
+	void dettach(void *o) throw (Exception);
+
+
+	/** \fn getName
+	 *  \brief Get topic name
+	 *  \return name
+	 */
+	const char * getName();
+
 
 private:
-	static std::list<Observer *>_observerlist;	///< List of subscribed observers
-	static bool _initalized;					///< Flag to inidicate if static list is initialized yet
+	int _id;					///< topic id
+	const char * _name;			///< topic name id
+	void * _data;				///< topic data
+	int _datasize;				///< topic data size
+	int _count;					///< topic producer/consumer count
+	List* _observerlist;		///< declaration of observer list
 };
 
 #endif /* SRC_OS_TOPIC_H_ */

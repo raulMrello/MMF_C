@@ -8,21 +8,23 @@
 #ifndef SRC_TASKS_SUBSCRIBER_H_
 #define SRC_TASKS_SUBSCRIBER_H_
 
-#include <iostream>
+#include <cstdint>
 #include "../../../src/mmf/cpp/os/mmf.h"
 
-class Subscriber : public Task, public Observer {
+class Subscriber : public Task {
 public:
-	Subscriber(const std::string& name="") : Task(name), Observer() {
+	Subscriber(const char * name="", uint8_t prio, uint32_t topic_pool_size) : Task(name, prio, topic_pool_size) {
 		std::cout << "#" << _name << "# Created!" << std::endl;
 	}
 	virtual ~Subscriber();
-	///< Inherit from Task interface
-	int init();
-	int exec(int evt);
-	int kill();
-	///< Inherit from Observer interface
-	void update();
+private:
+	/** Task interface */
+	void init();
+	void onYieldTurn();
+	void onResume();
+	void onEventFlag(uint16_t event);
+	void onTopicUpdate(TopicData * topicdata);
+
 };
 
 #endif /* SRC_TASKS_SUBSCRIBER_H_ */

@@ -8,8 +8,9 @@
 #include "Exception.h"
 
 //------------------------------------------------------------------------------------
-Exception::Exception(Code c) {
+Exception::Exception(ExceptionCode c, const char * msg) {
 	_code = c;
+	_msg = msg;
 }
 
 //------------------------------------------------------------------------------------
@@ -18,19 +19,8 @@ Exception::~Exception() {
 }
 
 //------------------------------------------------------------------------------------
-std::string Exception::getMessage(){
-	switch(_code){
-		case NO_EXCEPTIONS:
-			return "NO_EXCEPTIONS";
-		case BAD_ARGUMENT:
-			return "BAD_ARGUMENT";
-		case MEMORY_ALLOC:
-			return "MEMORY_ALLOC";
-		case MEMORY_DEALLOC:
-			return "MEMORY_DEALLOC";
-		default:
-			return "UNKNOWN_EXCEPTION";
-	}
+const char * Exception::getMessage(){
+	return _msg;
 }
 
 //------------------------------------------------------------------------------------

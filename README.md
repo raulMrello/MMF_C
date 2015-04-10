@@ -15,6 +15,12 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 10.04.2015-003 (MMF_CPP) branch: addfeatures ------
+ - Updating MMF_CPP. Defining tasks.
+ - NEXT STEPS: 
+ 	- Test and compare footprints (C vs C++) on stm32 platform
+ - KNOWN ISSUES: 
+
 > 10.04.2015-002 (MMF_C) branch: addfeatures ------
  - Typedef void* cast done to different struct * in Object headers.
  - Corrected some bugs in several _kill() primitives.

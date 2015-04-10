@@ -8,14 +8,26 @@
 #ifndef SRC_OS_MMF_H_
 #define SRC_OS_MMF_H_
 
-#define __MMF_CPP_VERSION "1.0"
 
-#include "../port/platforms.h"
-#include "OS.h"
-#include "Task.h"
-#include "Topic.h"
-#include "Observer.h"
-#include "Exception.h"
+//------------------------------------------------------------------------------------
+//-- DEPENDENCIES --------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+#include "../port/platforms.h"	///< required for porting
+#include "OS.h"					///< required for OS primitives like: OS_ALLOC, OS_schedule ...
+#include "Task.h"				///< required for Task primitives like: Task_initialize ...
+#include "Topic.h"				///< required for Topic primitives like: Topic_notify ...
+#include "Exception.h"			///< required for Exception primitives like: catch ...
+#include "Timer.h"				///< required for Timming primitives like: Timer_start ...
+#include "Fifo.h"				///< required for Fifo management
+#include "Memory.h"				///< required for Memory management
+#include "List.h"				///< required for List management
+
+//------------------------------------------------------------------------------------
+//-- DEFINES -------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
+#define __MMF_CPP_VERSION "0.9.xxyy2015zzz"
 
 
 #endif /* SRC_OS_MMF_H_ */

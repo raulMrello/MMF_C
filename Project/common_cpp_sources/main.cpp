@@ -6,47 +6,27 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include <iostream>
-using namespace std;
 
 #include "../../src/mmf/cpp/os/mmf.h"
-OS kernel;
-
-#include "tasks/MyTask.h"
-MyTask task1("task1", 1000000), task2("task2", 100000);
-
-#include "tasks/Subscriber.h"
-Subscriber subscriber("subscriber");
-
-#include "tasks/Publisher.h"
-Publisher publisher("publisher");
 
 int main() {
-	cout << "#main# Starts!" << endl;
-
-	// Initializes kernel
-	kernel.init();
-
-	// Allocates tasks
 	try{
-		kernel.run(task1, PRIO_HIGH + SUBPRIO_MAX);
-		kernel.run(task2, PRIO_LOW + 5);
-		kernel.run(subscriber, PRIO_MED);
-		kernel.run(publisher, PRIO_LOW);
 
-		// Run kernel scheduling (doesn't return)
-		kernel.schedule();
+		// Initializes kernel
+		OS::init(2, 10000);
 
-		// Kill tasks
-		kernel.kill(task1);
-		kernel.kill(task2);
-		kernel.kill(subscriber);
-		kernel.kill(publisher);
+		// Initializes topics
+		MyTopic("/counter");
+
+		// Creates tasks objects
+		Subscriber *subscriber = new Subscriber("subscriber", PRIO_MAX, 5);
+		Publisher  *publisher = new Publisher("publisher, PRIO_MAX+1, 0);
+
+		// Run kernel scheduling (never returns)
+		OS::schedule();
+
 	}
-	catch(Exception& err){
-		cout << "#main# Exception=" << err.getMessage() << endl;
+	catch(Exception& e){
 	}
-
-	cout << "#main# Terminates!" << endl;
 	return 0;
 }
