@@ -26,6 +26,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>README.md</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/README.md</locationURI>
+		</link>
+		<link>
 			<name>common_cpp_sources</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/common_cpp_sources</locationURI>
@@ -56,6 +61,36 @@
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Exception.h</locationURI>
 		</link>
 		<link>
+			<name>cpp/os/Fifo.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Fifo.cpp</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/Fifo.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Fifo.h</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/List.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/List.cpp</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/List.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/List.h</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/Memory.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Memory.cpp</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/Memory.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Memory.h</locationURI>
+		</link>
+		<link>
 			<name>cpp/os/OS.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/OS.cpp</locationURI>
@@ -66,16 +101,6 @@
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/OS.h</locationURI>
 		</link>
 		<link>
-			<name>cpp/os/Observer.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Observer.cpp</locationURI>
-		</link>
-		<link>
-			<name>cpp/os/Observer.h</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Observer.h</locationURI>
-		</link>
-		<link>
 			<name>cpp/os/Task.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Task.cpp</locationURI>
@@ -84,6 +109,16 @@
 			<name>cpp/os/Task.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Task.h</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/Timer.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Timer.cpp</locationURI>
+		</link>
+		<link>
+			<name>cpp/os/Timer.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Timer.h</locationURI>
 		</link>
 		<link>
 			<name>cpp/os/Topic.cpp</name>

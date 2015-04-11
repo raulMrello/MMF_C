@@ -8,6 +8,7 @@
 #include "Timer.h"
 #include "Memory.h"
 #include "../port/platforms.h" 
+using namespace MMF;
 
 
 //------------------------------------------------------------------------------------

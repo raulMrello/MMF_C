@@ -6,6 +6,7 @@
  */
 
 #include "Exception.h"
+using namespace MMF;
 
 //------------------------------------------------------------------------------------
 Exception::Exception(ExceptionCode c, const char * msg) {

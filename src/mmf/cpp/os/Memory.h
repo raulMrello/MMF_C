@@ -11,10 +11,6 @@
 #ifndef SRC_OS_MEMORY_H_
 #define SRC_OS_MEMORY_H_
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-
 
 //------------------------------------------------------------------------------------
 //-- DEPENDENCIES --------------------------------------------------------------------
@@ -24,35 +20,60 @@
 #include <stdlib.h>			///< required for malloc|free
 #include "Exception.h"
 
+namespace MMF {
 
 //------------------------------------------------------------------------------------
-//-- PROTOTYPES ----------------------------------------------------------------------
+//-- CLASS ---------------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-/**
- * Allocates a memory block
- * @param size Block size
- * @throw Exception
- * @return Pointer to the allocated block
- */
-void* Memory_alloc(uint32_t size) throw (Exception);
+class Memory {
+public:
+	/**
+	 * Allocates a memory block
+	 * @param size Block size
+	 * @throw Exception
+	 * @return Pointer to the allocated block
+	 */
+	static void* alloc(uint32_t size) throw (Exception){
+		void *ptr;
+		if(!size){
+			throw Exception(Exception::BAD_ARGUMENT, "Memory_alloc size is null");
+			return 0;
+		}
+		ptr = malloc(size);
+		if(!ptr){
+			throw Exception(Exception::MEMORY_ALLOC, "Memory_alloc out of bounds");
+			return 0;
+		}
+		_maxAllocation += size;
+		return ptr;
+	}
 
-/**
- * Frees an allocated memory block
- * @param ptr Pointer to the block
- * @throw Exception
- */
-void Memory_free(void *ptr) throw (Exception);
+	/**
+	 * Frees an allocated memory block
+	 * @param ptr Pointer to the block
+	 * @throw Exception
+	 */
+	static void free(void *ptr) throw (Exception){
+		if(!ptr){
+			throw Exception(Exception::BAD_ARGUMENT, "Memory_free ptr is null");
+			return;
+		}
+		free(ptr);
+	}
 
-/**
- * Get maximum allocation memory
- * @return Max allocated size ever
- */
-uint32_t Memory_getMaxAllocation(void);
+	/**
+	 * Get maximum allocation memory
+	 * @return Max allocated size ever
+	 */
+	static uint32_t getMaxAllocation(void){
+		return _maxAllocation;
+	}
 
-#ifdef __cplusplus
+private:
+	/** Max allocated memory ever */
+	static uint32_t _maxAllocation;
+};
 }
-#endif
-
 
 #endif	/* SRC_OS_MEMORY_H_ */

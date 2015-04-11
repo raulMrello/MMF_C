@@ -10,6 +10,7 @@
 #include "Fifo.h"
 #include "Memory.h"
 #include "../port/platforms.h"	///< required for critical sections management
+using namespace MMF;
 
 //------------------------------------------------------------------------------------
 //-- PUBLIC FUNCTIONS ----------------------------------------------------------------
@@ -20,7 +21,7 @@ Fifo::Fifo(uint16_t size) throw (Exception){
 		throw Exception(Exception::BAD_ARGUMENT, "Fifo::Fifo size is null");
 		return;
 	}
-	_mem = (uint8_t*)Memory_alloc(size);
+	_mem = (uint8_t*)Memory::alloc(size);
 	PLATFORM_ENTER_CRITICAL();
 	_free = size;
 	_size = size;
@@ -31,7 +32,7 @@ Fifo::Fifo(uint16_t size) throw (Exception){
 
 //------------------------------------------------------------------------------------
 Fifo::~Fifo(){
-	Memory_free(_mem);
+	Memory::free(_mem);
 }
 
 //------------------------------------------------------------------------------------

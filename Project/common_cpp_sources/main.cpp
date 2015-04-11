@@ -13,7 +13,7 @@ int main() {
 	try{
 
 		// Initializes kernel
-		OS::init(2, 10000);
+		MMF::OS::init(2, 10000);
 
 		// Initializes topics
 		MyTopic("/counter");
@@ -23,10 +23,10 @@ int main() {
 		Publisher  *publisher = new Publisher("publisher, PRIO_MAX+1, 0);
 
 		// Run kernel scheduling (never returns)
-		OS::schedule();
+		MMF::OS::schedule();
 
 	}
-	catch(Exception& e){
+	catch(MMF::Exception& e){
 	}
 	return 0;
 }

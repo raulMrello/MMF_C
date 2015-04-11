@@ -1,12 +1,14 @@
 /*
- * task.cpp
+ * Task.cpp
  *
  *  Created on: 11/3/2015
  *      Author: raulMrello
  */
 
 #include "Task.h"
+#include "Fifo.h"
 #include "OS.h"
+using namespace MMF;
 
 //------------------------------------------------------------------------------------
 //-- PRIVATE FUNCTIONS ---------------------------------------------------------------
@@ -23,7 +25,7 @@ static void timertask_callback(TaskHandlerObj handler){
 void Task::start(){
 	PLATFORM_ENTER_CRITICAL();
 	_status = READY;
-	init(_cbhandler);
+	init();
 	// if task keeps READY (not suspended nor waiting), then allows execution
 	if(_status == READY){
 		_event |= EVT_YIELD;
@@ -109,7 +111,7 @@ void Task::execCb(){
 	}
 	if(_event == EVT_YIELD){
 		_event &= ~EVT_YIELD;
-		onYieldTurn(_cbhandler);
+		onYieldTurn();
 	}
 }
 

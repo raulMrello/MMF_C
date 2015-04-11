@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include "../../../src/mmf/cpp/os/mmf.h"
+using namespace MMF;
 
 class Subscriber : public Task {
 public:

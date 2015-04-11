@@ -6,7 +6,8 @@
  */
 
 #include "Topic.h"
-
+#include "Task.h"
+using namespace MMF;
 
 //------------------------------------------------------------------------------------
 //-- PUBLIC FUNCTIONS ----------------------------------------------------------------
@@ -28,7 +29,7 @@ Topic::~Topic(){
 }
 
 //------------------------------------------------------------------------------------
-void Topic::notify(void * data, int datasize, void (*done)(void*), void* publisher) throw (Exception){
+void Topic::notify(void * data, int datasize,  TopicConsumedCallback done, TopicConsumedHandlerObj publisher) throw (Exception){
 	PLATFORM_ENTER_CRITICAL();
 	_data = data;
 	_datasize = datasize;
@@ -104,4 +105,9 @@ void Topic::dettach(void * observer) throw (Exception){
 //------------------------------------------------------------------------------------
 const char * Topic::getName(){
 	return _name;
+}
+
+//------------------------------------------------------------------------------------
+int Topic::getId(){
+	return _id;
 }

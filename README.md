@@ -15,6 +15,16 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 11.04.2015-001 (MMF_CPP) branch: addfeatures ------
+ - Addes new virtual static methods to Topic.
+ - Added namespace name MMF to all modules
+ - Coding example task module Publisher
+ - NEXT STEPS: 
+ 	- Solve problems with virtual static methods
+ 	- Refactor Topic and Task virtual methods to make them more understandable
+ 	- Test and compare footprints (C vs C++) on stm32 platform
+ - KNOWN ISSUES: 
+
 > 10.04.2015-003 (MMF_CPP) branch: addfeatures ------
  - Updating MMF_CPP. Defining tasks.
  - NEXT STEPS: 

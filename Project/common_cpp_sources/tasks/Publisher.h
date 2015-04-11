@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include "../../../src/mmf/cpp/os/mmf.h"
+using namespace MMF;
 
 class Publisher : public Task {
 public:
@@ -17,10 +18,13 @@ public:
 		std::cout << "#" << _name << "# Created!" << std::endl;
 	}
 	virtual ~Publisher();
-	///< Inherit from Task interface
-	int init();
-	int exec(int evt);
-	int kill();
+private:
+	/** Task interface */
+	void init();
+	void onYieldTurn();
+	void onResume();
+	void onEventFlag(uint16_t event);
+	void onTopicUpdate(TopicData * topicdata);
 };
 
 #endif /* SRC_MODULES_PUBLISHER_H_ */

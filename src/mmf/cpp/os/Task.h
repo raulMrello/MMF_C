@@ -1,5 +1,5 @@
 /*
- * task.h
+ * Task.h
  *
  *  Created on: 11/3/2015
  *      Author: raulMrello
@@ -16,6 +16,9 @@
 #include "Exception.h"
 #include "Timer.h"
 #include "Topic.h"
+#include "Fifo.h"
+
+namespace MMF {
 
 
 //------------------------------------------------------------------------------------
@@ -127,31 +130,6 @@ public:
 		WAIT_AND		///< Wait for all event combination
 	}EvtWaitModeEnum;
 
-
-protected:
-	/** Task interface */
-	virtual void init() = 0;
-	virtual void onYieldTurn() = 0;
-	virtual void onResume() = 0;
-	virtual void onEventFlag(uint16_t event) = 0;
-	virtual void onTopicUpdate(TopicData * topicdata) = 0;
-
-	/** Event flag structure that manages the way of event flag waiting. */
-	typedef struct {
-		/** task properties */
-		EvtWaitModeEnum mode;		///< Waiting mode
-		uint16_t events;			///< Event flag combination
-	}EvtFlag;
-
-	const char * _name;			///< Task name
-	uint8_t _prio;				///< Task priority in the range PRIO_CRITICAL .. PRIO_LOW + SUBPRIO_MIN
-	StatEnum _status;			///< Task status flag
-	bool _isSuspended;			///< Suspension flag
-	uint32_t _event;			///< Pending event flags (include topics, suspensions and eventflags)
-	EvtFlag _evhandler;			///< Event flag handler structure
-	Fifo* _topicpool;			///< Topic pool buffer
-	Timer* _tmr;				///< Timer for suspension operations
-
 	/** \fn start
 	 *  \brief Starts task (invokes init callback internally)
 	 */
@@ -216,6 +194,31 @@ protected:
 	 *  \throw Exception
 	 */
 	void popTopic(TopicData *td) throw (Exception);
+
+protected:
+	/** Task interface */
+	virtual void init() = 0;
+	virtual void onYieldTurn() = 0;
+	virtual void onResume() = 0;
+	virtual void onEventFlag(uint16_t event) = 0;
+	virtual void onTopicUpdate(TopicData * topicdata) = 0;
+
+	/** Event flag structure that manages the way of event flag waiting. */
+	typedef struct {
+		/** task properties */
+		EvtWaitModeEnum mode;		///< Waiting mode
+		uint16_t events;			///< Event flag combination
+	}EvtFlag;
+
+	const char * _name;			///< Task name
+	uint8_t _prio;				///< Task priority in the range PRIO_CRITICAL .. PRIO_LOW + SUBPRIO_MIN
+	StatEnum _status;			///< Task status flag
+	bool _isSuspended;			///< Suspension flag
+	uint32_t _event;			///< Pending event flags (include topics, suspensions and eventflags)
+	EvtFlag _evhandler;			///< Event flag handler structure
+	Fifo* _topicpool;			///< Topic pool buffer
+	Timer* _tmr;				///< Timer for suspension operations
 };
+}
 
 #endif /* MMF_OS_TASK_TASK_H_ */

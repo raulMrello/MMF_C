@@ -10,6 +10,7 @@
 #include "List.h"
 #include "Memory.h"
 #include "../port/platforms.h"	///< required for critical sections management
+using namespace MMF;
 
 #if !defined(UINT32_MAX)
 #define UINT32_MAX 	0xffffffff  /* 4294967295U */
@@ -28,12 +29,12 @@ void List::removeItem(ListItem *listitem) throw (Exception){
 			_last = 0;
 			_count = 0;
 			_search = 0;
-			Memory_free(listitem);
+			Memory::free(listitem);
 		}
 		_first = listitem->next;
 		listitem->next->prev = 0;
 		_count--;
-		 Memory_free(listitem);
+		 Memory::free(listitem);
 	}
 	// else, adjust pointers
 	listitem->prev->next = listitem->next;
@@ -42,7 +43,7 @@ void List::removeItem(ListItem *listitem) throw (Exception){
 	else
 		_last = listitem->prev;
 	_count--;
-	Memory_free(listitem);
+	Memory::free(listitem);
 }
 
 //------------------------------------------------------------------------------------
@@ -91,7 +92,7 @@ void List::addItem(Item item) throw (Exception){
 	ListItem* listitem;
 	PLATFORM_ENTER_CRITICAL();
 	try{
-		listitem = (ListItem*)Memory_alloc(sizeof(ListItem));
+		listitem = (ListItem*)Memory::alloc(sizeof(ListItem));
 	}
 	catch(Exception &e){
 		PLATFORM_EXIT_CRITICAL();

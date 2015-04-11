@@ -18,6 +18,12 @@
 #include <stdint.h>
 #include "Exception.h"
 
+namespace MMF {
+
+//------------------------------------------------------------------------------------
+//-- CLASS ---------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
+
 /** \class Fifo
  *  \brief Fifo management class
  */
@@ -83,7 +89,7 @@ private:
 	uint16_t _pread;	//!< read pointer
 	uint16_t _pwrite;	//!< write pointer
 };
-
+}
 
 
 #endif	/* __SRC_OS_FIFO_H */

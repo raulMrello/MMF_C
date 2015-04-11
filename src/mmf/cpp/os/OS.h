@@ -1,5 +1,5 @@
 /*
- * os.h
+ * OS.h
  *
  *  Created on: 11/3/2015
  *      Author: raulMrello
@@ -10,9 +10,10 @@
 
 #include "../port/platforms.h" ///< platform dependent
 #include "Task.h"
+#include "Memory.h"
 #include "Exception.h"
 
-
+namespace MMF {
 
 /** \class OS
  *  \brief OS class defines the cooperative run-to-completion kernel. Tasks have fixed priorities
@@ -37,7 +38,7 @@ public:
 			throw Exception(Exception::BAD_ARGUMENT, "OS::init no tasklist coherence");
 			return;
 		}
-		_tasklist = (Task**)Memory_alloc(numTasks * sizeof(TaskPtr));
+		_tasklist = (Task**)Memory::alloc(numTasks * sizeof(TaskPtr));
 		for(uint8_t i=0; i<numTasks; i++){
 			_tasklist[i] = 0;
 		}
@@ -193,6 +194,6 @@ private:
 	}
 
 };
-
+}
 
 #endif /* OS_OS_H_ */

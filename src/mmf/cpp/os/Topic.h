@@ -12,11 +12,12 @@
 //-- DEPENDENCIES --------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
+#include <stddef.h>
 #include "../port/platforms.h" ///< platform dependent
 #include "List.h"
-#include <cstddef>
 #include "Exception.h"
 
+namespace MMF {
 
 //------------------------------------------------------------------------------------
 //-- TYPEDEFS ------------------------------------------------------------------------
@@ -35,6 +36,11 @@ typedef struct {
 	void * publisher;				///< publisher object
 }TopicData;
 
+/** Type definitions for callback handler  */
+typedef void *	TopicConsumedHandlerObj;
+
+/** Type definitions for callback declaration  */
+typedef void (*TopicConsumedCallback)(TopicConsumedHandlerObj cbhandler);
 
 //------------------------------------------------------------------------------------
 //-- CLASS ---------------------------------------------------------------------------
@@ -47,8 +53,10 @@ typedef struct {
 class Topic {
 public:
 	/** Topic interface */
-	virtual static void publish(void * data, int datasize) = 0;
-	virtual static void attachListener(void * o) = 0;
+	virtual void publish(void * data, int datasize, TopicConsumedCallback done, TopicConsumedHandlerObj cbhandler) = 0;
+	virtual void attachListener(void * o) = 0;
+	virtual const char * getTopicName() = 0;
+	virtual int getTopicRef() = 0;
 
 	/** \fn Topic
 	 *  \brief Constructor
@@ -58,14 +66,14 @@ public:
 	/** \fn ~Topic
 	 *  \brief Destructor
 	 */
-	~Topic();
+	virtual ~Topic();
 
 	/** \fn notify
 	 *  \brief function to notify the subscribed observers about the update/change of the topic
 	 *  \param data Topic's data
 	 *  \param datasize	Topic's data size in bytes
 	 */
-	void notify(void * data, int datasize, void (*done)(void*), void* publisher) throw (Exception);
+	void notify(void * data, int datasize,  TopicConsumedCallback done, TopicConsumedHandlerObj publisher) throw (Exception);
 
 	/** \fn attach
 	 *  \brief function to attach (subscribe) an observer class to a topic
@@ -86,6 +94,12 @@ public:
 	 */
 	const char * getName();
 
+	/** \fn getId
+	 *  \brief Get topic id reference
+	 *  \return id reference
+	 */
+	int getId();
+
 
 private:
 	int _id;					///< topic id
@@ -95,5 +109,6 @@ private:
 	int _count;					///< topic producer/consumer count
 	List* _observerlist;		///< declaration of observer list
 };
+}
 
 #endif /* SRC_OS_TOPIC_H_ */

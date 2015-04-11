@@ -1,12 +1,16 @@
 /*
- * Timer.h
+ * platforms.h
  *
  *  Created on: 12/3/2015
  *      Author: raulMrello
+ *
+ *  This header file is the linking point between the MMF_CPP kernel and the platform
+ *  porting. Modify this file accordingly with your needs to delegate these public
+ *  macros to well defined platform specific methods/macros.
  */
 
-#ifndef SRC_PORT_TIMER_H_
-#define SRC_PORT_TIMER_H_
+#ifndef SRC_PORT_PLATFORMS_H_
+#define SRC_PORT_PLATFORMS_H_
 
 
 /** \def PLATFORM_TIMER_START
@@ -43,4 +47,4 @@
 
 
 
-#endif /* SRC_PORT_TIMER_H_ */
+#endif /* SRC_PORT_PLATFORMS_H_ */

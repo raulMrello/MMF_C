@@ -9,43 +9,12 @@
  */
 
 #include "Memory.h"
+using namespace MMF;
 
 //------------------------------------------------------------------------------------
 //-- PRIVATE VARIABLES ---------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
 /** Max allocated memory ever */
-static uint32_t maxAllocation = 0;
+uint32_t _maxAllocation = 0;
 
-//------------------------------------------------------------------------------------
-//-- PUBLIC FUNCTIONS ----------------------------------------------------------------
-//------------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------------
-void* Memory_alloc(uint32_t size) throw (Exception){
-	void *ptr;
-	if(!size){
-		throw Exception(Exception::BAD_ARGUMENT, "Memory_alloc size is null");
-		return 0;
-	}
-	ptr = malloc(size);
-	if(!ptr){
-		throw Exception(Exception::MEMORY_ALLOC, "Memory_alloc out of bounds");
-		return 0;
-	}
-	maxAllocation += size;
-	return ptr;
-}
-//------------------------------------------------------------------------------------
-void Memory_free(void *ptr) throw (Exception){
-	if(!ptr){
-		throw Exception(Exception::BAD_ARGUMENT, "Memory_free ptr is null");
-		return;
-	}
-	free(ptr);
-}
-
-//------------------------------------------------------------------------------------
-uint32_t Memory_getMaxAllocation(void){
-	return maxAllocation;
-}

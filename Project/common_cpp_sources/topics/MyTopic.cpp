@@ -9,3 +9,4 @@
 
 void * MyTopic::_data;
 int MyTopic::_datasize;
+

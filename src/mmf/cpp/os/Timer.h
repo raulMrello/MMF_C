@@ -19,15 +19,18 @@
 #include <stdint.h>
 #include "Exception.h"
 
+namespace MMF {
+
 //------------------------------------------------------------------------------------
 //-- TYPEDEFS ------------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-/** Type definitions for callback declaration  */
-typedef void (*TimeoutCallback)(void* cbhandler);
-
 /** Type definitions for callback handler  */
 typedef void *	TimerHandlerObj;
+
+/** Type definitions for callback declaration  */
+typedef void (*TimeoutCallback)(TimerHandlerObj cbhandler);
+
 
 
 //------------------------------------------------------------------------------------
@@ -83,7 +86,7 @@ private:
 	TimeoutCallback _timeoutCallback;	///< timeout callback
 	TimerHandlerObj _cbhandler;			///< callback handler
 };
-
+}
 
 
 #endif /* MMF_OS_C_TIMER_H_ */

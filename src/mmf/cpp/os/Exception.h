@@ -28,7 +28,12 @@
 
 #include "../port/platforms.h" ///< platform dependent
 
+namespace MMF {
 
+
+//------------------------------------------------------------------------------------
+//-- CLASS ---------------------------------------------------------------------------
+//------------------------------------------------------------------------------------
 
 /** \class Exception
  *  \brief Exception class gives information about errors during execution
@@ -48,7 +53,7 @@ public:
 	/** \fn Exception
 	 *  \brief Default constructor.
 	 */
-	Exception(ExceptionCode c = NO_EXCEPTIONS, const char * msg = "", );
+	Exception(ExceptionCode c = NO_EXCEPTIONS, const char * msg = "");
 
 	/** \fn ~Exception
 	 *  \brief Default destructor. It will deallocate all resources
@@ -71,5 +76,6 @@ private:
  	const char * _msg;				///< Exception message
   	ExceptionCode _code;			///< Exception code
 };
+}
 
 #endif /* SRC_OS_EXCEPTION_H_ */
