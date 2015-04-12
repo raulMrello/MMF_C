@@ -13,8 +13,8 @@ using namespace MMF;
 //-- PRIVATE VARIABLES ---------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-Task**  _tasklist;			///< List of max number of allocatable tasks
-uint8_t _taskcount;			///< Count of current allocated tasks
-uint8_t _numTasks;			///< Count of current allocated tasks
-uint32_t _tick_us;			///< System tick in microseconds
+Task**  OS::_tasklist = 0;			///< List of max number of allocatable tasks
+uint8_t OS::_taskcount = 0;			///< Count of current allocated tasks
+uint8_t OS::_numTasks = 0;			///< Count of current allocated tasks
+uint32_t OS::_tick_us = 0;			///< System tick in microseconds
 

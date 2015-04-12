@@ -7,6 +7,8 @@
 
 #include "MyTopic.h"
 
-void * MyTopic::_data;
-int MyTopic::_datasize;
+Topic* MyTopic::_topic = 0;
 
+MyTopic::MyTopic (const char * name){
+	_topic = new Topic(name);
+}

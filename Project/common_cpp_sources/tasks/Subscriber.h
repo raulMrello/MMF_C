@@ -8,14 +8,13 @@
 #ifndef SRC_TASKS_SUBSCRIBER_H_
 #define SRC_TASKS_SUBSCRIBER_H_
 
-#include <cstdint>
+#include <stdint.h>
 #include "../../../src/mmf/cpp/os/mmf.h"
 using namespace MMF;
 
 class Subscriber : public Task {
 public:
-	Subscriber(const char * name="", uint8_t prio, uint32_t topic_pool_size) : Task(name, prio, topic_pool_size) {
-		std::cout << "#" << _name << "# Created!" << std::endl;
+	Subscriber(const char * name, uint8_t prio, uint32_t topic_pool_size) : Task(name, prio, topic_pool_size) {
 	}
 	virtual ~Subscriber();
 private:

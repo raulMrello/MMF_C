@@ -16,5 +16,5 @@ using namespace MMF;
 //------------------------------------------------------------------------------------
 
 /** Max allocated memory ever */
-uint32_t _maxAllocation = 0;
+uint32_t Memory::_maxAllocation = 0;
 

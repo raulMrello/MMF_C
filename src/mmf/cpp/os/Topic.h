@@ -39,6 +39,9 @@ typedef struct {
 /** Type definitions for callback handler  */
 typedef void *	TopicConsumedHandlerObj;
 
+/** Type definitions for callback handler  */
+typedef void *	TopicSubscribedHandlerObj;
+
 /** Type definitions for callback declaration  */
 typedef void (*TopicConsumedCallback)(TopicConsumedHandlerObj cbhandler);
 
@@ -52,12 +55,6 @@ typedef void (*TopicConsumedCallback)(TopicConsumedHandlerObj cbhandler);
  */
 class Topic {
 public:
-	/** Topic interface */
-	virtual void publish(void * data, int datasize, TopicConsumedCallback done, TopicConsumedHandlerObj cbhandler) = 0;
-	virtual void attachListener(void * o) = 0;
-	virtual const char * getTopicName() = 0;
-	virtual int getTopicRef() = 0;
-
 	/** \fn Topic
 	 *  \brief Constructor
 	 */
@@ -79,13 +76,13 @@ public:
 	 *  \brief function to attach (subscribe) an observer class to a topic
 	 *  \param o Observer
 	 */
-	void attach(void * o) throw (Exception);
+	void attach(TopicSubscribedHandlerObj o) throw (Exception);
 
 	/** \fn dettach
 	 *  \brief function to dettach (unsubscribe) an observer class from a topic
 	 *  \param o Observer
 	 */
-	void dettach(void *o) throw (Exception);
+	void dettach(TopicSubscribedHandlerObj o) throw (Exception);
 
 
 	/** \fn getName

@@ -5,6 +5,7 @@
  *      Author: raulMrello
  */
 
+#include "OS.h"
 #include "Timer.h"
 #include "Memory.h"
 #include "../port/platforms.h" 
@@ -44,7 +45,7 @@ void Timer::start(uint32_t microseconds, bool repeat, TimeoutCallback timeoutCal
 	if(!timeoutCallback){
 		throw Exception(Exception::BAD_ARGUMENT, "Timer::start callback is null");
 	}
-	int ticks = OS_getTimeTicks(microseconds);
+	int ticks = OS::getTimeTicks(microseconds);
 	if(!ticks){
 		throw Exception(Exception::BAD_ARGUMENT, "Timer::start microseconds is invalid");
 		return;

@@ -8,6 +8,7 @@
 #ifndef OS_OS_H_
 #define OS_OS_H_
 
+#include <cstring>
 #include "../port/platforms.h" ///< platform dependent
 #include "Task.h"
 #include "Memory.h"
@@ -122,7 +123,9 @@ public:
 	 *  \param buffersize Max size allowed by the logbuffer
 	 *  \throw Exception
 	 */
-	static void getTracelog(char* buffer, int buffersize) throw (Exception);
+	static void getTracelog(char* buffer, int buffersize) throw (Exception){
+
+	}
 
 	//------------------------------------------------------------------------------------
 	/** \fn OS_sendEvent
@@ -132,13 +135,44 @@ public:
 	 *  \param event Combination of event flags
 	 *  \throw Exception
 	 */
-	static void sendEvent(TaskPtr to, const char * taskname, uint16_t event) throw (Exception);
+	static void sendEvent(Task* to, const char * taskname, uint16_t event) throw (Exception){
+		if((!to && !taskname) || !event){
+			throw Exception(Exception::BAD_ARGUMENT, "OS::sendEvent task or event null");
+			return;
+		}
+		// if no task ref, then search by name
+		if(!to){
+			for(int i = 0; i < _numTasks; i++){
+				const char * name = _tasklist[i]->getName();
+				if(strcmp(name, taskname) == 0){
+					to = _tasklist[i];
+					break;
+				}
+			}
+			if(!to){
+				throw Exception(Exception::BAD_ARGUMENT, "OS::sendEvent task not found");
+				return;
+			}
+		}
+		// Adapt to the task event handling format
+		int evt = ((((int)event) << 4) | Task::EVT_FLAGS);
+		to->setReady(evt);
+		return;
+
+	}
+
 
 	//------------------------------------------------------------------------------------
 	/** \fn OS_tick
 	 *  \brief Generates a kernel tick for suspended tasks
 	 */
-	static void tick();
+	static void tick(){
+		// executes a tick on each task.
+		for(int i = 0; i < _numTasks; i++){
+			Timer* tmr = _tasklist[i]->getTimer();
+			tmr->tick();
+		}
+	}
 
 	//------------------------------------------------------------------------------------
 	/** \fn getTimeTicks
@@ -146,7 +180,7 @@ public:
 	 *  \param microseconds Microseconds value
 	 *  \return Number of systicks
 	 */
-	int getTimeTicks(int microseconds){
+	static int getTimeTicks(int microseconds){
 		 return (int)(microseconds/_tick_us);
 	 }
 

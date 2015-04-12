@@ -61,7 +61,7 @@ void Topic::notify(void * data, int datasize,  TopicConsumedCallback done, Topic
 }
 
 //------------------------------------------------------------------------------------
-void Topic::attach(void * observer) throw (Exception){
+void Topic::attach(TopicSubscribedHandlerObj observer) throw (Exception){
 	Item item = _observerlist->searchItem(observer);
 	PLATFORM_ENTER_CRITICAL();
 	// if already attached, exit
@@ -82,7 +82,7 @@ void Topic::attach(void * observer) throw (Exception){
 }
 
 //------------------------------------------------------------------------------------
-void Topic::dettach(void * observer) throw (Exception){
+void Topic::dettach(TopicSubscribedHandlerObj observer) throw (Exception){
 	Item item = _observerlist->searchItem(observer);
 	PLATFORM_ENTER_CRITICAL();
 	// if not attached, exits

@@ -8,6 +8,9 @@
 
 
 #include "../../src/mmf/cpp/os/mmf.h"
+#include "tasks/Subscriber.h"
+#include "tasks/Publisher.h"
+#include "topics/MyTopic.h"
 
 int main() {
 	try{
@@ -16,11 +19,12 @@ int main() {
 		MMF::OS::init(2, 10000);
 
 		// Initializes topics
-		MyTopic("/counter");
+		MMF::Topic("/counter");
+		MyTopic("/myt");
 
 		// Creates tasks objects
-		Subscriber *subscriber = new Subscriber("subscriber", PRIO_MAX, 5);
-		Publisher  *publisher = new Publisher("publisher, PRIO_MAX+1, 0);
+		new Subscriber("subscriber", PRIO_MAX, 5);
+		new Publisher("publisher", PRIO_MAX+1, 0);
 
 		// Run kernel scheduling (never returns)
 		MMF::OS::schedule();

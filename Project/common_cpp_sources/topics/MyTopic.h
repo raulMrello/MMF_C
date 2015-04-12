@@ -11,36 +11,26 @@
 #include "../../../src/mmf/cpp/os/mmf.h"
 using namespace MMF;
 
-class MyTopic: public Topic {
+class MyTopic {
 public:
 
-	MyTopic (const char * name = "") : Topic(name) {
-		_data = 0;
-		_datasize = 0;
-	}
+	MyTopic (const char * name = "");
 
-
-	/** Topic interface */
-	static void publish(void * data, int datasize, TopicConsumedCallback done, TopicConsumedHandlerObj cbhandler){
-		MyTopic::_data = data;
-		MyTopic::_datasize = datasize;
-		notify(data, datasize, done, cbhandler);
+	static void publish(void * data, int datasize,  TopicConsumedCallback done, TopicConsumedHandlerObj publisher) throw (Exception){
+		_topic->notify(data, datasize, done, publisher);
 	}
-
-	static void attachListener(void * listener){
-		attach(listener);
+	static int getRef(){
+		return _topic->getId();
 	}
-	static const char * getTopicName(){
-		return getName();
+	static const char * getName(){
+		return _topic->getName();
 	}
-	static int  getTopicRef(){
-		return getId();
+	static void attach(TopicSubscribedHandlerObj handler){
+		_topic->attach(handler);
 	}
-
 
 private:
-	static void * _data;
-	static int _datasize;
+	static Topic* _topic;
 };
 
 #endif /* SRC_TOPICS_MYTOPIC_H_ */

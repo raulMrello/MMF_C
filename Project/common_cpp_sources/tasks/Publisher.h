@@ -8,14 +8,13 @@
 #ifndef SRC_MODULES_PUBLISHER_H_
 #define SRC_MODULES_PUBLISHER_H_
 
-#include <iostream>
+#include <stdint.h>
 #include "../../../src/mmf/cpp/os/mmf.h"
 using namespace MMF;
 
 class Publisher : public Task {
 public:
-	Publisher(const std::string& name="") : Task(name) {
-		std::cout << "#" << _name << "# Created!" << std::endl;
+	Publisher(const char * name, uint8_t prio, uint32_t topic_pool_size) : Task(name, prio, topic_pool_size) {
 	}
 	virtual ~Publisher();
 private:

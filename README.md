@@ -15,6 +15,12 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 12.04.2015-001 (MMF_CPP) branch: addfeatures ------
+ - Solved all errors. Ready for test.
+ - NEXT STEPS: 
+ 	- Test it. Then compare footprints (C vs C++) on stm32 platform
+ - KNOWN ISSUES: 
+
 > 11.04.2015-001 (MMF_CPP) branch: addfeatures ------
  - Addes new virtual static methods to Topic.
  - Added namespace name MMF to all modules

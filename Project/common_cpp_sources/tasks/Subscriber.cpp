@@ -5,7 +5,7 @@
  *      Author: dptoid
  */
 
-
+#include <cstring>
 #include "Subscriber.h"
 #include "../topics/MyTopic.h"
 
@@ -17,7 +17,7 @@ Subscriber::~Subscriber() {
 //------------------------------------------------------------------------------------
 void Subscriber::init(){
 	// attaches to mytopic updates...
-	MyTopic::attachListener(this);
+	MyTopic::attach(this);
 
 	// and also waits for event_code = 1 with a timeout of 100 milliseconsd
 	try{
