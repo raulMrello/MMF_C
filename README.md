@@ -15,6 +15,12 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 12.04.2015-002 (MMF_CPP) branch: addfeatures ------
+ - Tested OK!!!
+ - NEXT STEPS: 
+ 	- Compare footprints (C vs C++) on stm32 platform
+ - KNOWN ISSUES: 
+ 
 > 12.04.2015-001 (MMF_CPP) branch: addfeatures ------
  - Solved all errors. Ready for test.
  - NEXT STEPS: 

@@ -19,15 +19,17 @@ int main() {
 		MMF::OS::init(2, 10000);
 
 		// Initializes topics
-		MMF::Topic("/counter");
-		MyTopic("/myt");
+		MyTopic("/counter");
 
 		// Creates tasks objects
-		new Subscriber("subscriber", PRIO_MAX, 5);
+		new Subscriber("subscriber", PRIO_MAX, 5*sizeof(TopicData));
 		new Publisher("publisher", PRIO_MAX+1, 0);
 
 		// Run kernel scheduling (never returns)
-		MMF::OS::schedule();
+		for(;;){
+			MMF::OS::scheduleOnce();
+			OS::tick();
+		}
 
 	}
 	catch(MMF::Exception& e){

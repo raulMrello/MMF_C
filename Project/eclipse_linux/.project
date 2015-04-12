@@ -131,6 +131,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/Topic.h</locationURI>
 		</link>
 		<link>
+			<name>cpp/os/mmf.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/os/mmf.h</locationURI>
+		</link>
+		<link>
 			<name>cpp/port/platforms.h</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/src/mmf/cpp/port/platforms.h</locationURI>
