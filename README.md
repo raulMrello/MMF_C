@@ -15,6 +15,13 @@ It has been specifically designed for microcontrollers with extremely constraine
 
 ## Changelog
 
+> 13.04.2015-002 (MMF_CPP) branch: addfeatures ------
+ - Released new version dist/0.10.13042015002
+ - Corrected some warnings (Memory.h) on stm32 and win32 compilations
+ - C++ footprint vs C is x8
+ - NEXT STEPS: 
+ - KNOWN ISSUES: 
+ 
 > 13.04.2015-001 (MMF_CPP) branch: addfeatures ------
  - Released new version dist/0.10.13042015001
  - Corrected some warnings on stm32 and win32 compilations
